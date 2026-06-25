@@ -1,4 +1,5 @@
 import { useTranslations } from "next-intl";
+import { emphasis } from "@/i18n/rich";
 
 // Services signature de l'expérience SEGULA (deck). Grille éditoriale sobre,
 // chaque service en carte ivoire avec filet or au survol.
@@ -46,7 +47,7 @@ export function Experience() {
                 {t(`services.${key}.title`)}
               </h3>
               <p className="mt-3 text-base leading-relaxed text-encre/70">
-                {t(`services.${key}.description`)}
+                {t.rich(`services.${key}.description`, emphasis)}
               </p>
             </li>
           ))}

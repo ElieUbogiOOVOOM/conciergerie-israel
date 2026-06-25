@@ -1,3 +1,4 @@
+import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/Button";
 import { PhotoPlaceholder } from "@/components/ui/PhotoPlaceholder";
 
@@ -11,6 +12,10 @@ type UniverseCardProps = {
   description: string;
   services: string[];
   ctaLabel: string;
+  /** Route de la page univers dédiée (#25-27), préfixée par locale via Link. */
+  pageHref: string;
+  /** Libellé du lien « Découvrir » vers la page dédiée. */
+  learnMoreLabel: string;
   /** Texte « photographie à venir » localisé. */
   photoCaption: string;
   /** Inverse l'ordre photo/texte (alternance visuelle). */
@@ -20,7 +25,8 @@ type UniverseCardProps = {
 /**
  * Présentation d'un univers HYMEA : emplacement photo réelle + narration.
  * Mise en page alternée, naturellement bidirectionnelle (grille + logical
- * properties), CTA vers le bloc contact en attendant les pages dédiées (#25-27).
+ * properties). Lien « Découvrir » vers la page dédiée (#25-27) et CTA de
+ * conversion vers le bloc contact.
  */
 export function UniverseCard({
   id,
@@ -30,6 +36,8 @@ export function UniverseCard({
   description,
   services,
   ctaLabel,
+  pageHref,
+  learnMoreLabel,
   photoCaption,
   reversed = false,
 }: UniverseCardProps) {
@@ -74,10 +82,22 @@ export function UniverseCard({
             </ul>
           )}
 
-          <div className="mt-10">
+          <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-4">
             <Button href="#contact" variant="ghost">
               {ctaLabel}
             </Button>
+            <Link
+              href={pageHref}
+              className="group inline-flex items-center gap-2 font-label text-xs uppercase tracking-widest text-or-profond transition-colors hover:text-encre"
+            >
+              {learnMoreLabel}
+              <span
+                aria-hidden
+                className="transition-transform group-hover:translate-x-1 rtl:group-hover:-translate-x-1"
+              >
+                →
+              </span>
+            </Link>
           </div>
         </div>
       </div>

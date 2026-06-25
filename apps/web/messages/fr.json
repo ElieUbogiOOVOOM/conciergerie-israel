@@ -53,11 +53,11 @@
         },
         "handsFree": {
           "title": "Hands-Free Shopping",
-          "description": "Les achats sont collectés en boutique puis remis à la voiture ou au stand voiturier. Les mains libres, on flâne plus longtemps."
+          "description": "Les achats sont collectés en boutique puis remis à la voiture ou au stand voiturier. <b>Les mains libres, on flâne plus longtemps.</b>"
         },
         "styling": {
           "title": "Stylisme",
-          "description": "Colorimétrie, morphologie, conseils personnalisés : un styliste qui inspire confiance et peut faire grimper la dépense jusqu'à +70 %."
+          "description": "Colorimétrie, morphologie, conseils personnalisés : un styliste qui inspire confiance et peut <b>faire grimper la dépense jusqu'à +70 %.</b>"
         },
         "valet": {
           "title": "Voiturier & lavage",
@@ -87,15 +87,15 @@
       "description": "Études du retail de luxe, des grands magasins et des outlets premium : l'hospitalité et les services personnalisés tirent directement la dépense et la fidélité.",
       "stats": {
         "spend": {
-          "value": "+35–70 %",
-          "label": "de panier moyen pour les clients accompagnés d'un personal shopper."
+          "value": "+70 %",
+          "label": "Le service de stylisme peut générer une hausse de la dépense allant jusqu'à 70 %."
         },
-        "conversion": {
-          "value": "×4",
-          "label": "de taux de conversion lors des rendez-vous privés."
+        "dwell": {
+          "value": "+30 %",
+          "label": "Le temps passé sur place — au lounge, par exemple — a un impact réel sur les ventes."
         },
         "topClients": {
-          "value": "40–50 %",
+          "value": "50 %",
           "label": "des ventes générées par les 5 % de clients les plus dépensiers."
         },
         "loyalty": {
@@ -125,22 +125,241 @@
         "title": "Le concept SEGULA",
         "description": "L'expérience premium clé en main : lounge, voiturier, hands-free, stylisme, personal shopper et club de fidélité — pour augmenter le panier, fidéliser et faire rayonner le centre.",
         "services": ["Lounge", "Voiturier", "Hands-free", "Stylisme", "Club fidélité"],
-        "cta": "Demander une présentation"
+        "cta": "Demander une présentation",
+        "learnMore": "Découvrir les centres commerciaux"
       },
       "businesses": {
         "label": "Entreprises",
         "title": "HYMEA Lounge & bureaux",
         "description": "Des bureaux entretenus au plus haut niveau et un HYMEA Lounge qui soigne votre marque employeur. La propreté devient un argument, discret et constant.",
         "services": ["HYMEA Lounge", "Entretien premium", "Espaces communs"],
-        "cta": "Demander un devis"
+        "cta": "Demander un devis",
+        "learnMore": "Découvrir les entreprises"
       },
       "individuals": {
         "label": "Particuliers",
         "title": "L'art du détail, chez vous",
         "description": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, sans y penser.",
         "services": ["Habitations", "Véhicules", "Mobilier", "Textiles"],
-        "cta": "Réserver un créneau"
+        "cta": "Réserver un créneau",
+        "learnMore": "Découvrir les particuliers"
       }
+    }
+  },
+  "MallPage": {
+    "meta": {
+      "title": "Centres commerciaux — l'expérience premium SEGULA | HYMEA",
+      "description": "HYMEA déploie le concept SEGULA dans les centres commerciaux : lounge, voiturier, personal shopper, stylisme et club de fidélité pour augmenter le panier moyen, fidéliser et élargir la zone de chalandise."
+    },
+    "hero": {
+      "eyebrow": "Centres commerciaux",
+      "title": "Le concept SEGULA : transformer le passage en destination.",
+      "lead": "Une expérience premium clé en main qui pousse à rester plus longtemps, à revenir plus souvent et à dépenser davantage. HYMEA orchestre chaque service — du premier accueil au stand voiturier — pour <b>élever le panier moyen et le temps passé</b> de vos visiteurs."
+    },
+    "concept": {
+      "eyebrow": "L'expérience SEGULA",
+      "title": "Cinq services signature, un parcours sans couture.",
+      "description": "Chaque service nourrit le bien-être, le temps passé et l'envie de revenir — les trois moteurs de la dépense en centre.",
+      "items": {
+        "lounge": {
+          "title": "Le Lounge",
+          "description": "Une oasis de calme au cœur du centre : pâtisserie offerte, boisson chaude, hôtesse d'accueil. Le bien-être qui prolonge chaque visite."
+        },
+        "valet": {
+          "title": "Voiturier & lavage",
+          "description": "Service de voiturier et lavage auto : l'arrivée et le départ deviennent un soin, jamais une contrainte."
+        },
+        "personalShopper": {
+          "title": "Personal Shopper",
+          "description": "Un accompagnement sur-mesure dans les boutiques, pour un parcours fluide et des achats plus sûrs."
+        },
+        "styling": {
+          "title": "Stylisme",
+          "description": "Colorimétrie, morphologie et conseils personnalisés d'un styliste qui inspire confiance et peut <b>faire grimper la dépense jusqu'à +70 %.</b>"
+        },
+        "loyalty": {
+          "title": "Club de fidélité",
+          "description": "Trois niveaux — Privé, Premium, Prestige — qui récompensent la fidélité et créent un vrai sentiment d'appartenance."
+        }
+      }
+    },
+    "proof": {
+      "eyebrow": "Impact mesurable",
+      "title": "Des services premium au retour commercial direct.",
+      "description": "Dans le retail de luxe et les outlets premium, l'hospitalité et les services personnalisés tirent directement la dépense et la fidélité.",
+      "stats": {
+        "basket": {
+          "value": "+70 %",
+          "label": "Le service de stylisme peut générer une hausse de la dépense allant jusqu'à 70 %."
+        },
+        "dwell": {
+          "value": "+30 %",
+          "label": "Le temps passé sur place — au lounge, par exemple — a un impact réel sur les ventes."
+        },
+        "loyalty": {
+          "value": "+ visites",
+          "label": "de fidélité et de revisites grâce à une expérience personnalisée."
+        }
+      },
+      "note": "Chiffres issus d'études du retail de luxe, des grands magasins et des outlets premium."
+    },
+    "cta": {
+      "eyebrow": "Centres commerciaux",
+      "title": "Apportez l'expérience SEGULA à votre centre.",
+      "description": "Laissez-nous vous présenter le concept, les services et l'impact projeté sur votre panier moyen et votre fréquentation.",
+      "label": "Demander une présentation"
+    }
+  },
+  "BusinessPage": {
+    "meta": {
+      "title": "Entreprises — HYMEA Lounge & entretien premium des bureaux | HYMEA",
+      "description": "HYMEA élève l'espace de travail : un HYMEA Lounge et une conciergerie d'entreprise qui renforcent la marque employeur, améliorent le bien-être et libèrent un temps de travail précieux."
+    },
+    "hero": {
+      "eyebrow": "Entreprises",
+      "title": "Faire du bureau une expérience dont les salariés sont fiers.",
+      "lead": "HYMEA installe une conciergerie d'entreprise et un HYMEA Lounge au sein de vos bureaux, avec un entretien premium qui fait de la propreté un argument. Un levier RH éprouvé qui <b>améliore le bien-être et la rétention</b> — sans recourir aux hausses de salaire."
+    },
+    "pillars": {
+      "eyebrow": "Pourquoi ça marche",
+      "title": "Quatre raisons pour lesquelles les meilleurs employeurs investissent.",
+      "items": {
+        "talent": {
+          "title": "Attirer & retenir les talents",
+          "description": "L'expérience de travail, le bien-être et la flexibilité pèsent désormais lourd dans le choix d'un employeur. Les services premium renforcent la marque employeur et réduisent le turnover."
+        },
+        "hrLever": {
+          "title": "Un levier RH à moindre coût",
+          "description": "Améliorer l'espace de travail et ajouter des services coûte bien moins cher qu'une hausse de salaire — pour une valeur perçue élevée."
+        },
+        "productivity": {
+          "title": "Engagement & productivité",
+          "description": "HYMEA gère les tâches personnelles qui éloigneraient autrement les salariés du travail — en protégeant le temps de travail à forte valeur."
+        },
+        "standards": {
+          "title": "Les standards des meilleurs",
+          "description": "La conciergerie sur site apporte le niveau de confort offert par les employeurs les plus désirables du pays, à la portée de chaque entreprise."
+        }
+      }
+    },
+    "services": {
+      "eyebrow": "L'offre HYMEA Office",
+      "title": "Des services du quotidien qui créent une expérience salarié hors norme.",
+      "description": "Du lounge à la logistique de la vie personnelle, HYMEA libère les salariés pour qu'ils se concentrent sur l'essentiel — et fait du bureau une destination.",
+      "items": {
+        "lounge": {
+          "title": "Le HYMEA Lounge",
+          "description": "Un espace pour se retrouver et souffler : rafraîchissements, pâtisserie, jeux et coins d'échange informels qui créent l'appartenance."
+        },
+        "concierge": {
+          "title": "Services de conciergerie",
+          "description": "Retouches express, pressing, cordonnerie, réception de colis et prises de rendez-vous — pris en charge sur site."
+        },
+        "wellness": {
+          "title": "Bien-être & santé",
+          "description": "Physiothérapie sur site, prévention des troubles musculo-squelettiques et soins beauté pour garder des salariés en forme et concentrés."
+        },
+        "team": {
+          "title": "Team building & événements",
+          "description": "Événements d'entreprise, team-building et initiatives d'engagement conçus avec des professionnels RH pour renforcer la culture."
+        },
+        "hospitality": {
+          "title": "Hospitalité du quotidien",
+          "description": "Corbeilles de fruits frais, service de fleuriste, décoration saisonnière et touches premium qui élèvent l'atmosphère du bureau."
+        },
+        "valet": {
+          "title": "Voiturier & soin auto",
+          "description": "Voiturier, lavage et detailing : des services visibles et premium qui renforcent le prestige employeur."
+        }
+      }
+    },
+    "proof": {
+      "eyebrow": "L'argument business",
+      "title": "Le bien-être est un levier de performance, pas un coût.",
+      "description": "Investir dans l'expérience salarié génère des retours mesurables en engagement, productivité et attractivité.",
+      "stats": {
+        "gdp": {
+          "value": "9 %",
+          "label": "du PIB mondial est perdu chaque année à cause du faible engagement des salariés."
+        },
+        "productivity": {
+          "value": "74 %",
+          "label": "des salariés sont plus productifs quand les conditions et la qualité de vie au travail s'améliorent."
+        },
+        "applicants": {
+          "value": "+50 %",
+          "label": "de candidats qualifiés en plus pour les organisations à forte marque employeur."
+        }
+      },
+      "note": "Sources : Gallup — State of the Global Workplace 2024 ; International Workplace Group (IWG) 2024 ; LinkedIn Talent Solutions."
+    },
+    "cta": {
+      "eyebrow": "Entreprises",
+      "title": "Faites entrer HYMEA dans vos bureaux.",
+      "description": "Un devis ou une première visite : nous évaluons vos espaces et concevons l'expérience de travail adaptée à votre stratégie employeur.",
+      "label": "Demander un devis"
+    }
+  },
+  "IndividualsPage": {
+    "meta": {
+      "title": "Particuliers — entretien premium habitations, véhicules & textiles | HYMEA",
+      "description": "HYMEA apporte un nettoyage et un entretien haut de gamme aux particuliers : habitations, véhicules, mobilier et textiles traités comme des pièces rares, avec discrétion et fiabilité."
+    },
+    "hero": {
+      "eyebrow": "Particuliers",
+      "title": "L'art du détail, chez vous.",
+      "lead": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, <b>sans effort et en toute discrétion.</b>"
+    },
+    "services": {
+      "eyebrow": "Nos prestations",
+      "title": "Quatre domaines d'entretien, un seul standard d'excellence.",
+      "description": "Du salon à l'allée du garage, chaque intervention suit le même standard d'exigence.",
+      "items": {
+        "homes": {
+          "title": "Habitations",
+          "description": "Nettoyage en profondeur et entretien régulier des pièces de vie, cuisines et salles de bains — méticuleux, discret, adapté à votre intérieur."
+        },
+        "vehicles": {
+          "title": "Véhicules",
+          "description": "Detailing intérieur et extérieur qui rend à votre voiture son éclat d'origine, à votre porte."
+        },
+        "furniture": {
+          "title": "Mobilier",
+          "description": "Entretien soigné et remise en état du mobilier et des surfaces délicates, traités comme des pièces rares."
+        },
+        "textiles": {
+          "title": "Textiles",
+          "description": "Soin spécialisé des rideaux, tapis, tissus d'ameublement et étoffes fines — nettoyés, protégés et ravivés."
+        }
+      }
+    },
+    "commitments": {
+      "eyebrow": "Notre méthode",
+      "title": "Une approche sur-mesure, quatre promesses.",
+      "items": {
+        "diagnosis": {
+          "title": "Diagnostic sur-mesure",
+          "description": "Nous partons de votre intérieur et de vos attentes, puis concevons un plan d'intervention qui leur correspond précisément."
+        },
+        "care": {
+          "title": "Le soin du détail",
+          "description": "Des produits premium et des équipes formées qui traitent chaque surface — et chaque objet — avec le plus grand soin."
+        },
+        "discretion": {
+          "title": "Discrétion absolue",
+          "description": "Une équipe de confiance, présente et invisible, qui respecte votre intérieur et votre intimité en toutes circonstances."
+        },
+        "reliability": {
+          "title": "Fiabilité",
+          "description": "Ponctuelle, régulière et responsable : le même standard impeccable à chaque visite."
+        }
+      }
+    },
+    "cta": {
+      "eyebrow": "Particuliers",
+      "title": "Réservez votre première intervention.",
+      "description": "Choisissez le créneau qui vous convient ; nous revenons vers vous rapidement avec une proposition sur-mesure — et l'offre de bienvenue sur votre première prestation.",
+      "label": "Réserver un créneau"
     }
   },
   "Contact": {

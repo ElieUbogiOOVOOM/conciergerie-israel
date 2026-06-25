@@ -2,7 +2,7 @@ import { useTranslations } from "next-intl";
 
 // Preuve de conversion (deck SEGULA § benefits) : panneau encre (moment fort,
 // contrasté) avec statistiques chiffrées en or, puis références mondiales.
-const STATS = ["spend", "conversion", "topClients", "loyalty"] as const;
+const STATS = ["spend", "dwell", "topClients", "loyalty"] as const;
 
 export function Results() {
   const t = useTranslations("Home.results");

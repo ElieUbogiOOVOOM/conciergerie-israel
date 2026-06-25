@@ -207,9 +207,21 @@ test.describe("Vitrine HYMEA", () => {
     test("la section résultats affiche les preuves chiffrées", async ({ page }) => {
       await gotoLocale(page, "fr");
       const results = page.locator("#resultats");
-      await expect(results).toContainText("+35–70 %");
-      await expect(results).toContainText("×4");
+      await expect(results).toContainText("+70 %");
+      await expect(results).toContainText("+30 %");
+      await expect(results).toContainText("50 %");
+      await expect(results).toContainText("+ visites");
       await expect(results).toContainText("La Vallée Village");
+    });
+
+    test("une description de service met un segment en gras (t.rich)", async ({ page }) => {
+      await gotoLocale(page, "fr");
+      const experience = page.locator("#experience");
+      // L'emphase éditoriale est rendue via un <strong> issu du balisage <b>.
+      const strong = experience.locator("strong", {
+        hasText: /faire grimper la dépense jusqu'à \+70 %/i,
+      });
+      await expect(strong).toBeVisible();
     });
   });
 
