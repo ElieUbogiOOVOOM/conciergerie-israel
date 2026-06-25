@@ -26,6 +26,8 @@ type PageSpec = {
   learnMoreFr: string;
   /** Quelques preuves/contenus attendus sur la page. */
   expectedContent: RegExp[];
+  /** La page expose-t-elle un emplacement photo dans son hero ? */
+  hasHeroPhoto: boolean;
 };
 
 const PAGES: PageSpec[] = [
@@ -33,9 +35,9 @@ const PAGES: PageSpec[] = [
     slug: "centres-commerciaux",
     funnelType: "mall",
     heroTitle: {
-      fr: /Le concept HYMEA/i,
-      en: /The HYMEA concept/i,
-      he: /קונספט HYMEA/,
+      fr: /Transformer un lieu de passage/i,
+      en: /Turn a place people pass through/i,
+      he: /להפוך מקום מעבר/,
     },
     cta: {
       fr: "Demander une présentation",
@@ -44,6 +46,8 @@ const PAGES: PageSpec[] = [
     },
     learnMoreFr: "Découvrir les centres commerciaux",
     expectedContent: [/\+70\s*%/, /\+30\s*%/, /Personal Shopper/i],
+    // Hero éditorial (expérience HYMEA déplacée de l'accueil) — sans emplacement photo.
+    hasHeroPhoto: false,
   },
   {
     slug: "entreprises",
@@ -60,6 +64,7 @@ const PAGES: PageSpec[] = [
     },
     learnMoreFr: "Découvrir les entreprises",
     expectedContent: [/9\s*%/, /74\s*%/, /HYMEA Lounge/i],
+    hasHeroPhoto: true,
   },
   {
     slug: "particuliers",
@@ -76,6 +81,7 @@ const PAGES: PageSpec[] = [
     },
     learnMoreFr: "Découvrir les particuliers",
     expectedContent: [/Véhicules|Vehicles|רכבים/, /Textiles|טקסטיל/],
+    hasHeroPhoto: true,
   },
 ];
 
@@ -174,6 +180,10 @@ for (const spec of PAGES) {
     });
 
     test("l'emplacement photo du hero a un nom accessible", async ({ page }) => {
+      test.skip(
+        !spec.hasHeroPhoto,
+        "Le hero des centres commerciaux est éditorial, sans emplacement photo.",
+      );
       await gotoPage(page, "fr", spec.slug);
       await expect(page.getByRole("img").first()).toBeVisible();
     });
@@ -274,4 +284,53 @@ test.describe("Accueil → pages univers", () => {
       );
     });
   }
+});
+
+// ---------------------------------------------------------------------------
+// Centres commerciaux — l'expérience premium HYMEA (déplacée de l'ancienne page
+// d'accueil) : leviers, services signature, preuve chiffrée et emphase t.rich.
+// ---------------------------------------------------------------------------
+test.describe("Centres commerciaux — expérience premium HYMEA", () => {
+  test("liste les trois leviers de valeur", async ({ page }) => {
+    await gotoPage(page, "fr", "centres-commerciaux");
+    const main = page.getByRole("main");
+    await expect(main.getByRole("heading", { name: "Augmenter le panier moyen" })).toBeVisible();
+    await expect(main.getByRole("heading", { name: "Faire revenir les visiteurs" })).toBeVisible();
+    await expect(
+      main.getByRole("heading", { name: "Élargir la zone de chalandise" }),
+    ).toBeVisible();
+  });
+
+  test("la section expérience liste les services signature", async ({ page }) => {
+    await gotoPage(page, "fr", "centres-commerciaux");
+    const experience = page.locator("#experience");
+    await expect(experience.getByRole("heading", { name: "Le Lounge" })).toBeVisible();
+    await expect(experience.getByRole("heading", { name: "Stylisme" })).toBeVisible();
+    await expect(experience.getByRole("heading", { name: "Club de fidélité" })).toBeVisible();
+  });
+
+  test("la section résultats affiche les preuves chiffrées", async ({ page }) => {
+    await gotoPage(page, "fr", "centres-commerciaux");
+    const results = page.locator("#resultats");
+    await expect(results).toContainText("+70 %");
+    await expect(results).toContainText("+30 %");
+    await expect(results).toContainText("50 %");
+    await expect(results).toContainText("+ visites");
+    await expect(results).toContainText("La Vallée Village");
+  });
+
+  test("une description de service met un segment en gras (t.rich)", async ({ page }) => {
+    await gotoPage(page, "fr", "centres-commerciaux");
+    const experience = page.locator("#experience");
+    const strong = experience.locator("strong", {
+      hasText: /faire grimper la dépense jusqu'à \+70 %/i,
+    });
+    await expect(strong).toBeVisible();
+  });
+
+  test("le CTA secondaire du hero mène à la section expérience", async ({ page }) => {
+    await gotoPage(page, "fr", "centres-commerciaux");
+    await page.getByRole("main").getByRole("link", { name: "Découvrir l'expérience" }).click();
+    await expect(page).toHaveURL(/#experience$/);
+  });
 });
