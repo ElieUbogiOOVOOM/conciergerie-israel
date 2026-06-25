@@ -106,13 +106,29 @@ test.describe("Vitrine HYMEA", () => {
       await expect(page).toHaveURL(/\/fr$/);
     });
 
-    test("les liens de navigation pointent vers les sections univers", async ({ page }) => {
+    test("les liens du header mènent aux pages univers dédiées", async ({ page }) => {
       await page.setViewportSize({ width: 1280, height: 900 });
-      await gotoLocale(page, "fr");
-      const link = page.getByRole("banner").getByRole("link", { name: "Centres commerciaux" });
-      await link.click();
-      await expect(page).toHaveURL(/#centres-commerciaux$/);
-      await expect(page.locator("#centres-commerciaux")).toBeInViewport();
+      const NAV = [
+        { name: "Centres commerciaux", slug: "centres-commerciaux" },
+        { name: "Entreprises", slug: "entreprises" },
+        { name: "Particuliers", slug: "particuliers" },
+      ];
+      for (const { name, slug } of NAV) {
+        await gotoLocale(page, "fr");
+        const link = page.getByRole("banner").getByRole("link", { name });
+        await expect(link).toHaveAttribute("href", `/fr/${slug}`);
+        await link.click();
+        await expect(page).toHaveURL(new RegExp(`/fr/${slug}$`));
+        await expect(page.getByRole("heading", { level: HEADING_LEVEL1 })).toBeVisible();
+      }
+    });
+
+    test("le lien Contact du header fonctionne depuis une page univers", async ({ page }) => {
+      await page.setViewportSize({ width: 1280, height: 900 });
+      await page.goto("/fr/entreprises");
+      await page.getByRole("banner").getByRole("link", { name: "Contact" }).click();
+      await expect(page).toHaveURL(/#contact$/);
+      await expect(page.locator("#contact")).toBeInViewport();
     });
 
     test("le CTA du hero mène au bloc contact", async ({ page }) => {
@@ -126,6 +142,17 @@ test.describe("Vitrine HYMEA", () => {
         .click();
       await expect(page).toHaveURL(/#contact$/);
       await expect(page.locator("#contact")).toBeInViewport();
+    });
+
+    test("le footer mène aussi aux pages univers dédiées", async ({ page }) => {
+      await gotoLocale(page, "fr");
+      const footer = page.getByRole("contentinfo");
+      await expect(footer.getByRole("link", { name: "Entreprises" })).toHaveAttribute(
+        "href",
+        "/fr/entreprises",
+      );
+      await footer.getByRole("link", { name: "Particuliers" }).click();
+      await expect(page).toHaveURL(/\/fr\/particuliers$/);
     });
 
     test("les liens légaux du footer ont les bonnes URL localisées", async ({ page }) => {
@@ -232,7 +259,9 @@ test.describe("Vitrine HYMEA", () => {
     test("la navigation desktop est visible, le bouton menu masqué", async ({ page }) => {
       await page.setViewportSize({ width: 1280, height: 900 });
       await gotoLocale(page, "fr");
-      await expect(page.getByRole("banner").getByRole("link", { name: "Résultats" })).toBeVisible();
+      await expect(
+        page.getByRole("banner").getByRole("link", { name: "Particuliers" }),
+      ).toBeVisible();
       await expect(page.getByRole("button", { name: "Menu" })).toBeHidden();
     });
   });
@@ -250,8 +279,9 @@ test.describe("Vitrine HYMEA", () => {
       await expect(menu).toBeVisible();
       await expect(menu.getByRole("link", { name: "Centres commerciaux" })).toBeVisible();
 
-      // Un clic sur un lien referme le menu.
+      // Un clic sur un lien navigue vers la page univers et referme le menu.
       await menu.getByRole("link", { name: "Centres commerciaux" }).click();
+      await expect(page).toHaveURL(/\/fr\/centres-commerciaux$/);
       await expect(page.locator("#mobile-menu")).toBeHidden();
     });
 
