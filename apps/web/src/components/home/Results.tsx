@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-// Preuve de conversion (deck SEGULA § benefits) : panneau encre (moment fort,
+// Preuve de conversion (deck HYMEA § benefits) : panneau encre (moment fort,
 // contrasté) avec statistiques chiffrées en or, puis références mondiales.
 const STATS = ["spend", "dwell", "topClients", "loyalty"] as const;
 

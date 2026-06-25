@@ -2,12 +2,12 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 
 // Coordonnées provisoires (placeholders) — remplacées par les coordonnées
-// définitives du client. cf. SPEC § 14 / deck SEGULA (contacts OOVOOM).
+// définitives du client. cf. SPEC § 14 / deck HYMEA (contacts OOVOOM).
 const CONTACT_EMAIL = "contact@hymea.com";
 
 /**
  * Bloc de contact réutilisable (cible de l'ancre #contact), traité en panneau or
- * — un « moment fort » dans le registre du deck SEGULA. Met en avant l'offre
+ * — un « moment fort » dans le registre du deck HYMEA. Met en avant l'offre
  * « -20 % sur la première prestation » et l'accès à la prise de contact. Le CTA
  * pointera vers le funnel RDV (#28) une fois livré ; en attendant, prise de
  * contact directe.

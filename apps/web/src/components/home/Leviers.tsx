@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl";
 
-// Les trois leviers stratégiques du deck SEGULA : panier moyen, fidélité,
+// Les trois leviers stratégiques du deck HYMEA : panier moyen, fidélité,
 // zone de chalandise. Présentés comme la promesse de valeur de l'expérience.
 const LEVIERS = ["spend", "loyalty", "catchment"] as const;
 

@@ -33,9 +33,9 @@ const PAGES: PageSpec[] = [
     slug: "centres-commerciaux",
     funnelType: "mall",
     heroTitle: {
-      fr: /Le concept SEGULA/i,
-      en: /The SEGULA concept/i,
-      he: /קונספט SEGULA/,
+      fr: /Le concept HYMEA/i,
+      en: /The HYMEA concept/i,
+      he: /קונספט HYMEA/,
     },
     cta: {
       fr: "Demander une présentation",

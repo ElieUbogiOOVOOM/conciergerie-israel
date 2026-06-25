@@ -32,7 +32,7 @@ sur **trois marchés** :
 
 | Univers | Promesse | Action attendue sur le site |
 |---|---|---|
-| **Centres commerciaux** | Concept SEGULA : lounge, voiturier, personal shopper, styliste, club fidélité | Demander une présentation |
+| **Centres commerciaux** | Concept HYMEA : lounge, voiturier, personal shopper, styliste, club fidélité | Demander une présentation |
 | **Entreprises** | HYMEA Lounge & entretien premium des bureaux | Demander un devis / planifier une visite |
 | **Particuliers** | Nettoyage haut de gamme : habitations, véhicules, mobilier, textiles | Réserver un créneau d'intervention |
 
@@ -97,7 +97,7 @@ hymea/
 
 > **Direction artistique : luxe à la française, clair et chaleureux.** Fond crème, or chaud & encre charbon, bleu cobalt en accent rare.
 > **Pas de dégradés agressifs ni d'effets superflus.** Photographies réelles fournies par le client.
-> *(Source : palette de marque fournie par le client + deck SEGULA « The premium experience » — cette charte fait foi.)*
+> *(Source : palette de marque fournie par le client + deck HYMEA « The premium experience » — cette charte fait foi.)*
 
 ### Palette
 

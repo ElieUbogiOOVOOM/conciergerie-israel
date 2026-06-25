@@ -45,7 +45,7 @@
       }
     },
     "experience": {
-      "eyebrow": "The SEGULA experience",
+      "eyebrow": "The HYMEA experience",
       "title": "A signature of services that makes people want to stay.",
       "description": "One thread runs from the first welcome to the goodbye: care for detail. Every service feeds well-being, dwell time and the desire to return.",
       "services": {
@@ -124,7 +124,7 @@
     "universes": {
       "shoppingCentres": {
         "label": "Shopping centres",
-        "title": "The SEGULA concept",
+        "title": "The HYMEA concept",
         "description": "A turnkey premium experience: lounge, valet, hands-free, styling, personal shopper and loyalty club — to raise the basket, build loyalty and make the centre shine.",
         "services": ["Lounge", "Valet", "Hands-free", "Styling", "Loyalty club"],
         "cta": "Request a presentation",
@@ -150,16 +150,16 @@
   },
   "MallPage": {
     "meta": {
-      "title": "Shopping centres — the SEGULA premium experience | HYMEA",
-      "description": "HYMEA brings the SEGULA concept to shopping centres: lounge, valet, personal shopper, styling and a loyalty club that lift the average basket, build loyalty and broaden the catchment area."
+      "title": "Shopping centres — the premium experience | HYMEA",
+      "description": "HYMEA brings its premium concept to shopping centres: lounge, valet, personal shopper, styling and a loyalty club that lift the average basket, build loyalty and broaden the catchment area."
     },
     "hero": {
       "eyebrow": "Shopping centres",
-      "title": "The SEGULA concept: turn footfall into a destination.",
+      "title": "The HYMEA concept: turn footfall into a destination.",
       "lead": "A turnkey premium experience that makes people stay longer, come back more often and spend more. HYMEA orchestrates every service — from the first welcome to the valet stand — to <b>lift the average basket and the dwell time</b> of your visitors."
     },
     "concept": {
-      "eyebrow": "The SEGULA experience",
+      "eyebrow": "The HYMEA experience",
       "title": "Five signature services, one seamless journey.",
       "description": "Each service feeds well-being, dwell time and the desire to return — the three drivers of in-centre spending.",
       "items": {
@@ -207,7 +207,7 @@
     },
     "cta": {
       "eyebrow": "Shopping centres",
-      "title": "Bring the SEGULA experience to your centre.",
+      "title": "Bring the HYMEA experience to your centre.",
       "description": "Let us walk you through the concept, the services and the projected impact on your average basket and footfall.",
       "label": "Request a presentation"
     }
@@ -395,7 +395,7 @@
   },
   "Contact": {
     "eyebrow": "Get in touch",
-    "title": "Bring the SEGULA experience to your space.",
+    "title": "Bring the HYMEA experience to your space.",
     "description": "A presentation, a quote or a first intervention: we get back to you quickly, with a proposal that matches your expectations.",
     "offerHeadline": "−20% on your first service",
     "offerDetail": "A welcome offer to experience the HYMEA standard, with no commitment.",

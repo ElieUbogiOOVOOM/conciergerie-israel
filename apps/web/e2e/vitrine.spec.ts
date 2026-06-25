@@ -205,7 +205,7 @@ test.describe("Vitrine HYMEA", () => {
   test.describe("Contenu de l'accueil", () => {
     test("présente les trois univers avec leurs titres", async ({ page }) => {
       await gotoLocale(page, "fr");
-      await expect(page.getByRole("heading", { name: "Le concept SEGULA" })).toBeVisible();
+      await expect(page.getByRole("heading", { name: "Le concept HYMEA" })).toBeVisible();
       await expect(page.getByRole("heading", { name: "HYMEA Lounge & bureaux" })).toBeVisible();
       await expect(page.getByRole("heading", { name: "L'art du détail, chez vous" })).toBeVisible();
     });
