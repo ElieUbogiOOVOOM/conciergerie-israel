@@ -51,6 +51,28 @@ export const envSchema = z.object({
   HYMEA_NOTIFICATION_EMAIL: z.string().email().default("contact@hymea.com"),
   /** URL publique de la vitrine (liens dans les emails). */
   PUBLIC_SITE_URL: z.string().url().default("https://hymea.com"),
+
+  // --- Rappels automatiques (issue #17) ---
+  /** Anticipation du rappel avant le créneau, en heures. */
+  REMINDER_LEAD_HOURS: z.coerce.number().int().positive().default(24),
+  /** Active le cron de rappels (désactivé en test pour piloter l'envoi à la main). */
+  REMINDERS_ENABLED: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((v) => v === "true"),
+
+  // --- Rétention RGPD (issue #18) ---
+  /** Durée de conservation des données après le dernier RDV, en mois. */
+  RGPD_RETENTION_MONTHS: z.coerce.number().int().positive().default(12),
+  /** Active le cron de purge/anonymisation RGPD (désactivé en test). */
+  RGPD_PURGE_ENABLED: z
+    .enum(["true", "false"])
+    .default("true")
+    .transform((v) => v === "true"),
+
+  // --- Flux iCal (issue #20) ---
+  /** URL de base publique de l'API (construction des URLs .ics côté admin). */
+  PUBLIC_API_URL: z.string().url().default("https://hymea.com/api"),
 });
 
 export type Env = z.infer<typeof envSchema>;

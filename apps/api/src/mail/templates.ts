@@ -202,6 +202,49 @@ const DICT: Record<EmailType, Record<Locale, Dictionnaire>> = {
       footerNote: "קונסיירז' וניקיון פרימיום — ישראל",
     },
   },
+  rappel: {
+    fr: {
+      subject: "Rappel : votre rendez-vous approche — HYMEA",
+      preheader: "Votre rendez-vous a lieu bientôt.",
+      heading: "Rappel de rendez-vous",
+      intro:
+        "Petit rappel : votre rendez-vous approche. Voici le récapitulatif ; contactez-nous si un imprévu survient.",
+      outro: "Nous avons hâte de vous accueillir.",
+      signature: "L'équipe HYMEA",
+      labelPrestation: "Prestation",
+      labelCreneau: "Créneau",
+      labelAdresse: "Adresse d'intervention",
+      creneauAPreciser: "À préciser ensemble",
+      footerNote: "Conciergerie & nettoyage premium — Israël",
+    },
+    en: {
+      subject: "Reminder: your appointment is coming up — HYMEA",
+      preheader: "Your appointment is happening soon.",
+      heading: "Appointment reminder",
+      intro:
+        "A quick reminder: your appointment is coming up. Here is the summary; let us know if anything changes.",
+      outro: "We look forward to welcoming you.",
+      signature: "The HYMEA team",
+      labelPrestation: "Service",
+      labelCreneau: "Slot",
+      labelAdresse: "Service address",
+      creneauAPreciser: "To be arranged together",
+      footerNote: "Premium concierge & cleaning — Israel",
+    },
+    he: {
+      subject: "תזכורת: הפגישה שלך מתקרבת — HYMEA",
+      preheader: "הפגישה שלך מתקיימת בקרוב.",
+      heading: "תזכורת לפגישה",
+      intro: "תזכורת קצרה: הפגישה שלך מתקרבת. להלן הסיכום; עדכן אותנו אם משהו משתנה.",
+      outro: "נשמח לארח אותך.",
+      signature: "צוות HYMEA",
+      labelPrestation: "שירות",
+      labelCreneau: "מועד",
+      labelAdresse: "כתובת השירות",
+      creneauAPreciser: "ייקבע יחד",
+      footerNote: "קונסיירז' וניקיון פרימיום — ישראל",
+    },
+  },
   annulation: {
     fr: {
       subject: "Votre rendez-vous a été annulé — HYMEA",
@@ -382,6 +425,7 @@ const NOTIF_LIBELLE: Record<EmailType, string> = {
   confirmation: "RDV confirmé",
   replanification: "RDV replanifié",
   annulation: "RDV annulé",
+  rappel: "Rappel de RDV",
 };
 
 /** Notification interne (équipe HYMEA) — FR, sobre, factuelle. */

@@ -49,5 +49,6 @@ export const emailTypes = [
   "confirmation",
   "replanification",
   "annulation",
+  "rappel",
 ] as const;
 export type EmailType = (typeof emailTypes)[number];

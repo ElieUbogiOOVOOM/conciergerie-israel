@@ -14,3 +14,7 @@ process.env.RDV_THROTTLE_TTL ??= "60";
 // Pas d'envoi réel en test : MailService reste en mode no-op (boîte d'envoi en mémoire).
 delete process.env.RESEND_API_KEY;
 delete process.env.TURNSTILE_SECRET;
+// Crons neutralisés en test : les suites déclenchent les services à la main
+// (sendDueReminders / purgeExpiredClients) pour des assertions déterministes.
+process.env.REMINDERS_ENABLED ??= "false";
+process.env.RGPD_PURGE_ENABLED ??= "false";
