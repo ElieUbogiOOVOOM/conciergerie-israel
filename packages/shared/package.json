@@ -1,0 +1,11 @@
+{
+  "name": "@hymea/shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Types de domaine, contrats d'API et config i18n partagés (placeholder M0, rempli en #3).",
+  "scripts": {
+    "build": "echo \"[@hymea/shared] placeholder — contenu ajouté en #3\"",
+    "lint": "echo \"[@hymea/shared] placeholder\"",
+    "type-check": "echo \"[@hymea/shared] placeholder\""
+  }
+}

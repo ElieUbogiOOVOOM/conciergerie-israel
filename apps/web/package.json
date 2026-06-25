@@ -1,0 +1,12 @@
+{
+  "name": "@hymea/web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Vitrine HYMEA (Next.js). Placeholder M0 — bootstrap réel en #21/#22.",
+  "scripts": {
+    "build": "echo \"[@hymea/web] placeholder M0 — bootstrap Next.js en #21\"",
+    "lint": "echo \"[@hymea/web] placeholder M0 — rien à linter\"",
+    "type-check": "echo \"[@hymea/web] placeholder M0 — pas de TypeScript encore\"",
+    "test:e2e": "echo \"[@hymea/web] placeholder M0 — Playwright en #43\""
+  }
+}

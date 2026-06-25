@@ -1,0 +1,12 @@
+{
+  "name": "@hymea/admin",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Back-office HYMEA (Next.js). Placeholder M0 — bootstrap réel en #32.",
+  "scripts": {
+    "build": "echo \"[@hymea/admin] placeholder M0 — bootstrap Next.js en #32\"",
+    "lint": "echo \"[@hymea/admin] placeholder M0 — rien à linter\"",
+    "type-check": "echo \"[@hymea/admin] placeholder M0 — pas de TypeScript encore\"",
+    "test:e2e": "echo \"[@hymea/admin] placeholder M0 — Playwright en #43\""
+  }
+}
