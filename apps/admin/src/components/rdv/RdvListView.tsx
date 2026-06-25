@@ -3,7 +3,12 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { Paginated, Prestation, RendezVousDetail, StatutRendezVous } from "@hymea/shared";
 import { isStatutRendezVous, isTypeClient } from "@hymea/shared";
-import { listPrestations, listRendezVous, type RendezVousQuery } from "@/lib/api";
+import {
+  downloadRendezVousCsv,
+  listPrestations,
+  listRendezVous,
+  type RendezVousQuery,
+} from "@/lib/api";
 import { Spinner } from "@/components/ui/Spinner";
 import { Button } from "@/components/ui/Button";
 import { Pagination } from "./Pagination";
@@ -46,6 +51,8 @@ export function RdvListView({ initialDateFrom = "" }: { initialDateFrom?: string
   const [prestations, setPrestations] = useState<Prestation[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [csvBusy, setCsvBusy] = useState(false);
+  const [csvError, setCsvError] = useState(false);
 
   // Catalogue des prestations (filtre) — chargé une fois.
   useEffect(() => {
@@ -107,9 +114,34 @@ export function RdvListView({ initialDateFrom = "" }: { initialDateFrom?: string
     setPage(1);
   }, []);
 
+  // Export CSV respectant les filtres courants (pagination ignorée côté API).
+  const exportCsv = useCallback(async () => {
+    setCsvBusy(true);
+    setCsvError(false);
+    try {
+      await downloadRendezVousCsv(query);
+    } catch {
+      setCsvError(true);
+    } finally {
+      setCsvBusy(false);
+    }
+  }, [query]);
+
   return (
     <section aria-label="Liste des rendez-vous" className="flex flex-col gap-4">
-      <h1 className="font-title text-h2 text-encre">Rendez-vous</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <h1 className="font-title text-h2 text-encre">Rendez-vous</h1>
+        <div className="flex items-center gap-3">
+          {csvError && (
+            <span role="alert" className="font-ui text-sm text-statut-annule">
+              Export impossible.
+            </span>
+          )}
+          <Button variant="ghost" onClick={() => void exportCsv()} disabled={csvBusy}>
+            {csvBusy ? "Export…" : "Exporter CSV"}
+          </Button>
+        </div>
+      </div>
 
       <RdvFilters
         value={filters}
