@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <rect width="100" height="100" rx="18" fill="#36322c" />
+  <g fill="none" stroke="#c2a36b" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+    <g>
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(45 50 50)" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(90 50 50)" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(135 50 50)" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(180 50 50)" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(225 50 50)" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(270 50 50)" />
+      <path d="M50 50 C40 30 44 13 50 6 C56 13 60 30 50 50 Z" transform="rotate(315 50 50)" />
+    </g>
+    <g>
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(45 50 50)" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(90 50 50)" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(135 50 50)" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(180 50 50)" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(225 50 50)" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(270 50 50)" />
+      <path d="M50 50 C43 40 43 29 50 23 C57 29 57 40 50 50 Z" transform="rotate(315 50 50)" />
+    </g>
+    <circle cx="50" cy="50" r="3.2" />
+  </g>
+</svg>

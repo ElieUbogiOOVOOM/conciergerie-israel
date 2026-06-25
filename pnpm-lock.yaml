@@ -39,7 +39,51 @@ importers:
         specifier: ^8.18.1
         version: 8.62.0(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
 
-  apps/admin: {}
+  apps/admin:
+    dependencies:
+      '@hymea/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      next:
+        specifier: ^15.1.6
+        version: 15.5.19(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      react:
+        specifier: ^19.0.0
+        version: 19.2.7
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.2.7(react@19.2.7)
+    devDependencies:
+      '@eslint/eslintrc':
+        specifier: ^3.2.0
+        version: 3.3.5
+      '@playwright/test':
+        specifier: ^1.49.1
+        version: 1.61.1
+      '@tailwindcss/postcss':
+        specifier: ^4.0.0
+        version: 4.3.1
+      '@types/node':
+        specifier: ^20.17.10
+        version: 20.19.43
+      '@types/react':
+        specifier: ^19.0.7
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: ^19.0.3
+        version: 19.2.3(@types/react@19.2.17)
+      eslint:
+        specifier: ^9.17.0
+        version: 9.39.4(jiti@2.7.0)
+      eslint-config-next:
+        specifier: ^15.1.6
+        version: 15.5.19(eslint@9.39.4(jiti@2.7.0))(typescript@5.9.3)
+      tailwindcss:
+        specifier: ^4.0.0
+        version: 4.3.1
+      typescript:
+        specifier: ^5.7.2
+        version: 5.9.3
 
   apps/api:
     dependencies:

@@ -73,6 +73,14 @@ export const envSchema = z.object({
   // --- Flux iCal (issue #20) ---
   /** URL de base publique de l'API (construction des URLs .ics côté admin). */
   PUBLIC_API_URL: z.string().url().default("https://hymea.com/api"),
+
+  // --- Back-office (issues #32/#33) ---
+  /**
+   * Origines autorisées en CORS (liste séparée par des virgules) pour le back-office
+   * et la vitrine en développement (ports distincts de l'API). Laisser vide en prod :
+   * admin/web/api y sont same-origin via le reverse-proxy, la CORS y est inutile.
+   */
+  CORS_ORIGINS: z.string().optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
