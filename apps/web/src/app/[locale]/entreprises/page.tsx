@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { PageHero } from "@/components/pages/PageHero";
 import { Pillars } from "@/components/pages/Pillars";
-import { FeatureGrid } from "@/components/pages/FeatureGrid";
+import { Packages } from "@/components/pages/Packages";
 import { ProofStats } from "@/components/pages/ProofStats";
 import { PageCta } from "@/components/pages/PageCta";
 
@@ -10,7 +10,8 @@ import { PageCta } from "@/components/pages/PageCta";
 // bureaux, conciergerie d'entreprise (deck « The Office Conciergerie »). Le bloc
 // contact (+ offre -20 %) et le footer sont fournis par le layout.
 const PILLARS = ["talent", "hrLever", "productivity", "standards"] as const;
-const SERVICES = ["lounge", "concierge", "wellness", "team", "hospitality", "valet"] as const;
+// Paliers « A tailored solution » (deck p.24-25), du socle inclus à la demande.
+const OFFERS = ["basic", "silver", "gold", "onRequest"] as const;
 const PROOF_STATS = ["gdp", "productivity", "applicants"] as const;
 
 export async function generateMetadata({
@@ -31,7 +32,7 @@ export default async function BusinessesPage({ params }: { params: Promise<{ loc
     <>
       <PageHero namespace="BusinessPage.hero" photoLabel="Entreprises" />
       <Pillars namespace="BusinessPage.pillars" itemKeys={PILLARS} />
-      <FeatureGrid namespace="BusinessPage.services" itemKeys={SERVICES} columns={3} />
+      <Packages namespace="BusinessPage.offers" itemKeys={OFFERS} highlightKey="gold" />
       <ProofStats namespace="BusinessPage.proof" statKeys={PROOF_STATS} hasNote />
       {/* CTA → funnel ?type=entreprise (#28) une fois livré ; en attendant #contact. */}
       <PageCta namespace="BusinessPage.cta" />

@@ -45,9 +45,9 @@ const PAGES: PageSpec[] = [
   {
     slug: "entreprises",
     heroTitle: {
-      fr: /Faire du bureau une expérience/i,
-      en: /Turn the workplace into an experience/i,
-      he: /להפוך את המשרד לחוויה/,
+      fr: /HYMEA transforme le confort au travail/i,
+      en: /transforms workplace convenience into a powerful employee experience/i,
+      he: /הופכת את הנוחות במקום העבודה/,
     },
     cta: {
       fr: "Demander un devis",
@@ -172,6 +172,83 @@ for (const spec of PAGES) {
     });
   });
 }
+
+// ---------------------------------------------------------------------------
+// Entreprises — section offres « A tailored solution » (deck p.24-25)
+// 4 paliers (Basic / Silver / Gold mis en avant / Sur demande) avec le détail
+// des services de chacun, remplaçant l'ancienne grille de services.
+// ---------------------------------------------------------------------------
+test.describe("Entreprises — paliers d'offre « A tailored solution »", () => {
+  const SECTION_TITLE: Record<Locale, RegExp> = {
+    fr: /formules qui s'adaptent/i,
+    en: /Packages that adapt/i,
+    he: /חבילות שמתאימות/,
+  };
+  const TIERS: Record<Locale, string[]> = {
+    fr: ["L'offre de base", "Formule Silver", "Formule Gold", "Sur demande"],
+    en: ["The basic offer", "Silver package", "Gold package", "Upon request"],
+    he: ["החבילה הבסיסית", "חבילת Silver", "חבילת Gold", "לפי בקשה"],
+  };
+  const FEATURED: Record<Locale, string> = {
+    fr: "Recommandé",
+    en: "Recommended",
+    he: "מומלץ",
+  };
+  // Un service échantillon par palier (basic / silver / gold / onRequest) pour
+  // vérifier que le détail des prestations est bien rendu.
+  const SAMPLE_SERVICES: Record<Locale, RegExp[]> = {
+    fr: [/Personal Shopper/i, /Cordonnerie/i, /Physiothérapie/i, /organise vos événements/i],
+    en: [/Personal Shopper/i, /Cobbler/i, /Physiotherapy/i, /plans your events/i],
+    he: [/פרסונל שופר/, /סנדלרות/, /פיזיותרפיה/, /מפיקה את האירועים/],
+  };
+  const OFFER_HEADINGS = 4;
+  const SINGLE = 1;
+
+  for (const locale of LOCALES) {
+    test(`/${locale}/entreprises — 4 paliers + détail des services`, async ({ page }) => {
+      await gotoPage(page, locale, "entreprises");
+      const section = page.getByRole("region", { name: SECTION_TITLE[locale] });
+      await expect(section).toBeVisible();
+      await expect(section.getByRole("heading", { level: 3 })).toHaveCount(OFFER_HEADINGS);
+      for (const tier of TIERS[locale]) {
+        await expect(section).toContainText(tier);
+      }
+      for (const service of SAMPLE_SERVICES[locale]) {
+        await expect(section).toContainText(service);
+      }
+    });
+
+    test(`/${locale}/entreprises — un seul palier marqué « ${FEATURED[locale]} » (Gold)`, async ({
+      page,
+    }) => {
+      await gotoPage(page, locale, "entreprises");
+      const section = page.getByRole("region", { name: SECTION_TITLE[locale] });
+      await expect(section.getByText(FEATURED[locale], { exact: true })).toHaveCount(SINGLE);
+    });
+  }
+
+  test("la grille d'offres remplace l'ancienne grille de services", async ({ page }) => {
+    await gotoPage(page, "fr", "entreprises");
+    // Garde-fou : l'ancien eyebrow « L'offre HYMEA Office » ne doit plus exister.
+    await expect(page.getByText("L'offre HYMEA Office")).toHaveCount(0);
+  });
+
+  test.describe("Responsive — mobile", () => {
+    test.use({ viewport: { width: 375, height: 812 } });
+    test("les 4 paliers restent rendus une fois empilés", async ({ page }) => {
+      await gotoPage(page, "fr", "entreprises");
+      const section = page.getByRole("region", { name: SECTION_TITLE.fr });
+      await expect(section.getByRole("heading", { level: 3 })).toHaveCount(OFFER_HEADINGS);
+    });
+  });
+
+  test("RTL — la section offres se rend correctement en hébreu", async ({ page }) => {
+    await gotoPage(page, "he", "entreprises");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    const section = page.getByRole("region", { name: SECTION_TITLE.he });
+    await expect(section.getByRole("heading", { level: 3 })).toHaveCount(OFFER_HEADINGS);
+  });
+});
 
 // ---------------------------------------------------------------------------
 // Navigation depuis l'accueil (liens « Découvrir »)

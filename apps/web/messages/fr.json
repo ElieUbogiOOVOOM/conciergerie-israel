@@ -219,8 +219,8 @@
     },
     "hero": {
       "eyebrow": "Entreprises",
-      "title": "Faire du bureau une expérience dont les salariés sont fiers.",
-      "lead": "HYMEA installe une conciergerie d'entreprise et un HYMEA Lounge au sein de vos bureaux, avec un entretien premium qui fait de la propreté un argument. Un levier RH éprouvé qui <b>améliore le bien-être et la rétention</b> — sans recourir aux hausses de salaire."
+      "title": "HYMEA transforme le confort au travail en une véritable expérience salarié.",
+      "lead": "HYMEA est une conciergerie d'entreprise conçue pour améliorer la qualité de vie des salariés au travail, en proposant une large gamme de services pratiques directement sur le lieu de travail. <b>Gagner du temps. Réduire le stress. Créer de la valeur</b> pour les salariés comme pour les employeurs."
     },
     "pillars": {
       "eyebrow": "Pourquoi ça marche",
@@ -244,34 +244,66 @@
         }
       }
     },
-    "services": {
-      "eyebrow": "L'offre HYMEA Office",
-      "title": "Des services du quotidien qui créent une expérience salarié hors norme.",
-      "description": "Du lounge à la logistique de la vie personnelle, HYMEA libère les salariés pour qu'ils se concentrent sur l'essentiel — et fait du bureau une destination.",
+    "offers": {
+      "eyebrow": "Une solution sur mesure",
+      "title": "Des formules qui s'adaptent à vos espaces, votre budget et votre stratégie.",
+      "description": "La plupart des services HYMEA ne coûtent presque rien à l'entreprise. Commencez par l'essentiel et montez jusqu'à une expérience complète sur site — <b>une solution différente pour épouser votre stratégie</b>.",
+      "featured": "Recommandé",
+      "footnote": "Une solution ajustable : un assemblage différent pour chaque entreprise.",
       "items": {
-        "lounge": {
-          "title": "Le HYMEA Lounge",
-          "description": "Un espace pour se retrouver et souffler : rafraîchissements, pâtisserie, jeux et coins d'échange informels qui créent l'appartenance."
+        "basic": {
+          "tier": "L'offre de base",
+          "subtitle": "Services & application HYMEA",
+          "pitch": "Inclus dans chaque formule. La plupart de ces services ne coûtent presque rien à l'entreprise, tout en <b>renforçant son image et sa productivité</b>.",
+          "services": [
+            "Personal Shopper : courses, cadeaux, fleurs, vêtements, etc.",
+            "Traiteur",
+            "Casiers sécurisés pour les colis",
+            "Avantages : vacances, spectacles, activités, etc.",
+            "Services HYMEA à domicile : ménage, plomberie, etc.",
+            "Embellissement du bureau : décoration & entretien",
+            "Pack anniversaire",
+            "Distributeurs : boissons & snacks",
+            "Prises de rendez-vous : coiffeur, etc."
+          ]
         },
-        "concierge": {
-          "title": "Services de conciergerie",
-          "description": "Retouches express, pressing, cordonnerie, réception de colis et prises de rendez-vous — pris en charge sur site."
+        "silver": {
+          "tier": "Formule Silver",
+          "subtitle": "La conciergerie HYMEA à votre service",
+          "pitch": "Montez le standard avec une expérience unique, quel que soit l'espace disponible. <b>Un investissement réellement rentable</b> — bien en deçà des autres dépenses de prestige — qui améliore aussitôt la marque employeur.",
+          "services": [
+            "Lavage auto",
+            "Pressing",
+            "Cordonnerie",
+            "Couture express",
+            "Commandes de repas reçues, réchauffées et servies au bureau dans une vraie assiette",
+            "Réassort : thé, café & papier toilette",
+            "Corbeilles de fruits"
+          ]
         },
-        "wellness": {
-          "title": "Bien-être & santé",
-          "description": "Physiothérapie sur site, prévention des troubles musculo-squelettiques et soins beauté pour garder des salariés en forme et concentrés."
+        "gold": {
+          "tier": "Formule Gold",
+          "subtitle": "Le HYMEA Lounge sur site",
+          "pitch": "Un espace dédié directement dans vos bureaux — l'expérience HYMEA complète. <b>L'offre prestige</b> qui nourrit l'appartenance, la productivité et l'engagement.",
+          "services": [
+            "Marque employeur",
+            "Le Lounge : un véritable espace de pause",
+            "Pâtisseries",
+            "Physiothérapie",
+            "Événements de marque & échantillons offerts",
+            "Écologie : compost, papier recyclé, jardin",
+            "Réunions plus détendues",
+            "Activités d'équipe : ping-pong, échecs, etc."
+          ]
         },
-        "team": {
-          "title": "Team building & événements",
-          "description": "Événements d'entreprise, team-building et initiatives d'engagement conçus avec des professionnels RH pour renforcer la culture."
-        },
-        "hospitality": {
-          "title": "Hospitalité du quotidien",
-          "description": "Corbeilles de fruits frais, service de fleuriste, décoration saisonnière et touches premium qui élèvent l'atmosphère du bureau."
-        },
-        "valet": {
-          "title": "Voiturier & soin auto",
-          "description": "Voiturier, lavage et detailing : des services visibles et premium qui renforcent le prestige employeur."
+        "onRequest": {
+          "tier": "Sur demande",
+          "subtitle": "Services haut de gamme",
+          "pitch": "Votre partenaire de confiance prend en charge les projets chronophages comme l'organisation d'événements. <b>Du temps gagné, une qualité garantie.</b>",
+          "services": [
+            "HYMEA organise vos événements",
+            "Conception, planification & animation de team-buildings"
+          ]
         }
       }
     },
