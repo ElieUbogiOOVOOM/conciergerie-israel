@@ -6,12 +6,14 @@ import { Link, usePathname } from "@/i18n/navigation";
 import { Logo } from "@/components/brand/Logo";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
-// Les entrées de navigation ancrent vers les sections de l'accueil. Elles
-// deviendront des routes dédiées avec les pages univers (#25-27).
+// Navigation principale : les trois pages univers dédiées (#25-27) en routes
+// locale-aware, puis le bloc contact (ancre présente sur toutes les pages via
+// le layout). Les routes sont préfixées par la locale via le Link next-intl ;
+// les ancres restent de simples <a> (saut intra-page).
 const NAV_ITEMS = [
-  { key: "experience", href: "#experience" },
-  { key: "shoppingCentres", href: "#centres-commerciaux" },
-  { key: "results", href: "#resultats" },
+  { key: "shoppingCentres", href: "/centres-commerciaux" },
+  { key: "businesses", href: "/entreprises" },
+  { key: "individuals", href: "/particuliers" },
   { key: "contact", href: "#contact" },
 ] as const;
 
@@ -50,15 +52,25 @@ export function Header() {
 
         {/* Navigation principale (desktop) */}
         <nav aria-label={t("primary")} className="hidden items-center gap-8 md:flex">
-          {NAV_ITEMS.map((item) => (
-            <a
-              key={item.key}
-              href={item.href}
-              className="font-label text-xs uppercase tracking-widest text-encre/70 transition-colors hover:text-or-profond"
-            >
-              {t(item.key)}
-            </a>
-          ))}
+          {NAV_ITEMS.map((item) =>
+            item.href.startsWith("#") ? (
+              <a
+                key={item.key}
+                href={item.href}
+                className="font-label text-xs uppercase tracking-widest text-encre/70 transition-colors hover:text-or-profond"
+              >
+                {t(item.key)}
+              </a>
+            ) : (
+              <Link
+                key={item.key}
+                href={item.href}
+                className="font-label text-xs uppercase tracking-widest text-encre/70 transition-colors hover:text-or-profond"
+              >
+                {t(item.key)}
+              </Link>
+            ),
+          )}
         </nav>
 
         <div className="hidden md:block">
@@ -81,16 +93,29 @@ export function Header() {
       {open && (
         <div id="mobile-menu" className="border-t border-encre/10 bg-creme md:hidden">
           <nav aria-label={t("primary")} className="mx-auto flex max-w-6xl flex-col px-6 py-4">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.key}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className="border-b border-encre/5 py-4 font-label text-sm uppercase tracking-widest text-encre/80 transition-colors hover:text-or-profond"
-              >
-                {t(item.key)}
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const className =
+                "border-b border-encre/5 py-4 font-label text-sm uppercase tracking-widest text-encre/80 transition-colors hover:text-or-profond";
+              return item.href.startsWith("#") ? (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={className}
+                >
+                  {t(item.key)}
+                </a>
+              ) : (
+                <Link
+                  key={item.key}
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className={className}
+                >
+                  {t(item.key)}
+                </Link>
+              );
+            })}
             <div className="pt-5">
               <LanguageSwitcher />
             </div>
