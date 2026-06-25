@@ -2,11 +2,31 @@
   "name": "@hymea/admin",
   "version": "0.0.0",
   "private": true,
-  "description": "Back-office HYMEA (Next.js). Placeholder M0 — bootstrap réel en #32.",
+  "description": "Back-office HYMEA (Next.js, App Router) — basePath /admin, noindex, thème clair.",
   "scripts": {
-    "build": "echo \"[@hymea/admin] placeholder M0 — bootstrap Next.js en #32\"",
-    "lint": "echo \"[@hymea/admin] placeholder M0 — rien à linter\"",
-    "type-check": "echo \"[@hymea/admin] placeholder M0 — pas de TypeScript encore\"",
-    "test:e2e": "echo \"[@hymea/admin] placeholder M0 — Playwright en #43\""
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "start": "next start --port 3001",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@hymea/shared": "workspace:*",
+    "next": "^15.1.6",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@playwright/test": "^1.49.1",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^20.17.10",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.6",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
   }
 }
