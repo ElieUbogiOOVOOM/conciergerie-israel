@@ -82,3 +82,62 @@
     color: var(--color-ivoire);
   }
 }
+
+/*
+ * Mouvement « quand on slide » (page de garde) — révélation douce au défilement
+ * et flottement lent de l'ornement du hero. Registre luxe : lent, discret, jamais
+ * tape-à-l'œil. Tout est neutralisé sous prefers-reduced-motion (a11y).
+ */
+@layer utilities {
+  /*
+   * État caché initial conditionné à `html.js` : sans JavaScript, le contenu
+   * reste pleinement visible (SEO + a11y), la révélation n'est qu'un enrichissement.
+   */
+  html.js .reveal {
+    opacity: 0;
+    transform: translateY(1.75rem);
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: opacity, transform;
+  }
+
+  html.js .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Parallaxe verticale douce pilotée par --parallax (px), posée au scroll. */
+  .parallax {
+    transform: translate3d(0, var(--parallax, 0), 0);
+  }
+
+  .float-slow {
+    animation: hymea-float 9s ease-in-out infinite;
+  }
+
+  @keyframes hymea-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-0.9rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html.js .reveal,
+    html.js .reveal[data-visible="true"] {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+    .parallax {
+      transform: none;
+    }
+    .float-slow {
+      animation: none;
+    }
+  }
+}
