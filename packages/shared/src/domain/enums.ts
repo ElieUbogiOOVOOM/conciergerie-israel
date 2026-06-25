@@ -24,3 +24,30 @@ export function isStatutRendezVous(value: string): value is StatutRendezVous {
 export function isTypeClient(value: string): value is TypeClient {
   return (typesClient as readonly string[]).includes(value);
 }
+
+/**
+ * Transitions de statut autorisées (cf. SPEC §4 / CDC 5.4).
+ * Une transition absente de cette table est refusée (409).
+ * `REALISE` et `ANNULE` sont terminaux.
+ */
+export const transitionsStatut: Record<StatutRendezVous, readonly StatutRendezVous[]> = {
+  NOUVEAU: ["CONFIRME", "ANNULE"],
+  CONFIRME: ["REPLANIFIE", "REALISE", "ANNULE"],
+  REPLANIFIE: ["CONFIRME", "REALISE", "ANNULE"],
+  REALISE: [],
+  ANNULE: [],
+};
+
+/** true si le passage `from → to` est une transition de statut valide. */
+export function isTransitionValide(from: StatutRendezVous, to: StatutRendezVous): boolean {
+  return transitionsStatut[from].includes(to);
+}
+
+/** Types d'emails transactionnels liés au cycle de vie d'un RDV (cf. SPEC §8). */
+export const emailTypes = [
+  "demande_recue",
+  "confirmation",
+  "replanification",
+  "annulation",
+] as const;
+export type EmailType = (typeof emailTypes)[number];
