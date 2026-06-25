@@ -12,9 +12,9 @@ name: CI
 # Each job is guarded: while the monorepo is not scaffolded yet (issue #1),
 # the relevant app has no package.json, so the job skips its steps and stays green.
 
+# Runs only on pull requests targeting main, so you can verify everything
+# passes BEFORE merging. The merge to main is what triggers the Dockploy CD.
 on:
-  push:
-    branches: [main]
   pull_request:
     branches: [main]
 
