@@ -15,9 +15,9 @@ import { test, expect, type Page } from "@playwright/test";
 const LOCALES = ["fr", "en", "he"] as const;
 
 const HERO_TITLE: Record<(typeof LOCALES)[number], RegExp> = {
-  fr: /Transformer un lieu de passage/i,
-  en: /Turn a place people pass through/i,
-  he: /להפוך מקום מעבר/,
+  fr: /L'expérience HYMEA/i,
+  en: /The HYMEA experience/i,
+  he: /חוויית HYMEA/,
 };
 
 const HEADING_LEVEL1 = 1;
@@ -131,17 +131,22 @@ test.describe("Vitrine HYMEA", () => {
       await expect(page.locator("#contact")).toBeInViewport();
     });
 
-    test("le CTA du hero mène au bloc contact", async ({ page }) => {
+    test("le CTA secondaire du hero mène au bloc contact", async ({ page }) => {
       await gotoLocale(page, "fr");
-      // Le libellé est partagé avec le CTA de l'univers « Centres commerciaux » ;
-      // on cible le premier (celui du hero).
       await page
         .getByRole("main")
-        .getByRole("link", { name: "Demander une présentation" })
+        .getByRole("link", { name: "Travailler avec nous" })
         .first()
         .click();
       await expect(page).toHaveURL(/#contact$/);
       await expect(page.locator("#contact")).toBeInViewport();
+    });
+
+    test("le CTA principal du hero mène au bloc des univers", async ({ page }) => {
+      await gotoLocale(page, "fr");
+      await page.getByRole("main").getByRole("link", { name: "Découvrir nos univers" }).click();
+      await expect(page).toHaveURL(/#univers$/);
+      await expect(page.locator("#univers")).toBeInViewport();
     });
 
     test("le footer mène aussi aux pages univers dédiées", async ({ page }) => {
@@ -202,7 +207,15 @@ test.describe("Vitrine HYMEA", () => {
   // ---------------------------------------------------------------------------
   // D. Affichage des données (les 3 univers + offre)
   // ---------------------------------------------------------------------------
-  test.describe("Contenu de l'accueil", () => {
+  test.describe("Contenu de la page de garde", () => {
+    test("la bannière affiche le slogan et le titre signature", async ({ page }) => {
+      await gotoLocale(page, "fr");
+      await expect(page.getByText("The office conciergerie")).toBeVisible();
+      await expect(page.getByRole("heading", { level: HEADING_LEVEL1 })).toContainText(
+        /L'expérience HYMEA/i,
+      );
+    });
+
     test("présente les trois univers avec leurs titres", async ({ page }) => {
       await gotoLocale(page, "fr");
       await expect(page.getByRole("heading", { name: "Le concept HYMEA" })).toBeVisible();
@@ -210,45 +223,40 @@ test.describe("Vitrine HYMEA", () => {
       await expect(page.getByRole("heading", { name: "L'art du détail, chez vous" })).toBeVisible();
     });
 
-    test("chaque univers a une section ancrée et un CTA", async ({ page }) => {
+    test("chaque univers a une section ancrée et un lien Découvrir", async ({ page }) => {
       await gotoLocale(page, "fr");
       for (const id of ["centres-commerciaux", "entreprises", "particuliers"]) {
         await expect(page.locator(`#${id}`)).toBeAttached();
       }
     });
 
+    test("présente l'histoire du groupe et ses marques", async ({ page }) => {
+      await gotoLocale(page, "fr");
+      const histoire = page.locator("#histoire");
+      await expect(histoire.getByRole("heading", { name: /histoire du groupe/i })).toBeVisible();
+      await expect(histoire).toContainText("Sandra Bibas Holding");
+      await expect(histoire).toContainText("Les pépites Agency");
+      await expect(histoire).toContainText("OOVOOM Driver");
+      await expect(histoire).toContainText("Ma Vape Mobile");
+    });
+
+    test("la section partenariat affiche le slogan et un CTA contact", async ({ page }) => {
+      await gotoLocale(page, "fr");
+      const partenariat = page.locator("#partenariat");
+      await expect(
+        partenariat.getByRole("heading", { name: /Travailler avec nous/i }),
+      ).toBeVisible();
+      await expect(partenariat).toContainText("The Service, Your Partner, A Strategy");
+      await expect(partenariat.getByRole("link", { name: "Nous contacter" })).toHaveAttribute(
+        "href",
+        "#contact",
+      );
+    });
+
     test("le bloc contact affiche l'offre -20 %", async ({ page }) => {
       await gotoLocale(page, "fr");
       await expect(page.locator("#contact")).toContainText(/20\s*%/);
       await expect(page.locator("#contact")).toContainText(/première prestation/i);
-    });
-
-    test("la section expérience liste les services signature", async ({ page }) => {
-      await gotoLocale(page, "fr");
-      const experience = page.locator("#experience");
-      await expect(experience.getByRole("heading", { name: "Le Lounge" })).toBeVisible();
-      await expect(experience.getByRole("heading", { name: "Stylisme" })).toBeVisible();
-      await expect(experience.getByRole("heading", { name: "Club de fidélité" })).toBeVisible();
-    });
-
-    test("la section résultats affiche les preuves chiffrées", async ({ page }) => {
-      await gotoLocale(page, "fr");
-      const results = page.locator("#resultats");
-      await expect(results).toContainText("+70 %");
-      await expect(results).toContainText("+30 %");
-      await expect(results).toContainText("50 %");
-      await expect(results).toContainText("+ visites");
-      await expect(results).toContainText("La Vallée Village");
-    });
-
-    test("une description de service met un segment en gras (t.rich)", async ({ page }) => {
-      await gotoLocale(page, "fr");
-      const experience = page.locator("#experience");
-      // L'emphase éditoriale est rendue via un <strong> issu du balisage <b>.
-      const strong = experience.locator("strong", {
-        hasText: /faire grimper la dépense jusqu'à \+70 %/i,
-      });
-      await expect(strong).toBeVisible();
     });
   });
 

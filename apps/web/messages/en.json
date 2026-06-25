@@ -19,6 +19,58 @@
   "LanguageSwitcher": {
     "label": "Choose language"
   },
+  "Landing": {
+    "meta": {
+      "title": "HYMEA — The office conciergerie",
+      "description": "HYMEA delivers premium services designed to create a true VIP experience. Explore our worlds — individuals, businesses and shopping centres —, the story of the group and our partnership approach."
+    },
+    "hero": {
+      "slogan": "The office conciergerie",
+      "title": "The HYMEA experience — the services that make a change.",
+      "description": "HYMEA delivers premium services designed to create a true VIP experience. HYMEA understands your needs and challenges, providing meaningful support that helps you save time. HYMEA — a service with real impact that will deeply transform the overall experience.",
+      "ctaPrimary": "Discover our worlds",
+      "ctaSecondary": "Work with us",
+      "scrollHint": "Scroll"
+    },
+    "history": {
+      "eyebrow": "The group",
+      "title": "The history of the group.",
+      "lead": "Sandra Bibas Holding is a French group that has built and developed several household-name companies over the past decade. Each entity operates within a highly specialised field — the automotive industry, banking services and other sectors with significant barriers to entry.",
+      "principlesTitle": "Two founding principles",
+      "principles": [
+        "Delivering the most comprehensive services possible to customers.",
+        "Designing innovative IT solutions to streamline, digitalise and simplify everyday operations."
+      ],
+      "reach": "Through its tools, platforms and services, the group improves the daily lives of consumers and businesses alike, serving B2C and B2B markets.",
+      "entitiesTitle": "The group's companies",
+      "entities": {
+        "pepites": {
+          "name": "Les pépites Agency",
+          "description": "A personal shopping and brand marketing agency: bespoke promotional campaigns, product discovery boxes and tailored customer engagement solutions."
+        },
+        "oovoom": {
+          "name": "OOVOOM",
+          "description": "A provider of services, applications and digital tools dedicated to the automotive industry, for drivers and major companies alike (Airbus, Audika, Findus…)."
+        },
+        "oovoomDriver": {
+          "name": "OOVOOM Driver",
+          "description": "Premium concierge and valet services designed to deliver convenience, efficiency and peace of mind."
+        },
+        "maVape": {
+          "name": "Ma Vape Mobile",
+          "description": "Bicycle-powered mobile retail stores distributing vaping products directly to consumers, with a unique and engaging experience."
+        }
+      },
+      "emergence": "HYMEA emerges in Israel with services tailored to local consumption habits. Embodying the group's expertise, HYMEA offers a premium service to consumers, benefiting companies."
+    },
+    "partnership": {
+      "eyebrow": "Partnership",
+      "title": "Work with us.",
+      "tagline": "The Service, Your Partner, A Strategy.",
+      "description": "HYMEA builds lasting partnerships with the places and companies that want to offer an exceptional experience. Let's talk about your project.",
+      "cta": "Get in touch"
+    }
+  },
   "Home": {
     "hero": {
       "eyebrow": "The premium experience — French finesse, built for Israel",
@@ -153,58 +205,6 @@
     "meta": {
       "title": "Shopping centres — the premium experience | HYMEA",
       "description": "HYMEA brings its premium concept to shopping centres: lounge, valet, personal shopper, styling and a loyalty club that lift the average basket, build loyalty and broaden the catchment area."
-    },
-    "hero": {
-      "eyebrow": "Shopping centres",
-      "title": "The HYMEA concept: turn footfall into a destination.",
-      "lead": "A turnkey premium experience that makes people stay longer, come back more often and spend more. HYMEA orchestrates every service — from the first welcome to the valet stand — to <b>lift the average basket and the dwell time</b> of your visitors."
-    },
-    "concept": {
-      "eyebrow": "The HYMEA experience",
-      "title": "Five signature services, one seamless journey.",
-      "description": "Each service feeds well-being, dwell time and the desire to return — the three drivers of in-centre spending.",
-      "items": {
-        "lounge": {
-          "title": "The Lounge",
-          "description": "An oasis of calm at the heart of the centre: complimentary pastry, a warm beverage, a welcoming host. The well-being that extends every visit."
-        },
-        "valet": {
-          "title": "Valet & car wash",
-          "description": "Valet parking and car wash: arrival and departure become a treat, never a chore."
-        },
-        "personalShopper": {
-          "title": "Personal Shopper",
-          "description": "Tailored guidance across the boutiques, for a seamless journey and more confident purchases."
-        },
-        "styling": {
-          "title": "Styling",
-          "description": "Colour analysis, body shape and personalised advice from a stylist who builds trust and can <b>lift spending by up to +70%.</b>"
-        },
-        "loyalty": {
-          "title": "Loyalty club",
-          "description": "Three tiers — Private, Premium, Prestige — that reward loyalty and build a genuine sense of belonging."
-        }
-      }
-    },
-    "proof": {
-      "eyebrow": "Measurable impact",
-      "title": "Premium services with a direct commercial return.",
-      "description": "Across luxury retail and premium outlets, hospitality and personalised services drive spending and loyalty directly.",
-      "stats": {
-        "basket": {
-          "value": "+70%",
-          "label": "Stylist service can generate a raise of the spending up to 70%."
-        },
-        "dwell": {
-          "value": "+30%",
-          "label": "Dwell time — in the lounge, for example — has an actual impact on sales."
-        },
-        "loyalty": {
-          "value": "+ visits",
-          "label": "stronger loyalty and repeat visits thanks to a personalised experience."
-        }
-      },
-      "note": "Figures drawn from studies across luxury retail, department stores and premium outlets."
     },
     "cta": {
       "eyebrow": "Shopping centres",

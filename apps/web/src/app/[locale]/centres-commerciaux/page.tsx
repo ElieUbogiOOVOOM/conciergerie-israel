@@ -2,17 +2,16 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import type { Locale } from "@hymea/shared";
 import { buildPageMetadata } from "@/lib/seo";
-import { PageHero } from "@/components/pages/PageHero";
-import { FeatureGrid } from "@/components/pages/FeatureGrid";
-import { ProofStats } from "@/components/pages/ProofStats";
+import { Hero } from "@/components/home/Hero";
+import { Leviers } from "@/components/home/Leviers";
+import { Experience } from "@/components/home/Experience";
+import { Results } from "@/components/home/Results";
 import { PageCta } from "@/components/pages/PageCta";
 
-// Page univers « Centres commerciaux » (#25) — concept HYMEA : lounge,
-// voiturier, personal shopper, stylisme et club de fidélité. Le bloc contact
+// Page univers « Centres commerciaux » (#25) — reçoit l'expérience premium
+// HYMEA (deck) : accroche → trois leviers de valeur → services signature →
+// preuve chiffrée → CTA de conversion vers le funnel RDV typé. Le bloc contact
 // (+ offre -20 %) et le footer sont fournis par le layout.
-const HYMEA_SERVICES = ["lounge", "valet", "personalShopper", "styling", "loyalty"] as const;
-const PROOF_STATS = ["basket", "dwell", "loyalty"] as const;
-
 export async function generateMetadata({
   params,
 }: {
@@ -36,9 +35,10 @@ export default async function ShoppingCentresPage({
 
   return (
     <>
-      <PageHero namespace="MallPage.hero" photoLabel="Centres commerciaux" />
-      <FeatureGrid namespace="MallPage.concept" itemKeys={HYMEA_SERVICES} columns={3} />
-      <ProofStats namespace="MallPage.proof" statKeys={PROOF_STATS} hasNote />
+      <Hero />
+      <Leviers />
+      <Experience />
+      <Results />
       {/* CTA → funnel RDV pré-filtré sur la cible « centres commerciaux » (#28). */}
       <PageCta namespace="MallPage.cta" href="/rdv?type=mall" />
     </>

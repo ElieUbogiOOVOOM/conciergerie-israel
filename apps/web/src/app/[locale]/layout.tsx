@@ -49,6 +49,13 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir(locale)} className={fontVariables}>
+      <head>
+        {/* Marque le JS actif avant le paint : les révélations au scroll ne
+            s'appliquent qu'avec JS, le contenu reste visible sans (SEO + a11y). */}
+        <script
+          dangerouslySetInnerHTML={{ __html: "document.documentElement.classList.add('js')" }}
+        />
+      </head>
       <body className="flex min-h-screen flex-col">
         <NextIntlClientProvider messages={messages}>
           <Header />
