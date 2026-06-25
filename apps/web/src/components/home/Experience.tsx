@@ -1,7 +1,7 @@
 import { useTranslations } from "next-intl";
 import { emphasis } from "@/i18n/rich";
 
-// Services signature de l'expérience SEGULA (deck). Grille éditoriale sobre,
+// Services signature de l'expérience HYMEA (deck). Grille éditoriale sobre,
 // chaque service en carte ivoire avec filet or au survol.
 const SERVICES = [
   "lounge",

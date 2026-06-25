@@ -43,7 +43,7 @@
       }
     },
     "experience": {
-      "eyebrow": "L'expérience SEGULA",
+      "eyebrow": "L'expérience HYMEA",
       "title": "Une signature de services qui donne envie de rester.",
       "description": "Un même fil conducteur, du premier accueil au départ : le soin du détail. Chaque service nourrit le bien-être, le temps passé et l'envie de revenir.",
       "services": {
@@ -122,7 +122,7 @@
     "universes": {
       "shoppingCentres": {
         "label": "Centres commerciaux",
-        "title": "Le concept SEGULA",
+        "title": "Le concept HYMEA",
         "description": "L'expérience premium clé en main : lounge, voiturier, hands-free, stylisme, personal shopper et club de fidélité — pour augmenter le panier, fidéliser et faire rayonner le centre.",
         "services": ["Lounge", "Voiturier", "Hands-free", "Stylisme", "Club fidélité"],
         "cta": "Demander une présentation",
@@ -148,16 +148,16 @@
   },
   "MallPage": {
     "meta": {
-      "title": "Centres commerciaux — l'expérience premium SEGULA | HYMEA",
-      "description": "HYMEA déploie le concept SEGULA dans les centres commerciaux : lounge, voiturier, personal shopper, stylisme et club de fidélité pour augmenter le panier moyen, fidéliser et élargir la zone de chalandise."
+      "title": "Centres commerciaux — l'expérience premium | HYMEA",
+      "description": "HYMEA déploie son concept premium dans les centres commerciaux : lounge, voiturier, personal shopper, stylisme et club de fidélité pour augmenter le panier moyen, fidéliser et élargir la zone de chalandise."
     },
     "hero": {
       "eyebrow": "Centres commerciaux",
-      "title": "Le concept SEGULA : transformer le passage en destination.",
+      "title": "Le concept HYMEA : transformer le passage en destination.",
       "lead": "Une expérience premium clé en main qui pousse à rester plus longtemps, à revenir plus souvent et à dépenser davantage. HYMEA orchestre chaque service — du premier accueil au stand voiturier — pour <b>élever le panier moyen et le temps passé</b> de vos visiteurs."
     },
     "concept": {
-      "eyebrow": "L'expérience SEGULA",
+      "eyebrow": "L'expérience HYMEA",
       "title": "Cinq services signature, un parcours sans couture.",
       "description": "Chaque service nourrit le bien-être, le temps passé et l'envie de revenir — les trois moteurs de la dépense en centre.",
       "items": {
@@ -205,7 +205,7 @@
     },
     "cta": {
       "eyebrow": "Centres commerciaux",
-      "title": "Apportez l'expérience SEGULA à votre centre.",
+      "title": "Apportez l'expérience HYMEA à votre centre.",
       "description": "Laissez-nous vous présenter le concept, les services et l'impact projeté sur votre panier moyen et votre fréquentation.",
       "label": "Demander une présentation"
     }
@@ -364,7 +364,7 @@
   },
   "Contact": {
     "eyebrow": "Prenons contact",
-    "title": "Apportez l'expérience SEGULA à votre lieu.",
+    "title": "Apportez l'expérience HYMEA à votre lieu.",
     "description": "Présentation, devis ou première intervention : nous revenons vers vous rapidement, avec une proposition à la hauteur de vos attentes.",
     "offerHeadline": "−20 % sur la première prestation",
     "offerDetail": "Offre de bienvenue, pour découvrir l'exigence HYMEA sans engagement.",

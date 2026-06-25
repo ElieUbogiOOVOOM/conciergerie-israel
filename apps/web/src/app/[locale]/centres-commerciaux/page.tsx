@@ -5,10 +5,10 @@ import { FeatureGrid } from "@/components/pages/FeatureGrid";
 import { ProofStats } from "@/components/pages/ProofStats";
 import { PageCta } from "@/components/pages/PageCta";
 
-// Page univers « Centres commerciaux » (#25) — concept SEGULA : lounge,
+// Page univers « Centres commerciaux » (#25) — concept HYMEA : lounge,
 // voiturier, personal shopper, stylisme et club de fidélité. Le bloc contact
 // (+ offre -20 %) et le footer sont fournis par le layout.
-const SEGULA_SERVICES = ["lounge", "valet", "personalShopper", "styling", "loyalty"] as const;
+const HYMEA_SERVICES = ["lounge", "valet", "personalShopper", "styling", "loyalty"] as const;
 const PROOF_STATS = ["basket", "dwell", "loyalty"] as const;
 
 export async function generateMetadata({
@@ -32,7 +32,7 @@ export default async function ShoppingCentresPage({
   return (
     <>
       <PageHero namespace="MallPage.hero" photoLabel="Centres commerciaux" />
-      <FeatureGrid namespace="MallPage.concept" itemKeys={SEGULA_SERVICES} columns={3} />
+      <FeatureGrid namespace="MallPage.concept" itemKeys={HYMEA_SERVICES} columns={3} />
       <ProofStats namespace="MallPage.proof" statKeys={PROOF_STATS} hasNote />
       {/* CTA → funnel ?type=mall (#28) une fois livré ; en attendant #contact. */}
       <PageCta namespace="MallPage.cta" />
