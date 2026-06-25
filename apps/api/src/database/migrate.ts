@@ -10,12 +10,11 @@
 import { promises as fs } from "node:fs";
 import * as path from "node:path";
 
-import { FileMigrationProvider, Kysely, Migrator, PostgresDialect } from "kysely";
+import { Kysely, PostgresDialect } from "kysely";
 import { Pool } from "pg";
 
 import type { Database } from "./database.types";
-
-const MIGRATIONS_FOLDER = path.join(__dirname, "..", "..", "migrations");
+import { createMigrator, MIGRATIONS_FOLDER } from "./migrator";
 
 function createDb(): Kysely<Database> {
   const connectionString = process.env.DATABASE_URL;
@@ -24,13 +23,6 @@ function createDb(): Kysely<Database> {
   }
   return new Kysely<Database>({
     dialect: new PostgresDialect({ pool: new Pool({ connectionString }) }),
-  });
-}
-
-function createMigrator(db: Kysely<Database>): Migrator {
-  return new Migrator({
-    db,
-    provider: new FileMigrationProvider({ fs, path, migrationFolder: MIGRATIONS_FOLDER }),
   });
 }
 
