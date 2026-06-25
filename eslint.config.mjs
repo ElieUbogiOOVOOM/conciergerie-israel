@@ -5,6 +5,7 @@
 import js from "@eslint/js";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier";
+import globals from "globals";
 
 export default tseslint.config(
   {
@@ -24,10 +25,24 @@ export default tseslint.config(
       ],
     },
   },
-  // Fichiers de config JS à la racine : pas de projet TS strict.
+  // apps/api (NestJS) : l'injection par décorateurs exige des imports de
+  // VALEUR pour les types en position de paramètre (emitDecoratorMetadata).
+  // consistent-type-imports + --fix les transformerait en imports `type` et
+  // casserait la DI — on désactive la règle ici (appliqué aussi par lint-staged
+  // qui s'exécute avec cette config racine).
   {
-    files: ["**/*.config.{js,mjs,cjs}"],
-    languageOptions: { sourceType: "module" },
+    files: ["apps/api/**/*.ts"],
+    rules: {
+      "@typescript-eslint/consistent-type-imports": "off",
+    },
+  },
+  // Fichiers JS de config / CommonJS : globals Node (module, require, process…).
+  {
+    files: ["**/*.{js,cjs}", "**/*.config.{js,mjs,cjs}"],
+    languageOptions: {
+      globals: { ...globals.node },
+      sourceType: "commonjs",
+    },
   },
   eslintConfigPrettier,
 );
