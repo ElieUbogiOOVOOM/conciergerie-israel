@@ -20,7 +20,38 @@
     "hero": {
       "eyebrow": "Premium concierge & cleaning — Israel",
       "title": "Luxury, in restraint.",
-      "subtitle": "HYMEA cares for exceptional places: shopping centres, offices and private interiors. A confidential, meticulous service, made to last."
+      "subtitle": "HYMEA cares for exceptional places: shopping centres, offices and private interiors. A confidential, meticulous service, made to last.",
+      "ctaPrimary": "Get in touch",
+      "ctaSecondary": "Explore our worlds"
+    },
+    "intro": {
+      "eyebrow": "Three worlds",
+      "title": "One standard of care, three expectations.",
+      "description": "From the flow of a shopping centre to the intimacy of a home, HYMEA delivers a single promise — flawless detail — in the register each place deserves."
+    },
+    "photoCaption": "Photography coming soon",
+    "universes": {
+      "shoppingCentres": {
+        "label": "Shopping centres",
+        "title": "The SEGULA concept",
+        "description": "Lift the visitor experience and the average basket through exceptional hospitality: a lounge, valet service, a personal shopper, a stylist and a loyalty club, united under one signature.",
+        "services": ["Lounge", "Valet", "Personal shopper", "Stylist", "Loyalty club"],
+        "cta": "Request a presentation"
+      },
+      "businesses": {
+        "label": "Businesses",
+        "title": "HYMEA Lounge & offices",
+        "description": "Offices maintained to the highest standard and a HYMEA Lounge that nurtures your employer brand. Cleanliness becomes an argument — discreet and constant.",
+        "services": ["HYMEA Lounge", "Premium upkeep", "Common areas"],
+        "cta": "Request a quote"
+      },
+      "individuals": {
+        "label": "Individuals",
+        "title": "The art of detail, at home",
+        "description": "Homes, vehicles, furniture and textiles entrusted to a team that treats every surface as a rare piece. The comfort of a flawless interior, effortlessly.",
+        "services": ["Homes", "Vehicles", "Furniture", "Textiles"],
+        "cta": "Book a slot"
+      }
     }
   },
   "Contact": {

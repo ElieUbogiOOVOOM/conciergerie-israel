@@ -20,7 +20,38 @@
     "hero": {
       "eyebrow": "Conciergerie & nettoyage premium — Israël",
       "title": "Le luxe, dans la sobriété.",
-      "subtitle": "HYMEA prend soin des lieux d'exception : centres commerciaux, bureaux et intérieurs privés. Un service confidentiel, méticuleux, pensé pour durer."
+      "subtitle": "HYMEA prend soin des lieux d'exception : centres commerciaux, bureaux et intérieurs privés. Un service confidentiel, méticuleux, pensé pour durer.",
+      "ctaPrimary": "Prendre contact",
+      "ctaSecondary": "Découvrir nos univers"
+    },
+    "intro": {
+      "eyebrow": "Trois univers",
+      "title": "Un même soin, trois exigences.",
+      "description": "Du flux d'un centre commercial à l'intimité d'un foyer, HYMEA décline une seule promesse — la perfection du détail — au registre propre à chaque lieu."
+    },
+    "photoCaption": "Photographie à venir",
+    "universes": {
+      "shoppingCentres": {
+        "label": "Centres commerciaux",
+        "title": "Le concept SEGULA",
+        "description": "Élever l'expérience visiteur et le panier moyen par une hospitalité d'exception : un lounge, un service de voiturier, un personal shopper, un styliste et un club de fidélité réunis sous une même signature.",
+        "services": ["Lounge", "Voiturier", "Personal shopper", "Styliste", "Club fidélité"],
+        "cta": "Demander une présentation"
+      },
+      "businesses": {
+        "label": "Entreprises",
+        "title": "HYMEA Lounge & bureaux",
+        "description": "Des bureaux entretenus au plus haut niveau et un HYMEA Lounge qui soigne votre marque employeur. La propreté devient un argument, discret et constant.",
+        "services": ["HYMEA Lounge", "Entretien premium", "Espaces communs"],
+        "cta": "Demander un devis"
+      },
+      "individuals": {
+        "label": "Particuliers",
+        "title": "L'art du détail, chez vous",
+        "description": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, sans y penser.",
+        "services": ["Habitations", "Véhicules", "Mobilier", "Textiles"],
+        "cta": "Réserver un créneau"
+      }
     }
   },
   "Contact": {
