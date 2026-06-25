@@ -33,6 +33,14 @@ import {
 } from "./rdv.mapper";
 import { TurnstileService } from "./turnstile.service";
 
+/** Échappe une valeur pour une cellule CSV (RFC 4180) : guillemets doublés, entourage si besoin. */
+function toCsvCell(value: string): string {
+  if (/[",\r\n]/.test(value)) {
+    return `"${value.replace(/"/g, '""')}"`;
+  }
+  return value;
+}
+
 /** Statut → email de cycle de vie déclenché vers le client (null = aucun). */
 const STATUT_EMAIL: Partial<Record<StatutRendezVous, EmailType>> = {
   CONFIRME: "confirmation",
@@ -136,10 +144,11 @@ export class RendezVousService {
 
   // ─────────────────────────────── Admin (issue #15) ────────────────────────
 
-  /** Liste paginée + filtres + recherche (back-office). */
-  async list(query: ListRendezVousQuery): Promise<Paginated<RendezVousDetail>> {
-    const offset = (query.page - 1) * query.pageSize;
-
+  /**
+   * Applique les filtres (date, statut, type, prestation, recherche) communs à
+   * la liste paginée et à l'export CSV (#15/#19). Pas de pagination ni de tri ici.
+   */
+  private buildFilteredQuery(query: ListRendezVousQuery) {
     let base = this.db
       .selectFrom("rendez_vous")
       .innerJoin("clients", "clients.id", "rendez_vous.client_id");
@@ -159,6 +168,13 @@ export class RendezVousService {
         ]),
       );
     }
+    return base;
+  }
+
+  /** Liste paginée + filtres + recherche (back-office). */
+  async list(query: ListRendezVousQuery): Promise<Paginated<RendezVousDetail>> {
+    const offset = (query.page - 1) * query.pageSize;
+    const base = this.buildFilteredQuery(query);
 
     const [rows, count] = await Promise.all([
       base
@@ -177,6 +193,60 @@ export class RendezVousService {
       page: query.page,
       pageSize: query.pageSize,
     };
+  }
+
+  /**
+   * Export CSV des RDV (issue #19) — mêmes filtres que la liste, sans pagination,
+   * trié par créneau croissant. Libellé de prestation en français.
+   */
+  async exportCsv(query: ListRendezVousQuery): Promise<string> {
+    const rows = await this.buildFilteredQuery(query)
+      .selectAll("rendez_vous")
+      .orderBy("rendez_vous.debut", "asc")
+      .orderBy("rendez_vous.created_at", "asc")
+      .execute();
+
+    const details = await this.assembleDetails(rows);
+
+    const header = [
+      "statut",
+      "type_client",
+      "prestation",
+      "client_nom",
+      "client_prenom",
+      "client_email",
+      "telephone",
+      "debut",
+      "fin",
+      "adresse",
+      "intervenant",
+    ];
+
+    const lines = details.map((d) => {
+      const prestationFr = d.prestation.libelle.fr ?? Object.values(d.prestation.libelle)[0] ?? "";
+      const intervenant = d.intervenant
+        ? [d.intervenant.prenom, d.intervenant.nom].filter(Boolean).join(" ")
+        : "";
+      return [
+        d.statut,
+        d.typeClient,
+        prestationFr,
+        d.client.nom,
+        d.client.prenom,
+        d.client.email,
+        d.client.telephone,
+        d.debut ?? "",
+        d.fin ?? "",
+        d.adresse ?? "",
+        intervenant,
+      ]
+        .map(toCsvCell)
+        .join(",");
+    });
+
+    // BOM UTF-8 (\uFEFF) pour qu'Excel détecte l'encodage ; séparateur virgule, fins CRLF.
+    const body = [header.map(toCsvCell).join(","), ...lines].join("\r\n");
+    return `\uFEFF${body}\r\n`;
   }
 
   /** Détail d'un RDV (client + prestation + intervenant). */

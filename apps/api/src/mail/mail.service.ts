@@ -85,6 +85,25 @@ export class MailService {
     await this.dispatch(hymeaTo, hymeaMail, payload.type, "hymea", "fr");
   }
 
+  /**
+   * Rappel avant un RDV (issue #17) : email « rappel » vers le client uniquement,
+   * sans notification interne HYMEA (le rappel ne concerne pas l'équipe).
+   */
+  async sendReminder(payload: RdvLifecyclePayload): Promise<void> {
+    const creneau = this.formatCreneau(payload.debutIso, payload.locale);
+    const siteUrl = this.config.get("PUBLIC_SITE_URL", { infer: true });
+
+    const clientMail = renderRdvEmail("rappel", {
+      prenom: payload.clientPrenom,
+      prestationLibelle: payload.prestationLibelle,
+      creneau,
+      adresse: payload.adresse,
+      locale: payload.locale,
+      siteUrl,
+    });
+    await this.dispatch(payload.clientEmail, clientMail, "rappel", "client", payload.locale);
+  }
+
   /** Formate un instant ISO dans le fuseau métier et la langue du client. */
   private formatCreneau(iso: string | null, locale: Locale): string | null {
     if (!iso) {

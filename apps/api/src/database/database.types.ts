@@ -111,8 +111,18 @@ export interface RendezVousTable {
   updated_at: Generated<Date>;
 }
 
+/** Jeton d'abonnement au flux iCal lecture seule (issue #20). */
+export interface CalendarFeedTokensTable {
+  id: Generated<string>;
+  label: string;
+  token: string;
+  revoked_at: Timestamp | null;
+  created_at: Generated<Date>;
+}
+
 export interface Database {
   admins: AdminsTable;
+  calendar_feed_tokens: CalendarFeedTokensTable;
   refresh_tokens: RefreshTokensTable;
   clients: ClientsTable;
   prestations: PrestationsTable;

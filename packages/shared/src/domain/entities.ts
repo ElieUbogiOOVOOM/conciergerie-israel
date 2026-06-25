@@ -105,6 +105,18 @@ export interface RendezVousDetail extends RendezVous {
   intervenant: Intervenant | null;
 }
 
+/** Jeton d'abonnement au flux iCal lecture seule (back-office, issue #20). */
+export interface CalendarFeedToken {
+  id: Id;
+  /** Libellé libre pour identifier l'usage du jeton (ex. "Agenda Google de Sarah"). */
+  label: string;
+  /** Jeton secret porté par l'URL .ics (montré une seule fois côté admin). */
+  token: string;
+  /** Horodatage de révocation (null = actif). */
+  revokedAt: IsoDateTime | null;
+  createdAt: IsoDateTime;
+}
+
 /** Règle d'ouverture hebdomadaire (0 = dimanche … 6 = samedi). */
 export interface RegleHebdomadaire {
   id: Id;

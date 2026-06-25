@@ -2,15 +2,18 @@ import {
   Body,
   Controller,
   Get,
+  Header,
   Ip,
   Param,
   ParseUUIDPipe,
   Patch,
   Post,
   Query,
+  Res,
   UseGuards,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags, ApiTooManyRequestsResponse } from "@nestjs/swagger";
+import type { Response } from "express";
 import { ThrottlerGuard } from "@nestjs/throttler";
 import type { Paginated, RendezVous, RendezVousDetail } from "@hymea/shared";
 
@@ -44,6 +47,22 @@ export class RendezVousController {
   @ApiOkResponse({ description: "Liste paginée des RDV (filtres + recherche)." })
   list(@Query() query: ListRendezVousQuery): Promise<Paginated<RendezVousDetail>> {
     return this.rdv.list(query);
+  }
+
+  /** Export CSV des RDV (mêmes filtres que la liste). Déclaré avant `:id` pour le routage. */
+  @Get("export.csv")
+  @UseGuards(JwtAuthGuard)
+  @ApiBearerAuth()
+  @Header("Content-Type", "text/csv; charset=utf-8")
+  @Header("Content-Disposition", 'attachment; filename="rendez-vous.csv"')
+  @ApiOkResponse({ description: "Fichier CSV des RDV filtrés." })
+  async exportCsv(
+    @Query() query: ListRendezVousQuery,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<string> {
+    const csv = await this.rdv.exportCsv(query);
+    res.setHeader("Content-Length", Buffer.byteLength(csv));
+    return csv;
   }
 
   @Get(":id")

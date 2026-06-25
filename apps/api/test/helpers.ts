@@ -41,7 +41,7 @@ export async function createTestApp(): Promise<TestContext> {
 export async function truncateAll(db: KyselyDB): Promise<void> {
   await sql`
     truncate table
-      refresh_tokens, rendez_vous, prestations,
+      refresh_tokens, calendar_feed_tokens, rendez_vous, prestations,
       exceptions_disponibilite, regles_disponibilite,
       intervenants, equipes, clients, admins
     restart identity cascade
@@ -100,6 +100,76 @@ export async function seedPrestation(
       cible: overrides.cible ?? "particulier",
       duree_minutes: overrides.dureeMinutes ?? 60,
       actif: overrides.actif ?? true,
+    })
+    .returning("id")
+    .executeTakeFirstOrThrow();
+  return row.id;
+}
+
+/** Insère un client directement en base. Retourne son id. */
+export async function seedClient(
+  db: KyselyDB,
+  overrides: {
+    nom?: string;
+    prenom?: string;
+    email?: string;
+    telephone?: string;
+    locale?: string;
+    createdAt?: Date;
+    anonymizedAt?: Date | null;
+  } = {},
+): Promise<string> {
+  const email = overrides.email ?? `client.${Math.round(performance.now() * 1000)}@example.com`;
+  const row = await db
+    .insertInto("clients")
+    .values({
+      nom: overrides.nom ?? "Cohen",
+      prenom: overrides.prenom ?? "David",
+      email,
+      telephone: overrides.telephone ?? "+972500000000",
+      locale: overrides.locale ?? "fr",
+      created_at: overrides.createdAt,
+      updated_at: overrides.createdAt,
+      anonymized_at: overrides.anonymizedAt ?? null,
+    })
+    .returning("id")
+    .executeTakeFirstOrThrow();
+  return row.id;
+}
+
+/** Insère un RDV directement en base (contourne le funnel public). Retourne son id. */
+export async function seedRendezVous(
+  db: KyselyDB,
+  input: {
+    clientId: string;
+    prestationId: string;
+    statut?: "NOUVEAU" | "CONFIRME" | "REPLANIFIE" | "REALISE" | "ANNULE";
+    typeClient?: TypeClient;
+    debut?: Date | null;
+    fin?: Date | null;
+    adresse?: string | null;
+    locale?: string;
+    reminderSentAt?: Date | null;
+    createdAt?: Date;
+  },
+): Promise<string> {
+  const row = await db
+    .insertInto("rendez_vous")
+    .values({
+      client_id: input.clientId,
+      prestation_id: input.prestationId,
+      type_client: input.typeClient ?? "particulier",
+      statut: input.statut ?? "NOUVEAU",
+      debut: input.debut ?? null,
+      fin: input.fin ?? null,
+      adresse: input.adresse ?? null,
+      locale: input.locale ?? "fr",
+      consentement_accepte: true,
+      consentement_date: new Date(),
+      consentement_version: "test-v1",
+      reminder_sent_at: input.reminderSentAt ?? null,
+      created_at: input.createdAt,
+      updated_at: input.createdAt,
     })
     .returning("id")
     .executeTakeFirstOrThrow();
