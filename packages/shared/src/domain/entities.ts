@@ -103,3 +103,18 @@ export interface ExceptionDisponibilite {
   bloque: boolean;
   motif: string | null;
 }
+
+/** Créneau réservable proposé au visiteur (instants UTC). */
+export interface Slot {
+  debut: IsoDateTime;
+  fin: IsoDateTime;
+}
+
+/** Réponse de l'endpoint public des créneaux disponibles. */
+export interface AvailableSlots {
+  /** Date demandée (YYYY-MM-DD, dans le fuseau métier). */
+  date: string;
+  /** Durée d'un créneau retenue (minutes). */
+  dureeMinutes: number;
+  slots: Slot[];
+}
