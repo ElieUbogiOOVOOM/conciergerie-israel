@@ -1,0 +1,225 @@
+name: CI
+
+# Continuous Integration only. Continuous Deployment is handled by Dockploy
+# (it watches this repo and redeploys the Docker services on push to main).
+#
+# Path-aware pipeline:
+#   - changes under apps/api        -> backend build + Jest test suite
+#   - changes under apps/web        -> web build + Playwright E2E suite
+#   - changes under apps/admin      -> admin build + Playwright E2E suite
+#   - changes under packages/shared or root config -> all of the above
+#
+# Each job is guarded: while the monorepo is not scaffolded yet (issue #1),
+# the relevant app has no package.json, so the job skips its steps and stays green.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: "20"
+  PNPM_VERSION: "9"
+
+jobs:
+  # ---------------------------------------------------------------------------
+  # Detect which areas changed to run only the relevant jobs.
+  # ---------------------------------------------------------------------------
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      api: ${{ steps.filter.outputs.api }}
+      web: ${{ steps.filter.outputs.web }}
+      admin: ${{ steps.filter.outputs.admin }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            shared: &shared
+              - 'packages/shared/**'
+              - 'package.json'
+              - 'pnpm-lock.yaml'
+              - 'pnpm-workspace.yaml'
+              - 'turbo.json'
+              - 'tsconfig*.json'
+              - '.github/workflows/ci.yml'
+            api:
+              - *shared
+              - 'apps/api/**'
+            web:
+              - *shared
+              - 'apps/web/**'
+            admin:
+              - *shared
+              - 'apps/admin/**'
+
+  # ---------------------------------------------------------------------------
+  # Backend (apps/api): build + Jest test suite
+  # ---------------------------------------------------------------------------
+  api:
+    needs: changes
+    if: needs.changes.outputs.api == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard — is apps/api scaffolded?
+        id: guard
+        run: |
+          if [ -f apps/api/package.json ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::apps/api not scaffolded yet (issue #1) — skipping backend CI."
+          fi
+
+      - if: steps.guard.outputs.go == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - if: steps.guard.outputs.go == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - if: steps.guard.outputs.go == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint & type-check (api)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm turbo run lint type-check --filter=@hymea/api...
+
+      - name: Build (api)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm turbo run build --filter=@hymea/api...
+
+      - name: Test suite (Jest)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm --filter @hymea/api test -- --ci
+
+  # ---------------------------------------------------------------------------
+  # Vitrine (apps/web): build + Playwright E2E
+  # ---------------------------------------------------------------------------
+  web:
+    needs: changes
+    if: needs.changes.outputs.web == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard — is apps/web scaffolded?
+        id: guard
+        run: |
+          if [ -f apps/web/package.json ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::apps/web not scaffolded yet (issue #1) — skipping web CI."
+          fi
+
+      - if: steps.guard.outputs.go == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - if: steps.guard.outputs.go == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - if: steps.guard.outputs.go == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint & type-check (web)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm turbo run lint type-check --filter=@hymea/web...
+
+      - name: Build (web)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm turbo run build --filter=@hymea/web...
+
+      - name: Install Playwright browsers
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm --filter @hymea/web exec playwright install --with-deps
+
+      - name: E2E (Playwright — web)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm --filter @hymea/web test:e2e
+
+      - name: Upload Playwright report (web)
+        if: steps.guard.outputs.go == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-web
+          path: apps/web/playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------
+  # Back-office (apps/admin): build + Playwright E2E
+  # ---------------------------------------------------------------------------
+  admin:
+    needs: changes
+    if: needs.changes.outputs.admin == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Guard — is apps/admin scaffolded?
+        id: guard
+        run: |
+          if [ -f apps/admin/package.json ]; then
+            echo "go=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "go=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::apps/admin not scaffolded yet (issue #1) — skipping admin CI."
+          fi
+
+      - if: steps.guard.outputs.go == 'true'
+        uses: pnpm/action-setup@v4
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      - if: steps.guard.outputs.go == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      - if: steps.guard.outputs.go == 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint & type-check (admin)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm turbo run lint type-check --filter=@hymea/admin...
+
+      - name: Build (admin)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm turbo run build --filter=@hymea/admin...
+
+      - name: Install Playwright browsers
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm --filter @hymea/admin exec playwright install --with-deps
+
+      - name: E2E (Playwright — admin)
+        if: steps.guard.outputs.go == 'true'
+        run: pnpm --filter @hymea/admin test:e2e
+
+      - name: Upload Playwright report (admin)
+        if: steps.guard.outputs.go == 'true' && always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report-admin
+          path: apps/admin/playwright-report/
+          retention-days: 7
+          if-no-files-found: ignore
