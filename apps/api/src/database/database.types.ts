@@ -16,8 +16,18 @@ export interface AdminsTable {
   id: Generated<string>;
   email: string;
   password_hash: string;
-  created_at: Generated<Timestamp>;
-  updated_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
+}
+
+/** Refresh tokens persistés (hash argon2) pour rotation + révocation. */
+export interface RefreshTokensTable {
+  id: Generated<string>;
+  admin_id: string;
+  token_hash: string;
+  expires_at: Timestamp;
+  revoked_at: Timestamp | null;
+  created_at: Generated<Date>;
 }
 
 export interface ClientsTable {
@@ -28,8 +38,8 @@ export interface ClientsTable {
   email: string;
   telephone: string;
   locale: string;
-  created_at: Generated<Timestamp>;
-  updated_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
 }
 
 export interface PrestationsTable {
@@ -39,14 +49,14 @@ export interface PrestationsTable {
   cible: TypeClient;
   duree_minutes: number;
   actif: Generated<boolean>;
-  created_at: Generated<Timestamp>;
-  updated_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
 }
 
 export interface EquipesTable {
   id: Generated<string>;
   nom: string;
-  created_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
 }
 
 export interface IntervenantsTable {
@@ -55,7 +65,7 @@ export interface IntervenantsTable {
   prenom: string | null;
   equipe_id: string | null;
   actif: Generated<boolean>;
-  created_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
 }
 
 /** Règle d'ouverture hebdomadaire (jour 0=dimanche … 6=samedi, heures "HH:mm"). */
@@ -64,7 +74,7 @@ export interface ReglesDisponibiliteTable {
   jour: number;
   debut: string;
   fin: string;
-  created_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
 }
 
 /** Exception / blocage sur une plage de dates. */
@@ -74,7 +84,7 @@ export interface ExceptionsDisponibiliteTable {
   fin: Timestamp;
   bloque: Generated<boolean>;
   motif: string | null;
-  created_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
 }
 
 export interface RendezVousTable {
@@ -95,12 +105,13 @@ export interface RendezVousTable {
   consentement_date: Timestamp;
   consentement_version: string;
   reminder_sent_at: Timestamp | null;
-  created_at: Generated<Timestamp>;
-  updated_at: Generated<Timestamp>;
+  created_at: Generated<Date>;
+  updated_at: Generated<Date>;
 }
 
 export interface Database {
   admins: AdminsTable;
+  refresh_tokens: RefreshTokensTable;
   clients: ClientsTable;
   prestations: PrestationsTable;
   equipes: EquipesTable;
