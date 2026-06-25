@@ -1,9 +1,11 @@
 import { test, expect } from "@playwright/test";
 import type { Paginated, RendezVousDetail } from "@hymea/shared";
 import {
+  makeIntervenant,
   makePrestation,
   makeRdv,
   mockAuth,
+  mockIntervenants,
   mockPrestations,
   mockRdvDetail,
   mockRdvList,
@@ -165,6 +167,9 @@ test.describe("Back-office — Fiche RDV (#34)", () => {
   test.beforeEach(async ({ page, context }) => {
     await seedSession(context);
     await mockAuth(page, { refresh: "ok" });
+    await mockIntervenants(page, [
+      makeIntervenant({ id: "iv-1", nom: "Levi", prenom: "Dan", actif: true }),
+    ]);
   });
 
   test("affiche les informations du RDV", async ({ page }) => {
@@ -182,5 +187,29 @@ test.describe("Back-office — Fiche RDV (#34)", () => {
     await mockRdvDetail(page, {});
     await page.goto("/admin/rendez-vous/inconnu");
     await expect(page.getByText("Ce rendez-vous est introuvable.")).toBeVisible();
+  });
+
+  test("attribue un intervenant au RDV (#40)", async ({ page }) => {
+    const rdv = makeRdv({ id: "rdv-9", statut: "CONFIRME" });
+    await mockRdvDetail(page, { "rdv-9": rdv });
+    await page.route(/\/api\/rendez-vous\/rdv-9\/intervenant$/, (route) =>
+      route.fulfill({
+        status: 200,
+        contentType: "application/json",
+        body: JSON.stringify({
+          ...rdv,
+          intervenantId: "iv-1",
+          intervenant: makeIntervenant({ id: "iv-1" }),
+        }),
+      }),
+    );
+    await page.goto("/admin/rendez-vous/rdv-9");
+
+    const req = page.waitForRequest(
+      (r) => /\/api\/rendez-vous\/rdv-9\/intervenant$/.test(r.url()) && r.method() === "PATCH",
+    );
+    await page.getByLabel("Attribuer un intervenant").selectOption("iv-1");
+    await req;
+    await expect(page.getByLabel("Attribuer un intervenant")).toHaveValue("iv-1");
   });
 });
