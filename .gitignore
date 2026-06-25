@@ -34,3 +34,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# project working docs (kept local, not versioned)
+SPEC.md
+.impeccable.md
+
+# claude code local config
+.claude/
