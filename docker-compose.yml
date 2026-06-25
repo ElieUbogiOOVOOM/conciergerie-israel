@@ -45,14 +45,22 @@ services:
     ports:
       - "${API_PORT:-4000}:4000"
 
-  # --- Activés en #21/#22 (web) et #32 (admin), une fois Next.js bootstrappé ---
-  # web:
-  #   build:
-  #     context: .
-  #     dockerfile: apps/web/Dockerfile
-  #   depends_on: [api]
-  #   ports: ["3000:3000"]
-  #
+  # Vitrine (Next.js) — bootstrappée en #21–#24.
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    container_name: hymea-web
+    restart: unless-stopped
+    depends_on: [api]
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+    ports:
+      - "${WEB_PORT:-3000}:3000"
+
+  # --- Activé en #32, une fois le back-office Next.js bootstrappé ---
   # admin:
   #   build:
   #     context: .
