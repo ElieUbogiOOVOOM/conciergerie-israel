@@ -2,11 +2,32 @@
   "name": "@hymea/web",
   "version": "0.0.0",
   "private": true,
-  "description": "Vitrine HYMEA (Next.js). Placeholder M0 — bootstrap réel en #21/#22.",
+  "description": "Vitrine HYMEA (Next.js, App Router) — trilingue FR/EN/HE, charte luxe sobre.",
   "scripts": {
-    "build": "echo \"[@hymea/web] placeholder M0 — bootstrap Next.js en #21\"",
-    "lint": "echo \"[@hymea/web] placeholder M0 — rien à linter\"",
-    "type-check": "echo \"[@hymea/web] placeholder M0 — pas de TypeScript encore\"",
-    "test:e2e": "echo \"[@hymea/web] placeholder M0 — Playwright en #43\""
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit",
+    "test:e2e": "playwright test"
+  },
+  "dependencies": {
+    "@hymea/shared": "workspace:*",
+    "next": "^15.1.6",
+    "next-intl": "^3.26.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.2.0",
+    "@playwright/test": "^1.49.1",
+    "@tailwindcss/postcss": "^4.0.0",
+    "@types/node": "^20.17.10",
+    "@types/react": "^19.0.7",
+    "@types/react-dom": "^19.0.3",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "^15.1.6",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
   }
 }

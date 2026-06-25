@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+/*
+ * Charte HYMEA — « luxe sobre ». Source de vérité : README §Design system / CDC § 07.
+ * Hex = autorité de marque ; OKLCH = implémentation (perceptuellement uniforme).
+ * Règles : répartition 60/30/10, l'or reste rare, neutres teintés vers le charbon,
+ * AUCUN dégradé décoratif, jamais de gris pur ni de #000/#fff.
+ */
+@theme {
+  /* Palette (OKLCH approx. des hex de marque) */
+  --color-charbon: oklch(0.16 0.008 60); /* #100e0b — fond principal */
+  --color-or-champagne: oklch(0.72 0.07 78); /* #c2a36b — accent */
+  --color-ivoire: oklch(0.95 0.012 85); /* #f4efe4 — sections claires */
+  --color-creme: oklch(0.9 0.018 82); /* #e9e1d2 — texte sur fond sombre */
+  --color-or-profond: oklch(0.62 0.075 70); /* #a9854f — titres / liens */
+
+  /* Surfaces dérivées (neutres teintés vers le charbon, jamais de gris pur) */
+  --color-charbon-clair: oklch(0.22 0.009 62); /* cartes / élévation légère */
+  --color-charbon-bordure: oklch(0.32 0.012 68); /* filets discrets */
+
+  /* Polices (variables next/font + repli hébraïque + générique) */
+  --font-title: var(--font-cinzel), var(--font-frank-ruhl), Georgia, serif;
+  --font-body: var(--font-cormorant), var(--font-frank-ruhl), Georgia, serif;
+  --font-label: var(--font-jost), var(--font-heebo), system-ui, sans-serif;
+
+  /* Échelle typographique fluide (clamp) — hiérarchie marquée (ratio ≈ 1.25+) */
+  --text-display: clamp(2.75rem, 1.6rem + 5.75vw, 5.5rem);
+  --text-h1: clamp(2.25rem, 1.5rem + 3.75vw, 4rem);
+  --text-h2: clamp(1.75rem, 1.25rem + 2.5vw, 2.75rem);
+  --text-h3: clamp(1.375rem, 1.1rem + 1.375vw, 2rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.625vw, 1.4rem);
+
+  /* Mesure de lecture confortable (~65–75 ch) */
+  --measure: 68ch;
+}
+
+/*
+ * Base sombre de la vitrine : fond charbon, texte crème. L'interligne du corps
+ * est légèrement relevé (texte clair sur fond sombre = graisse perçue plus légère).
+ */
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-charbon);
+    color: var(--color-creme);
+    font-family: var(--font-body);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-title);
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  /* Liens dans le contenu : or profond, réservé donc rare. */
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* Focus visible accessible, cohérent avec la charte (or champagne). */
+  :focus-visible {
+    outline: 2px solid var(--color-or-champagne);
+    outline-offset: 2px;
+    border-radius: 1px;
+  }
+
+  ::selection {
+    background-color: var(--color-or-champagne);
+    color: var(--color-charbon);
+  }
+}
