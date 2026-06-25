@@ -28,7 +28,7 @@ export function PageHero({ namespace, photoLabel }: PageHeroProps) {
           </p>
           <h1
             id={titleId}
-            className="mt-5 font-title text-[length:var(--text-display)] leading-[1.05] text-encre"
+            className="mt-5 font-title text-[length:var(--text-h1)] leading-[1.08] text-encre [overflow-wrap:anywhere]"
           >
             {t("title")}
           </h1>
