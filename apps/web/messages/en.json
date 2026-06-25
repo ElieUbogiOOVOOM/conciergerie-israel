@@ -219,8 +219,8 @@
     },
     "hero": {
       "eyebrow": "Businesses",
-      "title": "Turn the workplace into an experience employees are proud of.",
-      "lead": "HYMEA brings a corporate concierge and a HYMEA Lounge inside your offices, with premium upkeep that makes cleanliness an argument. A proven HR lever that <b>improves well-being and retention</b> — without relying on salary increases."
+      "title": "HYMEA transforms workplace convenience into a powerful employee experience.",
+      "lead": "HYMEA is a corporate concierge service designed to enhance employees’ quality of life at work by providing a wide range of convenient services directly within the workplace. <b>Saving time. Reducing stress. Creating value</b> for employees and employers alike."
     },
     "pillars": {
       "eyebrow": "Why it works",
@@ -244,34 +244,63 @@
         }
       }
     },
-    "services": {
-      "eyebrow": "The HYMEA Office offer",
-      "title": "Everyday services that create an extraordinary employee experience.",
-      "description": "From the lounge to home-life logistics, HYMEA frees employees to focus on what matters — and makes the office a destination.",
+    "offers": {
+      "eyebrow": "A tailored solution",
+      "title": "Packages that adapt to your space, your budget and your strategy.",
+      "description": "Most HYMEA services come at little to no cost to the company. Start with the essentials and scale up to a full on-site experience — <b>a different solution to fit your specific strategy</b>.",
+      "featured": "Recommended",
+      "footnote": "An adjustable solution: a different mix for every company.",
       "items": {
-        "lounge": {
-          "title": "The HYMEA Lounge",
-          "description": "A space to connect and unwind: refreshments, patisserie, games and informal meeting areas that build belonging."
+        "basic": {
+          "tier": "The basic offer",
+          "subtitle": "HYMEA services & application",
+          "pitch": "Included in every package. Most of these services cost the company next to nothing, while <b>boosting its image and productivity</b>.",
+          "services": [
+            "Personal Shopper: groceries, gifts, flowers, clothing & more",
+            "Catering",
+            "Secure cabinets for parcels",
+            "Benefits: holidays, shows, activities & more",
+            "HYMEA at-home services: cleaning, plumbing & more",
+            "Office upgrade: decoration & cleaning",
+            "Birthday package",
+            "Dispensers: beverages & snacks",
+            "Bookings: hairstylist & more"
+          ]
         },
-        "concierge": {
-          "title": "Concierge services",
-          "description": "Express tailoring, dry cleaning, shoe repair, parcel reception and appointment bookings — handled on-site."
+        "silver": {
+          "tier": "Silver package",
+          "subtitle": "HYMEA concierge at your service",
+          "pitch": "Raise the standard with a unique experience, whatever the space available. <b>A genuinely profitable investment</b> — far below other prestige spending — that immediately lifts the employer brand.",
+          "services": [
+            "Car wash",
+            "Dry cleaning",
+            "Cobbler",
+            "Express sewing",
+            "Food deliveries received, reheated and served at the desk on a real plate",
+            "Refills: tea, coffee & toilet paper",
+            "Fruit baskets"
+          ]
         },
-        "wellness": {
-          "title": "Wellness & health",
-          "description": "On-site physiotherapy, preventive musculoskeletal care and beauty visits that keep employees healthy and focused."
+        "gold": {
+          "tier": "Gold package",
+          "subtitle": "The HYMEA Lounge on-site",
+          "pitch": "A dedicated space right inside your office — the full HYMEA experience. <b>The prestige offering</b> that drives belonging, productivity and engagement.",
+          "services": [
+            "Employer brand",
+            "The Lounge: a true break room",
+            "Patisserie",
+            "Physiotherapy",
+            "Brand events & free samples",
+            "Ecology: composting, recycled paper, garden",
+            "Loosen-up meetings",
+            "Team activities: ping-pong, chess & more"
+          ]
         },
-        "team": {
-          "title": "Team building & events",
-          "description": "Corporate events, team-building and engagement initiatives designed with HR professionals to strengthen culture."
-        },
-        "hospitality": {
-          "title": "Everyday hospitality",
-          "description": "Fresh fruit baskets, florist service, seasonal decoration and premium touches that elevate the workplace atmosphere."
-        },
-        "valet": {
-          "title": "Valet & car care",
-          "description": "Valet parking, car wash and detailing: visible, premium services that reinforce employer prestige."
+        "onRequest": {
+          "tier": "Upon request",
+          "subtitle": "High-standard services",
+          "pitch": "Your trusted partner takes charge of time-consuming projects such as event planning. <b>Time saved, quality guaranteed.</b>",
+          "services": ["HYMEA plans your events", "Design, planning & hosting of team-building"]
         }
       }
     },
