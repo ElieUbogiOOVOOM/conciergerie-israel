@@ -26,8 +26,16 @@ export interface Client {
   email: string;
   telephone: string;
   locale: Locale;
+  /** Horodatage d'anonymisation RGPD (null = fiche active). */
+  anonymizedAt: IsoDateTime | null;
   createdAt: IsoDateTime;
   updatedAt: IsoDateTime;
+}
+
+/** Fiche client enrichie de l'historique de ses rendez-vous (back-office). */
+export interface ClientAvecHistorique {
+  client: Client;
+  rendezVous: RendezVous[];
 }
 
 /** Prestation du catalogue (administrable, i18n). */
@@ -70,18 +78,31 @@ export interface RendezVous {
   clientId: Id;
   prestationId: Id;
   intervenantId: Id | null;
+  /** Type de client porté par la demande (mall/entreprise/particulier). */
+  typeClient: TypeClient;
   statut: StatutRendezVous;
   /** Créneau souhaité/planifié (peut être null pour entreprise/mall). */
   debut: IsoDateTime | null;
   fin: IsoDateTime | null;
   adresse: string | null;
   message: string | null;
+  /** Surface en m² (optionnel, particulier). */
+  surfaceM2: number | null;
+  /** Nombre de pièces (optionnel, particulier). */
+  nombrePieces: number | null;
   /** Langue du client mémorisée pour les emails. */
   locale: Locale;
   consentement: Consentement;
   reminderSentAt: IsoDateTime | null;
   createdAt: IsoDateTime;
   updatedAt: IsoDateTime;
+}
+
+/** RDV enrichi de ses entités liées (détail back-office). */
+export interface RendezVousDetail extends RendezVous {
+  client: Client;
+  prestation: Prestation;
+  intervenant: Intervenant | null;
 }
 
 /** Règle d'ouverture hebdomadaire (0 = dimanche … 6 = samedi). */

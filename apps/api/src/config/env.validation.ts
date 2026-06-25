@@ -26,6 +26,31 @@ export const envSchema = z.object({
   BUSINESS_TZ: z.string().default("Asia/Jerusalem"),
   /** Durée d'un créneau (minutes) quand aucune prestation n'est fournie. */
   DEFAULT_SLOT_MINUTES: z.coerce.number().int().positive().default(60),
+
+  // --- RDV public : anti-spam (issue #13) ---
+  /** Secret Cloudflare Turnstile. Si absent, la vérification est désactivée (dev/staging). */
+  TURNSTILE_SECRET: z.string().optional(),
+  /** Endpoint de vérification Turnstile. */
+  TURNSTILE_VERIFY_URL: z
+    .string()
+    .url()
+    .default("https://challenges.cloudflare.com/turnstile/v0/siteverify"),
+  /** Fenêtre du rate-limit IP sur la demande publique (secondes). */
+  RDV_THROTTLE_TTL: z.coerce.number().int().positive().default(60),
+  /** Nombre max de demandes par IP sur la fenêtre. */
+  RDV_THROTTLE_LIMIT: z.coerce.number().int().positive().default(5),
+  /** Version du texte de consentement RGPD horodaté sur le RDV. */
+  CONSENT_VERSION: z.string().default("2026-06-v1"),
+
+  // --- Emails transactionnels (issue #16) ---
+  /** Clé API Resend. Si absente, les emails sont journalisés (no-op) au lieu d'être envoyés. */
+  RESEND_API_KEY: z.string().optional(),
+  /** Expéditeur des emails (format `Nom <adresse>`). */
+  MAIL_FROM: z.string().default("HYMEA <no-reply@hymea.com>"),
+  /** Adresse de notification interne HYMEA (alertes RDV). */
+  HYMEA_NOTIFICATION_EMAIL: z.string().email().default("contact@hymea.com"),
+  /** URL publique de la vitrine (liens dans les emails). */
+  PUBLIC_SITE_URL: z.string().url().default("https://hymea.com"),
 });
 
 export type Env = z.infer<typeof envSchema>;
