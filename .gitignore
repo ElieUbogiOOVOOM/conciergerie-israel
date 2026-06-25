@@ -17,6 +17,7 @@ dist
 
 # nest.js
 /apps/api/dist
+/apps/api/dist-migrations
 
 # production
 /build

@@ -5,6 +5,8 @@
   "description": "API HYMEA (NestJS + Kysely) : auth, RDV, disponibilités, emails, cron.",
   "scripts": {
     "build": "nest build",
+    "build:migrations": "tsc -p tsconfig.migrations.json",
+    "migrate:prod": "node dist/database/migrate.js up",
     "dev": "nest start --watch",
     "start": "node dist/main.js",
     "lint": "eslint .",
