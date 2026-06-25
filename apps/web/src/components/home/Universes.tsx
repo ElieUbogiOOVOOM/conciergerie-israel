@@ -16,15 +16,18 @@ export function Universes() {
   return (
     <div>
       {/* Intro narrative des trois univers */}
-      <section className="border-t border-creme/10 bg-charbon-clair">
+      <section aria-labelledby="univers-title" className="border-t border-encre/10 bg-sable">
         <div className="mx-auto max-w-6xl px-6 py-16 lg:py-20">
-          <p className="font-label text-sm uppercase tracking-[0.3em] text-or-champagne">
+          <p className="font-label text-sm uppercase tracking-[0.3em] text-or-profond">
             {t("intro.eyebrow")}
           </p>
-          <h2 className="mt-5 max-w-3xl font-title text-[length:var(--text-h2)] text-creme">
+          <h2
+            id="univers-title"
+            className="mt-5 max-w-3xl font-title text-[length:var(--text-h2)] text-encre"
+          >
             {t("intro.title")}
           </h2>
-          <p className="mt-6 max-w-[var(--measure)] text-[length:var(--text-lead)] text-creme/75">
+          <p className="mt-6 max-w-[var(--measure)] text-[length:var(--text-lead)] leading-relaxed text-encre/75">
             {t("intro.description")}
           </p>
         </div>

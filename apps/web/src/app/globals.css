@@ -1,22 +1,24 @@
 @import "tailwindcss";
 
 /*
- * Charte HYMEA — « luxe sobre ». Source de vérité : README §Design system / CDC § 07.
+ * Charte HYMEA / SEGULA — « luxe à la française », thème CLAIR.
+ * Source de vérité : README §Design system (palette fournie par le client).
+ * Fond crème, encre charbon chaud, or chaud (accent), bleu cobalt (rare).
  * Hex = autorité de marque ; OKLCH = implémentation (perceptuellement uniforme).
- * Règles : répartition 60/30/10, l'or reste rare, neutres teintés vers le charbon,
- * AUCUN dégradé décoratif, jamais de gris pur ni de #000/#fff.
  */
 @theme {
   /* Palette (OKLCH approx. des hex de marque) */
-  --color-charbon: oklch(0.16 0.008 60); /* #100e0b — fond principal */
-  --color-or-champagne: oklch(0.72 0.07 78); /* #c2a36b — accent */
-  --color-ivoire: oklch(0.95 0.012 85); /* #f4efe4 — sections claires */
-  --color-creme: oklch(0.9 0.018 82); /* #e9e1d2 — texte sur fond sombre */
-  --color-or-profond: oklch(0.62 0.075 70); /* #a9854f — titres / liens */
-
-  /* Surfaces dérivées (neutres teintés vers le charbon, jamais de gris pur) */
-  --color-charbon-clair: oklch(0.22 0.009 62); /* cartes / élévation légère */
-  --color-charbon-bordure: oklch(0.32 0.012 68); /* filets discrets */
+  --color-creme: oklch(0.94 0.013 78); /* #f4ece2 — fond principal */
+  --color-ivoire: oklch(0.975 0.008 85); /* #faf5ee — cartes / surfaces claires */
+  --color-sable: oklch(0.89 0.018 74); /* #e8dccd — surfaces / filets doux */
+  --color-or: oklch(0.7 0.105 64); /* #c5863f — or chaud, accent & panneaux */
+  --color-or-profond: oklch(
+    0.52 0.1 60
+  ); /* or profond assombri — AA sur crème (titres / liens / eyebrows) */
+  --color-encre: oklch(0.33 0.012 70); /* #36322c — encre charbon (texte) */
+  --color-encre-doux: oklch(0.52 0.012 72); /* texte secondaire chaud */
+  --color-gris: oklch(0.64 0.004 70); /* #8c8c8c — gris neutre (filets, muet) */
+  --color-bleu: oklch(0.41 0.2 268); /* #1b17c9 — bleu cobalt, accent rare */
 
   /* Polices (variables next/font + repli hébraïque + générique) */
   --font-title: var(--font-cinzel), var(--font-frank-ruhl), Georgia, serif;
@@ -35,18 +37,17 @@
 }
 
 /*
- * Base sombre de la vitrine : fond charbon, texte crème. L'interligne du corps
- * est légèrement relevé (texte clair sur fond sombre = graisse perçue plus légère).
+ * Base claire : fond crème, encre charbon. Registre éditorial, contemplatif.
  */
 @layer base {
   html {
-    color-scheme: dark;
+    color-scheme: light;
     -webkit-text-size-adjust: 100%;
   }
 
   body {
-    background-color: var(--color-charbon);
-    color: var(--color-creme);
+    background-color: var(--color-creme);
+    color: var(--color-encre);
     font-family: var(--font-body);
     line-height: 1.7;
     -webkit-font-smoothing: antialiased;
@@ -64,21 +65,20 @@
     text-wrap: balance;
   }
 
-  /* Liens dans le contenu : or profond, réservé donc rare. */
   a {
     color: inherit;
     text-decoration: none;
   }
 
-  /* Focus visible accessible, cohérent avec la charte (or champagne). */
+  /* Focus visible accessible (or profond, lisible sur clair comme sur or). */
   :focus-visible {
-    outline: 2px solid var(--color-or-champagne);
+    outline: 2px solid var(--color-or-profond);
     outline-offset: 2px;
     border-radius: 1px;
   }
 
   ::selection {
-    background-color: var(--color-or-champagne);
-    color: var(--color-charbon);
+    background-color: var(--color-or);
+    color: var(--color-ivoire);
   }
 }

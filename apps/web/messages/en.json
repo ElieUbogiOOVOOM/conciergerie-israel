@@ -1,13 +1,13 @@
 {
   "Meta": {
-    "title": "HYMEA — Premium concierge & cleaning in Israel",
-    "description": "High-end concierge and cleaning services in Israel for shopping centres, businesses and private homes. A devotion to detail, delivered with discretion."
+    "title": "HYMEA — The premium experience for your spaces, in Israel",
+    "description": "HYMEA brings a French-style premium experience — lounge, concierge, styling, loyalty — that raises the average basket, builds loyalty and broadens the catchment area of shopping centres, businesses and private homes in Israel."
   },
   "Nav": {
     "primary": "Main navigation",
+    "experience": "The experience",
     "shoppingCentres": "Shopping centres",
-    "businesses": "Businesses",
-    "individuals": "Individuals",
+    "results": "Results",
     "contact": "Contact",
     "menu": "Menu",
     "close": "Close",
@@ -18,24 +18,113 @@
   },
   "Home": {
     "hero": {
-      "eyebrow": "Premium concierge & cleaning — Israel",
-      "title": "Luxury, in restraint.",
-      "subtitle": "HYMEA cares for exceptional places: shopping centres, offices and private interiors. A confidential, meticulous service, made to last.",
-      "ctaPrimary": "Get in touch",
-      "ctaSecondary": "Explore our worlds"
+      "eyebrow": "The premium experience — French finesse, built for Israel",
+      "title": "Turn a place people pass through into a destination.",
+      "subtitle": "HYMEA delivers a premium experience — lounge, concierge, styling, loyalty — that raises the average basket, brings visitors back and broadens the catchment area. The excellence of French hospitality, tailored to Israeli expectations.",
+      "ctaPrimary": "Request a presentation",
+      "ctaSecondary": "Explore the experience"
+    },
+    "leviers": {
+      "eyebrow": "The opportunity",
+      "title": "Three levers to grow a shopping centre.",
+      "items": {
+        "spend": {
+          "title": "Raise the average basket",
+          "description": "A visitor's well-being and time spent on site are the two primary levers of spending. We act on both."
+        },
+        "loyalty": {
+          "title": "Bring visitors back",
+          "description": "An engaging experience and a loyalty programme create a sense of belonging — and repeat visits."
+        },
+        "catchment": {
+          "title": "Broaden the catchment area",
+          "description": "Exclusive services give a real reason to travel further. The place becomes a lifestyle destination."
+        }
+      }
+    },
+    "experience": {
+      "eyebrow": "The SEGULA experience",
+      "title": "A signature of services that makes people want to stay.",
+      "description": "One thread runs from the first welcome to the goodbye: care for detail. Every service feeds well-being, dwell time and the desire to return.",
+      "services": {
+        "lounge": {
+          "title": "The Lounge",
+          "description": "An oasis of calm at the heart of the place: complimentary pastry, a warm beverage, a welcoming hostess. The well-being that extends the visit."
+        },
+        "handsFree": {
+          "title": "Hands-Free Shopping",
+          "description": "Purchases are collected in-store and handed back at the car or valet stand. Hands free, people browse for longer."
+        },
+        "styling": {
+          "title": "Styling",
+          "description": "Colour analysis, body shape, personalised advice: a stylist who builds trust and can lift spending by up to +70%."
+        },
+        "valet": {
+          "title": "Valet & car wash",
+          "description": "Valet parking and car wash: arrival and departure become a treat, never a chore."
+        },
+        "personalShopper": {
+          "title": "Personal Shopper",
+          "description": "Tailored guidance across the boutiques, for a seamless journey and more confident purchases."
+        },
+        "loyalty": {
+          "title": "Loyalty club",
+          "description": "Three tiers — Private, Premium, Prestige — that reward loyalty and build a genuine sense of belonging."
+        },
+        "crm": {
+          "title": "Recognition (CRM)",
+          "description": "A CRM that remembers every visitor: preferences, habits, family. Each visit becomes personal."
+        },
+        "events": {
+          "title": "Events & art",
+          "description": "Brand activations, exhibitions, tastings: reasons to come back and moments to share."
+        }
+      }
+    },
+    "results": {
+      "eyebrow": "Results",
+      "title": "Premium services with measurable commercial impact.",
+      "description": "Studies across luxury retail, department stores and premium outlets: hospitality and personalised services drive spending and loyalty directly.",
+      "stats": {
+        "spend": {
+          "value": "+35–70%",
+          "label": "higher average basket for customers assisted by a personal shopper."
+        },
+        "conversion": {
+          "value": "×4",
+          "label": "higher conversion rate during private appointments."
+        },
+        "topClients": {
+          "value": "40–50%",
+          "label": "of sales generated by the top 5% highest-spending customers."
+        },
+        "loyalty": {
+          "value": "+ visits",
+          "label": "stronger loyalty and repeat visits thanks to a personalised experience."
+        }
+      },
+      "referencesTitle": "A concept proven around the world",
+      "references": [
+        "La Vallée Village",
+        "Bicester Village",
+        "Woodbury Common",
+        "TSUM & GUM",
+        "Morocco Mall"
+      ],
+      "referencesNote": "Everywhere, premium services are no longer an add-on: they have become an expected standard, driving spending, loyalty and appeal."
     },
     "intro": {
-      "eyebrow": "Three worlds",
-      "title": "One standard of care, three expectations.",
-      "description": "From the flow of a shopping centre to the intimacy of a home, HYMEA delivers a single promise — flawless detail — in the register each place deserves."
+      "eyebrow": "Who HYMEA is for",
+      "title": "One standard of care, three worlds.",
+      "description": "From the shopping centre to the workplace and the private home: HYMEA delivers a single promise — flawless detail — in the register each place deserves."
     },
     "photoCaption": "Photography coming soon",
     "universes": {
       "shoppingCentres": {
         "label": "Shopping centres",
         "title": "The SEGULA concept",
-        "description": "Lift the visitor experience and the average basket through exceptional hospitality: a lounge, valet service, a personal shopper, a stylist and a loyalty club, united under one signature.",
-        "services": ["Lounge", "Valet", "Personal shopper", "Stylist", "Loyalty club"],
+        "description": "A turnkey premium experience: lounge, valet, hands-free, styling, personal shopper and loyalty club — to raise the basket, build loyalty and make the centre shine.",
+        "services": ["Lounge", "Valet", "Hands-free", "Styling", "Loyalty club"],
         "cta": "Request a presentation"
       },
       "businesses": {
@@ -56,14 +145,15 @@
   },
   "Contact": {
     "eyebrow": "Get in touch",
-    "title": "Let's talk about your space and your standards.",
+    "title": "Bring the SEGULA experience to your space.",
     "description": "A presentation, a quote or a first intervention: we get back to you quickly, with a proposal that matches your expectations.",
     "offerHeadline": "−20% on your first service",
     "offerDetail": "A welcome offer to experience the HYMEA standard, with no commitment.",
-    "cta": "Book an appointment"
+    "cta": "Book an appointment",
+    "mailSubject": "Contact request — HYMEA"
   },
   "Footer": {
-    "tagline": "High-end concierge and cleaning in Israel. Care for detail, delivered with discretion.",
+    "tagline": "The French-style premium experience, tailored to Israel. Care for detail, delivered with discretion.",
     "navTitle": "Explore",
     "legalTitle": "Information",
     "legalNotice": "Legal notice",

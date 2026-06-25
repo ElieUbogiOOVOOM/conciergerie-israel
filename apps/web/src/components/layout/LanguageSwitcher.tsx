@@ -54,9 +54,9 @@ export function LanguageSwitcher() {
                 title={LABELS[loc]}
                 className={[
                   "px-2 py-1 font-label text-xs uppercase tracking-widest transition-colors",
-                  isActive
-                    ? "text-or-champagne"
-                    : "text-creme/55 hover:text-creme disabled:opacity-50",
+                  // La langue active porte l'unique touche de bleu cobalt de la
+                  // vitrine — un accent confidentiel, volontairement rare.
+                  isActive ? "text-bleu" : "text-encre/60 hover:text-encre disabled:opacity-50",
                 ].join(" ")}
               >
                 <span aria-hidden="true">{SHORT[loc]}</span>

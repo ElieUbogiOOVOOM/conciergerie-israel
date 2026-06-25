@@ -37,7 +37,7 @@ export function UniverseCard({
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className="scroll-mt-24 border-t border-creme/10 py-16 lg:py-24"
+      className="scroll-mt-24 border-t border-encre/10 py-16 lg:py-24"
     >
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
         <div className={reversed ? "lg:order-2" : undefined}>
@@ -46,22 +46,18 @@ export function UniverseCard({
 
         <div className={reversed ? "lg:order-1" : undefined}>
           <div className="flex items-baseline gap-4">
-            <span className="font-title text-[length:var(--text-h3)] text-or-champagne/70">
-              {index}
-            </span>
-            <p className="font-label text-sm uppercase tracking-[0.3em] text-or-champagne">
-              {label}
-            </p>
+            <span className="font-title text-[length:var(--text-h3)] text-or">{index}</span>
+            <p className="font-label text-sm uppercase tracking-[0.3em] text-or-profond">{label}</p>
           </div>
 
           <h3
             id={`${id}-title`}
-            className="mt-5 font-title text-[length:var(--text-h2)] text-creme"
+            className="mt-5 font-title text-[length:var(--text-h2)] text-encre"
           >
             {title}
           </h3>
 
-          <p className="mt-6 max-w-[var(--measure)] text-[length:var(--text-lead)] text-creme/75">
+          <p className="mt-6 max-w-[var(--measure)] text-[length:var(--text-lead)] leading-relaxed text-encre/75">
             {description}
           </p>
 
@@ -70,7 +66,7 @@ export function UniverseCard({
               {services.map((service) => (
                 <li
                   key={service}
-                  className="font-label text-xs uppercase tracking-widest text-creme/55"
+                  className="font-label text-xs uppercase tracking-widest text-encre/70"
                 >
                   {service}
                 </li>

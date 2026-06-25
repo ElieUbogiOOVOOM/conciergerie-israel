@@ -7,11 +7,12 @@ const base =
   "inline-flex items-center justify-center font-label text-sm uppercase tracking-widest " +
   "px-7 py-3 transition-colors duration-200 disabled:opacity-50 disabled:pointer-events-none";
 
-// Charte : l'or champagne, rare, porte l'action principale (le 10 %). Le variant
-// ghost reste discret (filet crème) et s'allume en or au survol. Aucun dégradé.
+// Charte claire : l'action principale est une touche d'encre franche (contraste
+// AA sur crème comme sur or), qui vire à l'or profond au survol. Le variant ghost
+// reste discret (filet encre) et s'allume en or. Aucun dégradé.
 const variants: Record<Variant, string> = {
-  primary: "bg-or-champagne text-charbon hover:bg-creme",
-  ghost: "border border-creme/25 text-creme hover:border-or-champagne hover:text-creme",
+  primary: "bg-encre text-creme hover:bg-or-profond",
+  ghost: "border border-encre/25 text-encre hover:border-or hover:text-or-profond",
 };
 
 function classesFor(variant: Variant, className?: string) {

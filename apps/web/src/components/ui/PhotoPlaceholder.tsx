@@ -27,14 +27,14 @@ export function PhotoPlaceholder({
       aria-label={`${caption} — ${label}`}
       style={{ aspectRatio: ratio }}
       className={[
-        "flex flex-col items-center justify-center gap-4 border border-creme/10 bg-charbon-clair",
+        "flex flex-col items-center justify-center gap-4 border border-encre/10 bg-sable",
         className,
       ]
         .filter(Boolean)
         .join(" ")}
     >
-      <Logo size={48} className="text-or-champagne/40" />
-      <span className="px-6 text-center font-label text-xs uppercase tracking-[0.25em] text-creme/35">
+      <Logo size={48} className="text-or/50" />
+      <span className="px-6 text-center font-label text-xs uppercase tracking-[0.25em] text-encre/40">
         {caption}
       </span>
     </div>

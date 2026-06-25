@@ -9,9 +9,9 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 // Les entrées de navigation ancrent vers les sections de l'accueil. Elles
 // deviendront des routes dédiées avec les pages univers (#25-27).
 const NAV_ITEMS = [
+  { key: "experience", href: "#experience" },
   { key: "shoppingCentres", href: "#centres-commerciaux" },
-  { key: "businesses", href: "#entreprises" },
-  { key: "individuals", href: "#particuliers" },
+  { key: "results", href: "#resultats" },
   { key: "contact", href: "#contact" },
 ] as const;
 
@@ -30,10 +30,10 @@ export function Header() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-creme/10 bg-charbon/85 backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b border-encre/10 bg-creme/85 backdrop-blur-md">
       <a
         href="#contenu"
-        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-or-champagne focus:px-4 focus:py-2 focus:font-label focus:text-xs focus:uppercase focus:tracking-widest focus:text-charbon"
+        className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-encre focus:px-4 focus:py-2 focus:font-label focus:text-xs focus:uppercase focus:tracking-widest focus:text-creme"
       >
         {t("skipToContent")}
       </a>
@@ -42,9 +42,9 @@ export function Header() {
         <Link
           href="/"
           aria-label="HYMEA"
-          className="group flex items-center gap-3 text-creme transition-colors hover:text-or-champagne"
+          className="group flex items-center gap-3 text-encre transition-colors hover:text-or-profond"
         >
-          <Logo size={34} className="text-or-champagne" />
+          <Logo size={34} className="text-or" />
           <span className="font-title text-2xl uppercase tracking-[0.35em]">HYMEA</span>
         </Link>
 
@@ -54,7 +54,7 @@ export function Header() {
             <a
               key={item.key}
               href={item.href}
-              className="font-label text-xs uppercase tracking-widest text-creme/70 transition-colors hover:text-creme"
+              className="font-label text-xs uppercase tracking-widest text-encre/70 transition-colors hover:text-or-profond"
             >
               {t(item.key)}
             </a>
@@ -68,7 +68,7 @@ export function Header() {
         {/* Déclencheur du menu mobile */}
         <button
           type="button"
-          className="flex items-center gap-2 font-label text-xs uppercase tracking-widest text-creme md:hidden"
+          className="flex items-center gap-2 font-label text-xs uppercase tracking-widest text-encre md:hidden"
           aria-expanded={open}
           aria-controls="mobile-menu"
           onClick={() => setOpen((v) => !v)}
@@ -79,14 +79,14 @@ export function Header() {
 
       {/* Panneau mobile */}
       {open && (
-        <div id="mobile-menu" className="border-t border-creme/10 bg-charbon md:hidden">
+        <div id="mobile-menu" className="border-t border-encre/10 bg-creme md:hidden">
           <nav aria-label={t("primary")} className="mx-auto flex max-w-6xl flex-col px-6 py-4">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.key}
                 href={item.href}
                 onClick={() => setOpen(false)}
-                className="border-b border-creme/5 py-4 font-label text-sm uppercase tracking-widest text-creme/80 transition-colors hover:text-or-champagne"
+                className="border-b border-encre/5 py-4 font-label text-sm uppercase tracking-widest text-encre/80 transition-colors hover:text-or-profond"
               >
                 {t(item.key)}
               </a>
