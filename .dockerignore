@@ -1,0 +1,20 @@
+# Contexte de build = racine du monorepo. On exclut tout ce qui est lourd,
+# régénérable ou local.
+**/node_modules
+**/dist
+**/.next
+**/.turbo
+**/coverage
+**/playwright-report
+**/test-results
+.git
+.github
+.husky
+**/*.tsbuildinfo
+.env
+.env.*
+!.env.example
+CDC.pdf
+SPEC.md
+.impeccable.md
+.claude

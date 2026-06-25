@@ -1,0 +1,111 @@
+/**
+ * Interface Kysely du schéma physique (snake_case).
+ * Maintenue en phase avec les migrations (apps/api/migrations/).
+ * Les types « publics » du domaine (camelCase) vivent dans @hymea/shared.
+ */
+import type { StatutRendezVous, TypeClient } from "@hymea/shared";
+import type { ColumnType, Generated, JSONColumnType } from "kysely";
+
+/** timestamptz : lu en Date, inséré/maj via Date|string (défauts SQL gérés en base). */
+export type Timestamp = ColumnType<Date, Date | string | undefined, Date | string>;
+
+/** Contenu i18n stocké en JSONB ({ fr, en, he }). */
+export type I18nColumn = JSONColumnType<Record<string, string>>;
+
+export interface AdminsTable {
+  id: Generated<string>;
+  email: string;
+  password_hash: string;
+  created_at: Generated<Timestamp>;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface ClientsTable {
+  id: Generated<string>;
+  nom: string;
+  prenom: string;
+  /** Dédup : 1 fiche par email (index unique). */
+  email: string;
+  telephone: string;
+  locale: string;
+  created_at: Generated<Timestamp>;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface PrestationsTable {
+  id: Generated<string>;
+  libelle: I18nColumn;
+  description: ColumnType<Record<string, string> | null, string | null, string | null>;
+  cible: TypeClient;
+  duree_minutes: number;
+  actif: Generated<boolean>;
+  created_at: Generated<Timestamp>;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface EquipesTable {
+  id: Generated<string>;
+  nom: string;
+  created_at: Generated<Timestamp>;
+}
+
+export interface IntervenantsTable {
+  id: Generated<string>;
+  nom: string;
+  prenom: string | null;
+  equipe_id: string | null;
+  actif: Generated<boolean>;
+  created_at: Generated<Timestamp>;
+}
+
+/** Règle d'ouverture hebdomadaire (jour 0=dimanche … 6=samedi, heures "HH:mm"). */
+export interface ReglesDisponibiliteTable {
+  id: Generated<string>;
+  jour: number;
+  debut: string;
+  fin: string;
+  created_at: Generated<Timestamp>;
+}
+
+/** Exception / blocage sur une plage de dates. */
+export interface ExceptionsDisponibiliteTable {
+  id: Generated<string>;
+  debut: Timestamp;
+  fin: Timestamp;
+  bloque: Generated<boolean>;
+  motif: string | null;
+  created_at: Generated<Timestamp>;
+}
+
+export interface RendezVousTable {
+  id: Generated<string>;
+  client_id: string;
+  prestation_id: string;
+  intervenant_id: string | null;
+  type_client: TypeClient;
+  statut: Generated<StatutRendezVous>;
+  debut: Timestamp | null;
+  fin: Timestamp | null;
+  adresse: string | null;
+  message: string | null;
+  surface_m2: number | null;
+  nombre_pieces: number | null;
+  locale: string;
+  consentement_accepte: boolean;
+  consentement_date: Timestamp;
+  consentement_version: string;
+  reminder_sent_at: Timestamp | null;
+  created_at: Generated<Timestamp>;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface Database {
+  admins: AdminsTable;
+  clients: ClientsTable;
+  prestations: PrestationsTable;
+  equipes: EquipesTable;
+  intervenants: IntervenantsTable;
+  regles_disponibilite: ReglesDisponibiliteTable;
+  exceptions_disponibilite: ExceptionsDisponibiliteTable;
+  rendez_vous: RendezVousTable;
+}

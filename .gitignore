@@ -1,19 +1,30 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
+node_modules
 /.pnp
 .pnp.js
 
-# testing
+# monorepo build artifacts
+.turbo
+dist
 /coverage
+**/coverage
 
 # next.js
-/.next/
+.next/
 /out/
+
+# nest.js
+/apps/api/dist
+/apps/api/dist-migrations
 
 # production
 /build
+
+# playwright
+playwright-report
+test-results
 
 # misc
 .DS_Store

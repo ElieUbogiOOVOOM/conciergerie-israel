@@ -1,0 +1,65 @@
+# Stack de développement local HYMEA.
+#
+# M0 : `postgres` + `api` pleinement fonctionnels. Les services `web` et `admin`
+# seront ajoutés quand leurs apps Next.js seront bootstrappées (#21/#22/#32) ;
+# leurs Dockerfiles sont déjà préparés en template (apps/web|admin/Dockerfile).
+#
+# ⚠️ Les identifiants ci-dessous sont des valeurs LOCALES de développement.
+# En production (Dockploy), elles sont surchargées par les variables d'env du
+# serveur — voir l'issue de déploiement #46.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: hymea-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-hymea}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-hymea}
+      POSTGRES_DB: ${POSTGRES_DB:-hymea}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - hymea_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-hymea} -d ${POSTGRES_DB:-hymea}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    container_name: hymea-api
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      API_PORT: 4000
+      # Hôte = nom du service postgres sur le réseau Docker interne.
+      DATABASE_URL: postgresql://${POSTGRES_USER:-hymea}:${POSTGRES_PASSWORD:-hymea}@postgres:5432/${POSTGRES_DB:-hymea}
+    ports:
+      - "${API_PORT:-4000}:4000"
+
+  # --- Activés en #21/#22 (web) et #32 (admin), une fois Next.js bootstrappé ---
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/web/Dockerfile
+  #   depends_on: [api]
+  #   ports: ["3000:3000"]
+  #
+  # admin:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/admin/Dockerfile
+  #   depends_on: [api]
+  #   ports: ["3001:3000"]
+
+volumes:
+  hymea_pgdata:
+    name: hymea_pgdata
