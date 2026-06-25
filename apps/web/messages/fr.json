@@ -18,6 +18,58 @@
   "LanguageSwitcher": {
     "label": "Choix de la langue"
   },
+  "Landing": {
+    "meta": {
+      "title": "HYMEA — The office conciergerie",
+      "description": "HYMEA déploie des services premium pensés pour créer une véritable expérience VIP. Découvrez nos univers — particuliers, entreprises et centres commerciaux —, l'histoire du groupe et notre démarche de partenariat."
+    },
+    "hero": {
+      "slogan": "The office conciergerie",
+      "title": "L'expérience HYMEA — les services qui changent tout.",
+      "description": "HYMEA déploie des services premium pensés pour créer une véritable expérience VIP. HYMEA comprend vos besoins et vos enjeux, et vous apporte un soutien qui a du sens et vous fait gagner du temps. HYMEA — un service à l'impact réel, qui transforme l'expérience en profondeur.",
+      "ctaPrimary": "Découvrir nos univers",
+      "ctaSecondary": "Travailler avec nous",
+      "scrollHint": "Faire défiler"
+    },
+    "history": {
+      "eyebrow": "Le groupe",
+      "title": "L'histoire du groupe.",
+      "lead": "Sandra Bibas Holding est un groupe français qui a bâti et développé, au cours de la dernière décennie, plusieurs marques devenues des références. Chaque entité opère dans un domaine hautement spécialisé — industrie automobile, services bancaires et autres secteurs à fortes barrières à l'entrée.",
+      "principlesTitle": "Deux principes fondateurs",
+      "principles": [
+        "Offrir aux clients les services les plus complets possibles.",
+        "Concevoir des solutions IT innovantes pour fluidifier, digitaliser et simplifier les opérations du quotidien."
+      ],
+      "reach": "À travers ses outils, plateformes et services, le groupe améliore le quotidien des particuliers comme des entreprises, sur les marchés B2C et B2B.",
+      "entitiesTitle": "Les marques du groupe",
+      "entities": {
+        "pepites": {
+          "name": "Les pépites Agency",
+          "description": "Agence de personal shopping et de brand marketing : campagnes promotionnelles sur-mesure, box découverte produits et solutions d'engagement client."
+        },
+        "oovoom": {
+          "name": "OOVOOM",
+          "description": "Fournisseur de services, d'applications et d'outils digitaux dédiés à l'industrie automobile, pour les conducteurs comme pour les grands comptes (Airbus, Audika, Findus…)."
+        },
+        "oovoomDriver": {
+          "name": "OOVOOM Driver",
+          "description": "Services premium de conciergerie et de voiturier, pensés pour la commodité, l'efficacité et la tranquillité d'esprit."
+        },
+        "maVape": {
+          "name": "Ma Vape Mobile",
+          "description": "Boutiques mobiles à vélo qui distribuent des produits de vape directement aux consommateurs, avec une expérience unique et engageante."
+        }
+      },
+      "emergence": "HYMEA émerge en Israël avec des services adaptés aux habitudes de consommation locales. Incarnant le savoir-faire du groupe, HYMEA offre un service premium aux particuliers, au bénéfice des entreprises."
+    },
+    "partnership": {
+      "eyebrow": "Partenariat",
+      "title": "Travailler avec nous.",
+      "tagline": "The Service, Your Partner, A Strategy.",
+      "description": "HYMEA construit des partenariats durables avec les lieux et les entreprises qui veulent offrir une expérience d'exception. Parlons de votre projet.",
+      "cta": "Nous contacter"
+    }
+  },
   "Home": {
     "hero": {
       "eyebrow": "L'expérience premium — à la française, pensée pour Israël",
@@ -152,58 +204,6 @@
     "meta": {
       "title": "Centres commerciaux — l'expérience premium | HYMEA",
       "description": "HYMEA déploie son concept premium dans les centres commerciaux : lounge, voiturier, personal shopper, stylisme et club de fidélité pour augmenter le panier moyen, fidéliser et élargir la zone de chalandise."
-    },
-    "hero": {
-      "eyebrow": "Centres commerciaux",
-      "title": "Le concept HYMEA : transformer le passage en destination.",
-      "lead": "Une expérience premium clé en main qui pousse à rester plus longtemps, à revenir plus souvent et à dépenser davantage. HYMEA orchestre chaque service — du premier accueil au stand voiturier — pour <b>élever le panier moyen et le temps passé</b> de vos visiteurs."
-    },
-    "concept": {
-      "eyebrow": "L'expérience HYMEA",
-      "title": "Cinq services signature, un parcours sans couture.",
-      "description": "Chaque service nourrit le bien-être, le temps passé et l'envie de revenir — les trois moteurs de la dépense en centre.",
-      "items": {
-        "lounge": {
-          "title": "Le Lounge",
-          "description": "Une oasis de calme au cœur du centre : pâtisserie offerte, boisson chaude, hôtesse d'accueil. Le bien-être qui prolonge chaque visite."
-        },
-        "valet": {
-          "title": "Voiturier & lavage",
-          "description": "Service de voiturier et lavage auto : l'arrivée et le départ deviennent un soin, jamais une contrainte."
-        },
-        "personalShopper": {
-          "title": "Personal Shopper",
-          "description": "Un accompagnement sur-mesure dans les boutiques, pour un parcours fluide et des achats plus sûrs."
-        },
-        "styling": {
-          "title": "Stylisme",
-          "description": "Colorimétrie, morphologie et conseils personnalisés d'un styliste qui inspire confiance et peut <b>faire grimper la dépense jusqu'à +70 %.</b>"
-        },
-        "loyalty": {
-          "title": "Club de fidélité",
-          "description": "Trois niveaux — Privé, Premium, Prestige — qui récompensent la fidélité et créent un vrai sentiment d'appartenance."
-        }
-      }
-    },
-    "proof": {
-      "eyebrow": "Impact mesurable",
-      "title": "Des services premium au retour commercial direct.",
-      "description": "Dans le retail de luxe et les outlets premium, l'hospitalité et les services personnalisés tirent directement la dépense et la fidélité.",
-      "stats": {
-        "basket": {
-          "value": "+70 %",
-          "label": "Le service de stylisme peut générer une hausse de la dépense allant jusqu'à 70 %."
-        },
-        "dwell": {
-          "value": "+30 %",
-          "label": "Le temps passé sur place — au lounge, par exemple — a un impact réel sur les ventes."
-        },
-        "loyalty": {
-          "value": "+ visites",
-          "label": "de fidélité et de revisites grâce à une expérience personnalisée."
-        }
-      },
-      "note": "Chiffres issus d'études du retail de luxe, des grands magasins et des outlets premium."
     },
     "cta": {
       "eyebrow": "Centres commerciaux",

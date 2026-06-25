@@ -1,24 +1,37 @@
-import { setRequestLocale } from "next-intl/server";
-import { Hero } from "@/components/home/Hero";
-import { Leviers } from "@/components/home/Leviers";
-import { Experience } from "@/components/home/Experience";
-import { Results } from "@/components/home/Results";
+import type { Metadata } from "next";
+import { getTranslations, setRequestLocale } from "next-intl/server";
+import { LandingHero } from "@/components/landing/LandingHero";
 import { Universes } from "@/components/home/Universes";
+import { GroupHistory } from "@/components/landing/GroupHistory";
+import { Partnership } from "@/components/landing/Partnership";
 
-// Page d'accueil (#24) — orientée conversion, registre « expérience premium »
-// (deck HYMEA). Enchaînement : accroche → leviers de valeur → services
-// signature → preuve chiffrée → les trois univers. Le bloc contact (+ offre
-// -20 %) et le footer sont fournis par le layout.
+// Page de garde HYMEA — vitrine de marque. Enchaînement : bannière signature
+// (logo, slogan, expérience HYMEA) → redirection vers les trois univers
+// (particuliers / entreprises / centres commerciaux) → histoire du groupe
+// Sandra Bibas Holding → partenariat. Le bloc contact (+ offre −20 %) et le
+// footer sont fournis par le layout.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = await getTranslations({ locale, namespace: "Landing.meta" });
+  return { title: t("title"), description: t("description") };
+}
+
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
   return (
     <>
-      <Hero />
-      <Leviers />
-      <Experience />
-      <Results />
-      <Universes />
+      <LandingHero />
+      {/* Cible de l'ancre #univers (CTA du hero) — bloc de redirection. */}
+      <div id="univers" className="scroll-mt-24">
+        <Universes />
+      </div>
+      <GroupHistory />
+      <Partnership />
     </>
   );
 }
