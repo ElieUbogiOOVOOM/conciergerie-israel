@@ -95,9 +95,9 @@ hymea/
 
 ## Design system — charte HYMEA
 
-> **Direction artistique : luxe sobre.** Fond charbon, or champagne & ivoire.
+> **Direction artistique : luxe à la française, clair et chaleureux.** Fond crème, or chaud & encre charbon, bleu cobalt en accent rare.
 > **Pas de dégradés agressifs ni d'effets superflus.** Photographies réelles fournies par le client.
-> *(Source : `CDC.pdf` § 07 — cette charte est imposée par la marque et fait foi.)*
+> *(Source : palette de marque fournie par le client + deck SEGULA « The premium experience » — cette charte fait foi.)*
 
 ### Palette
 
@@ -106,17 +106,20 @@ l'implémentation (perceptuellement uniformes ; réduire la chroma près des ext
 
 | Rôle | Hex | OKLCH (approx.) | Token |
 |---|---|---|---|
-| Charbon — fond principal | `#100e0b` | `oklch(0.16 0.008 60)` | `--color-charbon` |
-| Or champagne — accent | `#c2a36b` | `oklch(0.72 0.070 78)` | `--color-or-champagne` |
-| Ivoire — sections claires | `#f4efe4` | `oklch(0.95 0.012 85)` | `--color-ivoire` |
-| Crème — texte sur fond sombre | `#e9e1d2` | `oklch(0.90 0.018 82)` | `--color-creme` |
-| Or profond — titres / liens | `#a9854f` | `oklch(0.62 0.075 70)` | `--color-or-profond` |
+| Crème — fond principal | `#f4ece2` | `oklch(0.94 0.013 78)` | `--color-creme` |
+| Ivoire — cartes / surfaces claires | `#faf5ee` | `oklch(0.975 0.008 85)` | `--color-ivoire` |
+| Sable — surfaces / filets doux | `#e8dccd` | `oklch(0.89 0.018 74)` | `--color-sable` |
+| Or chaud — accent & panneaux | `#c5863f` | `oklch(0.70 0.105 64)` | `--color-or` |
+| Or profond — titres / liens | `#9c6526` | `oklch(0.56 0.105 58)` | `--color-or-profond` |
+| Encre charbon — texte | `#36322c` | `oklch(0.33 0.012 70)` | `--color-encre` |
+| Gris neutre — texte secondaire / filets | `#8c8c8c` | `oklch(0.64 0.004 70)` | `--color-gris` |
+| Bleu cobalt — accent rare / emphase | `#1b17c9` | `oklch(0.41 0.20 268)` | `--color-bleu` |
 
 **Règles d'usage**
-- Répartition **60 / 30 / 10** (poids visuel) : surfaces charbon/ivoire ≈ 60 %, texte/bordures crème ≈ 30 %, or ≈ 10 %. L'or reste **rare** pour garder sa force.
-- **Neutres teintés** vers le charbon (hue ~60–80) pour la cohérence — jamais de gris pur ni de `#000`/`#fff`.
-- **Contraste** : crème `#e9e1d2` sur charbon `#100e0b` pour le corps ; or profond `#a9854f` réservé aux titres/liens (vérifier AA sur fond clair).
-- **Aucun dégradé décoratif**, aucun « gradient text », aucune bande latérale colorée (`border-left` accent).
+- Répartition **60 / 30 / 10** (poids visuel) : surfaces crème/ivoire ≈ 60 %, encre/gris ≈ 30 %, or ≈ 10 %. L'or reste **rare** pour garder sa force ; le **bleu cobalt** est plus rare encore (emphase ponctuelle).
+- **Neutres teintés** vers le charbon chaud (hue ~70) pour la cohérence — jamais de `#000`/`#fff` purs ; le gris neutre reste réservé aux textes secondaires et filets.
+- **Contraste** : encre `#36322c` sur crème `#f4ece2` pour le corps (AA large) ; or profond `#9c6526` pour titres/liens ; sur **panneau or** `#c5863f`, texte **ivoire** ou **encre** (vérifier AA selon la taille).
+- **Aucun dégradé décoratif**, aucun « gradient text », aucune bande latérale colorée gratuite.
 
 ### Typographies
 
@@ -128,13 +131,13 @@ l'implémentation (perceptuellement uniformes ; réduire la chroma près des ext
 
 - Échelle typographique modulaire, fluide (`clamp`) sur les titres de la vitrine ; fixe (`rem`) dans l'admin.
 - Hiérarchie marquée (ratio ≥ 1.25 entre niveaux), corps limité à ~65–75 ch par ligne.
-- Texte clair sur fond sombre : **+0.05–0.1** d'interligne (la graisse perçue est plus légère).
-- ⚠️ *Note design* : `Cormorant Garamond` figure parmi les polices « réflexe » d'Impeccable. Ici elle est **imposée par la charte client** (CDC § 07) et fait donc autorité — on l'utilise volontairement, ce n'est pas un défaut.
+- Sur **panneau or**, on relève légèrement l'interligne pour aérer le texte ivoire.
+- ⚠️ *Note design* : `Cormorant Garamond` figure parmi les polices « réflexe » d'Impeccable. Ici elle est **imposée par la charte client** et fait donc autorité — on l'utilise volontairement, ce n'est pas un défaut.
 
 ### Thèmes par contexte
 
-- **Vitrine** : thème **sombre** (fond charbon) — registre luxe, navigation contemplative.
-- **Back‑office** : surfaces **ivoire/claires** avec encre charbon et accents or — privilégie la **lisibilité en usage quotidien** (planning consulté toute la journée), tout en restant dans la charte. La sémantique des statuts reste colorée (voir ci‑dessous).
+- **Vitrine** : thème **clair** (fond crème) — registre luxe « à la française », chaleureux et contemplatif ; or chaud en accent, bleu cobalt en emphase rare, panneaux or pour les moments forts.
+- **Back‑office** : mêmes surfaces **ivoire/claires** avec encre charbon et accents or — privilégie la **lisibilité en usage quotidien** (planning consulté toute la journée). La sémantique des statuts reste colorée (voir ci‑dessous).
 
 ### Statuts de rendez‑vous (couleurs sémantiques)
 

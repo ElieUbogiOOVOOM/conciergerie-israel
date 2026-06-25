@@ -9,7 +9,17 @@ import globals from "globals";
 
 export default tseslint.config(
   {
-    ignores: ["**/dist/**", "**/.next/**", "**/.turbo/**", "**/coverage/**", "**/node_modules/**"],
+    ignores: [
+      "**/dist/**",
+      "**/.next/**",
+      "**/.turbo/**",
+      "**/coverage/**",
+      "**/node_modules/**",
+      // Fichier temporaire généré par tsup pendant le build ; il peut être créé
+      // puis supprimé pendant qu'ESLint parcourt les fichiers (lint et build
+      // tournent en parallèle dans turbo) → ENOENT. On l'ignore.
+      "**/tsup.config.bundled_*.mjs",
+    ],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,

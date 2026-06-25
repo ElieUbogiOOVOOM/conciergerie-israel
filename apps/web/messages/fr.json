@@ -1,0 +1,168 @@
+{
+  "Meta": {
+    "title": "HYMEA — L'expérience premium pour vos lieux, en Israël",
+    "description": "HYMEA déploie une expérience premium à la française — lounge, conciergerie, stylisme, fidélité — qui augmente le panier moyen, fidélise et élargit la zone de chalandise des centres commerciaux, entreprises et intérieurs privés en Israël."
+  },
+  "Nav": {
+    "primary": "Navigation principale",
+    "experience": "L'expérience",
+    "shoppingCentres": "Centres commerciaux",
+    "results": "Résultats",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Fermer",
+    "skipToContent": "Aller au contenu"
+  },
+  "LanguageSwitcher": {
+    "label": "Choix de la langue"
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "L'expérience premium — à la française, pensée pour Israël",
+      "title": "Transformer un lieu de passage en véritable destination.",
+      "subtitle": "HYMEA déploie une expérience premium — lounge, conciergerie, stylisme, fidélité — qui augmente le panier moyen, fidélise les visiteurs et élargit la zone de chalandise. L'excellence de l'hospitalité française, adaptée aux attentes israéliennes.",
+      "ctaPrimary": "Demander une présentation",
+      "ctaSecondary": "Découvrir l'expérience"
+    },
+    "leviers": {
+      "eyebrow": "Le constat",
+      "title": "Trois leviers pour faire grandir un centre commercial.",
+      "items": {
+        "spend": {
+          "title": "Augmenter le panier moyen",
+          "description": "Le bien-être du visiteur et le temps passé sur place sont les deux premiers leviers de la dépense. Nous agissons sur les deux."
+        },
+        "loyalty": {
+          "title": "Faire revenir les visiteurs",
+          "description": "Une expérience engageante et un programme de fidélité créent un sentiment d'appartenance — et des visites répétées."
+        },
+        "catchment": {
+          "title": "Élargir la zone de chalandise",
+          "description": "Des services exclusifs donnent une vraie raison de venir de plus loin. Le lieu devient une destination de vie."
+        }
+      }
+    },
+    "experience": {
+      "eyebrow": "L'expérience SEGULA",
+      "title": "Une signature de services qui donne envie de rester.",
+      "description": "Un même fil conducteur, du premier accueil au départ : le soin du détail. Chaque service nourrit le bien-être, le temps passé et l'envie de revenir.",
+      "services": {
+        "lounge": {
+          "title": "Le Lounge",
+          "description": "Un écrin de calme au cœur du lieu : pâtisserie offerte, boisson chaude, hôtesse d'accueil. Le bien-être qui prolonge la visite."
+        },
+        "handsFree": {
+          "title": "Hands-Free Shopping",
+          "description": "Les achats sont collectés en boutique puis remis à la voiture ou au stand voiturier. Les mains libres, on flâne plus longtemps."
+        },
+        "styling": {
+          "title": "Stylisme",
+          "description": "Colorimétrie, morphologie, conseils personnalisés : un styliste qui inspire confiance et peut faire grimper la dépense jusqu'à +70 %."
+        },
+        "valet": {
+          "title": "Voiturier & lavage",
+          "description": "Service de voiturier et lavage auto : l'arrivée et le départ deviennent un soin, jamais une contrainte."
+        },
+        "personalShopper": {
+          "title": "Personal Shopper",
+          "description": "Un accompagnement sur-mesure dans les boutiques, pour un parcours fluide et des achats plus sûrs."
+        },
+        "loyalty": {
+          "title": "Club de fidélité",
+          "description": "Trois niveaux — Privé, Premium, Prestige — qui récompensent la fidélité et créent un vrai sentiment d'appartenance."
+        },
+        "crm": {
+          "title": "Reconnaissance (CRM)",
+          "description": "Un CRM qui se souvient de chaque visiteur : préférences, habitudes, famille. Chaque visite devient personnelle."
+        },
+        "events": {
+          "title": "Événements & art",
+          "description": "Activations de marques, expositions, dégustations : des raisons de revenir et des moments à partager."
+        }
+      }
+    },
+    "results": {
+      "eyebrow": "Résultats",
+      "title": "Des services premium à l'impact commercial mesurable.",
+      "description": "Études du retail de luxe, des grands magasins et des outlets premium : l'hospitalité et les services personnalisés tirent directement la dépense et la fidélité.",
+      "stats": {
+        "spend": {
+          "value": "+35–70 %",
+          "label": "de panier moyen pour les clients accompagnés d'un personal shopper."
+        },
+        "conversion": {
+          "value": "×4",
+          "label": "de taux de conversion lors des rendez-vous privés."
+        },
+        "topClients": {
+          "value": "40–50 %",
+          "label": "des ventes générées par les 5 % de clients les plus dépensiers."
+        },
+        "loyalty": {
+          "value": "+ visites",
+          "label": "de fidélité et de revisites grâce à une expérience personnalisée."
+        }
+      },
+      "referencesTitle": "Un concept éprouvé dans le monde entier",
+      "references": [
+        "La Vallée Village",
+        "Bicester Village",
+        "Woodbury Common",
+        "TSUM & GUM",
+        "Morocco Mall"
+      ],
+      "referencesNote": "Partout, les services premium ne sont plus un supplément : ils sont devenus un standard attendu, moteur de dépense, de fidélité et d'attractivité."
+    },
+    "intro": {
+      "eyebrow": "À qui s'adresse HYMEA",
+      "title": "Une même exigence, trois univers.",
+      "description": "Du centre commercial à l'entreprise, jusqu'à l'intérieur privé : HYMEA décline la même promesse — la perfection du détail — au registre propre à chaque lieu."
+    },
+    "photoCaption": "Photographie à venir",
+    "universes": {
+      "shoppingCentres": {
+        "label": "Centres commerciaux",
+        "title": "Le concept SEGULA",
+        "description": "L'expérience premium clé en main : lounge, voiturier, hands-free, stylisme, personal shopper et club de fidélité — pour augmenter le panier, fidéliser et faire rayonner le centre.",
+        "services": ["Lounge", "Voiturier", "Hands-free", "Stylisme", "Club fidélité"],
+        "cta": "Demander une présentation"
+      },
+      "businesses": {
+        "label": "Entreprises",
+        "title": "HYMEA Lounge & bureaux",
+        "description": "Des bureaux entretenus au plus haut niveau et un HYMEA Lounge qui soigne votre marque employeur. La propreté devient un argument, discret et constant.",
+        "services": ["HYMEA Lounge", "Entretien premium", "Espaces communs"],
+        "cta": "Demander un devis"
+      },
+      "individuals": {
+        "label": "Particuliers",
+        "title": "L'art du détail, chez vous",
+        "description": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, sans y penser.",
+        "services": ["Habitations", "Véhicules", "Mobilier", "Textiles"],
+        "cta": "Réserver un créneau"
+      }
+    }
+  },
+  "Contact": {
+    "eyebrow": "Prenons contact",
+    "title": "Apportez l'expérience SEGULA à votre lieu.",
+    "description": "Présentation, devis ou première intervention : nous revenons vers vous rapidement, avec une proposition à la hauteur de vos attentes.",
+    "offerHeadline": "−20 % sur la première prestation",
+    "offerDetail": "Offre de bienvenue, pour découvrir l'exigence HYMEA sans engagement.",
+    "cta": "Prendre rendez-vous",
+    "mailSubject": "Demande de contact — HYMEA"
+  },
+  "Footer": {
+    "tagline": "L'expérience premium à la française, adaptée à Israël. Le soin du détail, dans la discrétion.",
+    "navTitle": "Découvrir",
+    "legalTitle": "Informations",
+    "legalNotice": "Mentions légales",
+    "privacy": "Politique de confidentialité",
+    "rights": "Tous droits réservés."
+  },
+  "NotFound": {
+    "title": "Cette page s'est éclipsée.",
+    "description": "Le lien que vous avez suivi n'existe plus ou n'a jamais existé. Revenons à l'essentiel.",
+    "cta": "Retour à l'accueil"
+  }
+}
