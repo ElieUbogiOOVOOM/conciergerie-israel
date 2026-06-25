@@ -2,10 +2,29 @@
   "name": "@hymea/shared",
   "version": "0.0.0",
   "private": true,
-  "description": "Types de domaine, contrats d'API et config i18n partagés (placeholder M0, rempli en #3).",
+  "description": "Types de domaine, contrats d'API et config i18n partagés entre web, admin et api.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "build": "echo \"[@hymea/shared] placeholder — contenu ajouté en #3\"",
-    "lint": "echo \"[@hymea/shared] placeholder\"",
-    "type-check": "echo \"[@hymea/shared] placeholder\""
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "lint": "eslint .",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^8.3.5",
+    "typescript": "^5.7.2"
   }
 }
