@@ -38,6 +38,8 @@ export interface ClientsTable {
   email: string;
   telephone: string;
   locale: string;
+  /** RGPD : horodatage d'anonymisation (null = fiche active). */
+  anonymized_at: Timestamp | null;
   created_at: Generated<Date>;
   updated_at: Generated<Date>;
 }
