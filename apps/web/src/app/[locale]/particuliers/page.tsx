@@ -30,8 +30,8 @@ export default async function IndividualsPage({ params }: { params: Promise<{ lo
       <PageHero namespace="IndividualsPage.hero" photoLabel="Particuliers" />
       <FeatureGrid namespace="IndividualsPage.services" itemKeys={PRESTATIONS} columns={4} />
       <Pillars namespace="IndividualsPage.commitments" itemKeys={COMMITMENTS} />
-      {/* CTA → funnel ?type=particulier (#28) une fois livré ; en attendant #contact. */}
-      <PageCta namespace="IndividualsPage.cta" />
+      {/* CTA → funnel RDV pré-filtré sur la cible « particuliers » (#28). */}
+      <PageCta namespace="IndividualsPage.cta" href="/rdv?type=particulier" />
     </>
   );
 }

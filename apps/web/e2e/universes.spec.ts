@@ -16,6 +16,8 @@ const HEADING_LEVEL1 = 1;
 
 type PageSpec = {
   slug: string;
+  /** Type de client porté vers le funnel RDV (?type=). */
+  funnelType: string;
   /** Titre H1 attendu par locale. */
   heroTitle: Record<Locale, RegExp>;
   /** Libellé du CTA de conversion par locale. */
@@ -29,6 +31,7 @@ type PageSpec = {
 const PAGES: PageSpec[] = [
   {
     slug: "centres-commerciaux",
+    funnelType: "mall",
     heroTitle: {
       fr: /Le concept SEGULA/i,
       en: /The SEGULA concept/i,
@@ -44,6 +47,7 @@ const PAGES: PageSpec[] = [
   },
   {
     slug: "entreprises",
+    funnelType: "entreprise",
     heroTitle: {
       fr: /HYMEA transforme le confort au travail/i,
       en: /transforms workplace convenience into a powerful employee experience/i,
@@ -59,6 +63,7 @@ const PAGES: PageSpec[] = [
   },
   {
     slug: "particuliers",
+    funnelType: "particulier",
     heroTitle: {
       fr: /L'art du détail/i,
       en: /The art of detail/i,
@@ -132,11 +137,13 @@ for (const spec of PAGES) {
       }
     });
 
-    test("le CTA de conversion mène au bloc contact", async ({ page }) => {
+    test("le CTA de conversion mène au funnel RDV typé", async ({ page }) => {
       await gotoPage(page, "fr", spec.slug);
-      await page.getByRole("main").getByRole("link", { name: spec.cta.fr }).first().click();
-      await expect(page).toHaveURL(/#contact$/);
-      await expect(page.locator("#contact")).toBeInViewport();
+      const cta = page.getByRole("main").getByRole("link", { name: spec.cta.fr }).last();
+      await expect(cta).toHaveAttribute("href", `/fr/rdv?type=${spec.funnelType}`);
+      await cta.click();
+      await expect(page).toHaveURL(new RegExp(`/fr/rdv\\?type=${spec.funnelType}$`));
+      await expect(page.getByRole("heading", { level: HEADING_LEVEL1 })).toBeVisible();
     });
 
     test("le bloc contact + offre -20 % du layout est présent", async ({ page }) => {

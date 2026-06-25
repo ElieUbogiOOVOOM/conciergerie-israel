@@ -34,8 +34,8 @@ export default async function BusinessesPage({ params }: { params: Promise<{ loc
       <Pillars namespace="BusinessPage.pillars" itemKeys={PILLARS} />
       <Packages namespace="BusinessPage.offers" itemKeys={OFFERS} highlightKey="gold" />
       <ProofStats namespace="BusinessPage.proof" statKeys={PROOF_STATS} hasNote />
-      {/* CTA → funnel ?type=entreprise (#28) une fois livré ; en attendant #contact. */}
-      <PageCta namespace="BusinessPage.cta" />
+      {/* CTA → funnel RDV pré-filtré sur la cible « entreprises » (#28). */}
+      <PageCta namespace="BusinessPage.cta" href="/rdv?type=entreprise" />
     </>
   );
 }

@@ -402,6 +402,189 @@
     "cta": "Book an appointment",
     "mailSubject": "Contact request — HYMEA"
   },
+  "Rdv": {
+    "meta": {
+      "title": "Book an appointment | HYMEA",
+      "description": "Book your HYMEA service in four steps: choose the service, share your details, pick a time slot and confirm. One request, a fast and tailored reply."
+    },
+    "eyebrow": "Appointment booking",
+    "title": "Let's set up your appointment.",
+    "subtitle": "Four steps are all it takes: choose your service, leave your details, select a time slot if you wish, then confirm. We get back to you quickly.",
+    "steps": {
+      "service": "Service",
+      "details": "Details",
+      "slot": "Time slot",
+      "confirm": "Confirm"
+    },
+    "type": {
+      "legend": "You are",
+      "mall": "Shopping centre",
+      "mallHint": "The SEGULA premium experience for your centre. We get in touch for a presentation.",
+      "entreprise": "Business",
+      "entrepriseHint": "HYMEA Lounge and office concierge. A quote tailored to your spaces.",
+      "particulier": "Individual",
+      "particulierHint": "Premium care for your home. Pick the time slot that suits you."
+    },
+    "prestation": {
+      "legend": "Your service",
+      "loading": "Loading services…",
+      "error": "We couldn't load the services right now. Please try again shortly.",
+      "empty": "No service available for this profile at the moment.",
+      "duration": "{minutes} min"
+    },
+    "fields": {
+      "nom": "Last name",
+      "prenom": "First name",
+      "email": "E-mail",
+      "telephone": "Phone",
+      "adresse": "Service address",
+      "surface": "Surface area (m²)",
+      "pieces": "Number of rooms",
+      "message": "Message",
+      "optional": "(optional)",
+      "placeholderMessage": "Tell us about your needs, access constraints or any useful detail.",
+      "requiredNote": "All fields are required unless marked otherwise."
+    },
+    "slot": {
+      "introRequired": "Pick the date and then the time slot that works for you. Availability is updated in real time.",
+      "introOptional": "You can book a time slot now, or simply ask to be contacted so we can agree on a time together.",
+      "contactToggle": "I'd rather be contacted to arrange a time.",
+      "pickDate": "Select a date in the calendar to see the available time slots.",
+      "loading": "Looking for available slots…",
+      "error": "We couldn't fetch the slots for this date. Please try again shortly.",
+      "empty": "No slot available on this date. Try another date.",
+      "timezoneNote": "Times shown in Israel time.",
+      "previousMonth": "Previous month",
+      "nextMonth": "Next month",
+      "retry": "Try again"
+    },
+    "recap": {
+      "type": "Profile",
+      "service": "Service",
+      "when": "Time slot",
+      "whenContact": "On callback",
+      "whenUnset": "To be agreed together",
+      "where": "Address",
+      "who": "Requester",
+      "contact": "Contact"
+    },
+    "consent": {
+      "label": "I agree that my data may be processed to handle my request, in accordance with the <policy>privacy policy</policy>.",
+      "honeypotLabel": "Do not fill in this field."
+    },
+    "actions": {
+      "back": "Back",
+      "next": "Continue",
+      "submit": "Submit my request",
+      "submitting": "Sending…",
+      "hintService": "Select a service to continue.",
+      "hintSlot": "Choose a time slot to continue.",
+      "hintConsent": "Tick the consent box to submit your request."
+    },
+    "confirmation": {
+      "eyebrow": "Request sent",
+      "title": "Your request has been received.",
+      "body": "Thank you! We've received your appointment request and sent you a confirmation e-mail. Our team will get back to you very soon.",
+      "scheduled": "Requested slot: {when}.",
+      "reference": "Your request reference: {reference}",
+      "backHome": "Back to home"
+    },
+    "errors": {
+      "required": "This field is required.",
+      "email": "Enter a valid e-mail address.",
+      "positiveInt": "Enter a positive whole number.",
+      "rateLimited": "Too many requests sent. Please wait a moment before trying again.",
+      "generic": "Submission failed. Check your details and try again."
+    }
+  },
+  "LegalNotice": {
+    "meta": {
+      "title": "Legal notice | HYMEA",
+      "description": "HYMEA legal notice: publisher, hosting, intellectual property and protection of personal data."
+    },
+    "eyebrow": "Information",
+    "title": "Legal notice",
+    "updated": "Last updated: June 2026",
+    "sections": [
+      {
+        "heading": "Site publisher",
+        "body": "This website is published by HYMEA. Company name, legal form, share capital, registration number and postal address are provided by the publisher and completed before going live. Contact: contact@hymea.com."
+      },
+      {
+        "heading": "Publication director",
+        "body": "The publication director is the legal representative of HYMEA. Any request regarding the site's content may be sent to contact@hymea.com."
+      },
+      {
+        "heading": "Hosting",
+        "body": "The site is hosted on a Dockploy infrastructure connected to the project repository. The host's full details are specified before production deployment."
+      },
+      {
+        "heading": "Intellectual property",
+        "body": "All site content — text, the HYMEA logo, visual identity, photographs and layout — is protected by intellectual property law. Any reproduction or representation, in whole or in part, without prior written authorisation is prohibited."
+      },
+      {
+        "heading": "Personal data",
+        "body": "The data entered in the appointment booking form is processed in accordance with our privacy policy, which details the purposes, retention period and your rights of access, rectification and erasure."
+      },
+      {
+        "heading": "Cookies",
+        "body": "The site sets a single technical cookie storing your language choice (NEXT_LOCALE). No analytics or advertising cookies are used without your consent."
+      }
+    ]
+  },
+  "PrivacyPolicy": {
+    "meta": {
+      "title": "Privacy policy | HYMEA",
+      "description": "HYMEA privacy policy: processing purpose, 12-month retention period and your rights of access, rectification and erasure."
+    },
+    "eyebrow": "Information",
+    "title": "Privacy policy",
+    "updated": "Consent version: 2026-06-v1 — last updated: June 2026",
+    "sections": [
+      {
+        "heading": "Data controller",
+        "body": "HYMEA is the controller of the personal data collected through the appointment booking form. For any question about your data, write to contact@hymea.com."
+      },
+      {
+        "heading": "Data collected",
+        "body": "When you request an appointment, we collect: your first and last name, your e-mail address, your phone number, the desired service type and, for individuals, the intervention address along with optional details (surface area, number of rooms, message). No sensitive data is requested."
+      },
+      {
+        "heading": "Purpose of processing",
+        "body": "Your data is used solely to handle your appointment request: to contact you back, organise the service and follow up on the relationship. It is never used for unsolicited prospecting nor transferred to third parties for commercial purposes."
+      },
+      {
+        "heading": "Legal basis",
+        "body": "Processing is based on your explicit consent, collected when the form is submitted (mandatory checkbox). This consent is time-stamped and tied to the version of the text in force (2026-06-v1)."
+      },
+      {
+        "heading": "Retention period",
+        "body": "Your data is kept for a maximum of 12 months from the last contact, then deleted or anonymised, unless a legal obligation requires otherwise."
+      },
+      {
+        "heading": "Recipients",
+        "body": "Only authorised HYMEA teams access your data. Our technical providers (hosting, transactional e-mail delivery, anti-spam protection) act on instruction and do not use your data for any other purpose."
+      },
+      {
+        "heading": "Your rights",
+        "body": "In accordance with applicable regulations, you have the following rights over your personal data:",
+        "items": [
+          "Right of access: obtain confirmation that your data is processed and receive a copy of it.",
+          "Right to rectification: have inaccurate or incomplete data corrected.",
+          "Right to erasure: request the deletion of your data.",
+          "Right to object and to withdraw consent, at any time."
+        ]
+      },
+      {
+        "heading": "Exercising your rights",
+        "body": "To exercise these rights, send your request to contact@hymea.com. We respond as soon as possible and within one month at the latest."
+      },
+      {
+        "heading": "Anti-spam protection",
+        "body": "To prevent automated submissions, the form is protected by an anti-bot mechanism (Cloudflare Turnstile) and an invisible honeypot field. These mechanisms do not process data for profiling purposes."
+      }
+    ]
+  },
   "Footer": {
     "tagline": "The French-style premium experience, tailored to Israel. Care for detail, delivered with discretion.",
     "navTitle": "Explore",

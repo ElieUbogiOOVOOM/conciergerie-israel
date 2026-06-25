@@ -9,3 +9,29 @@ declare module "next-intl" {
     Messages: typeof messages;
   }
 }
+
+// API JavaScript Cloudflare Turnstile (chargée dynamiquement, #29). Typage
+// minimal des seules méthodes utilisées par le widget anti-spam du funnel.
+interface TurnstileRenderOptions {
+  sitekey: string;
+  callback?: (token: string) => void;
+  "expired-callback"?: () => void;
+  "error-callback"?: () => void;
+  appearance?: "always" | "execute" | "interaction-only";
+  size?: "normal" | "flexible" | "compact";
+  theme?: "auto" | "light" | "dark";
+  language?: string;
+}
+
+interface TurnstileApi {
+  render: (container: HTMLElement, options: TurnstileRenderOptions) => string;
+  reset: (widgetId?: string) => void;
+  remove: (widgetId?: string) => void;
+}
+
+declare global {
+  interface Window {
+    turnstile?: TurnstileApi;
+    onTurnstileLoad?: () => void;
+  }
+}

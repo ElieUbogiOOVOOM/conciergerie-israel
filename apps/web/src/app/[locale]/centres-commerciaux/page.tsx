@@ -34,8 +34,8 @@ export default async function ShoppingCentresPage({
       <PageHero namespace="MallPage.hero" photoLabel="Centres commerciaux" />
       <FeatureGrid namespace="MallPage.concept" itemKeys={SEGULA_SERVICES} columns={3} />
       <ProofStats namespace="MallPage.proof" statKeys={PROOF_STATS} hasNote />
-      {/* CTA → funnel ?type=mall (#28) une fois livré ; en attendant #contact. */}
-      <PageCta namespace="MallPage.cta" />
+      {/* CTA → funnel RDV pré-filtré sur la cible « centres commerciaux » (#28). */}
+      <PageCta namespace="MallPage.cta" href="/rdv?type=mall" />
     </>
   );
 }
