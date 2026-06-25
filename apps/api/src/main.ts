@@ -4,6 +4,7 @@ import { ValidationPipe } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { NestFactory } from "@nestjs/core";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
+import cookieParser from "cookie-parser";
 
 import { AppModule } from "./app.module";
 import type { Env } from "./config/env.validation";
@@ -14,6 +15,8 @@ async function bootstrap(): Promise<void> {
   // Toutes les routes sont préfixées par /api (le reverse-proxy route /api).
   app.setGlobalPrefix("api");
   app.enableShutdownHooks();
+  // Lecture du cookie httpOnly portant le refresh token (module Auth).
+  app.use(cookieParser());
   app.useGlobalPipes(
     new ValidationPipe({ whitelist: true, transform: true, forbidNonWhitelisted: true }),
   );
