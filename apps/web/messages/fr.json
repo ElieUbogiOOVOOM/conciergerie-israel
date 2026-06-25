@@ -1,7 +1,8 @@
 {
   "Meta": {
     "title": "HYMEA — L'expérience premium pour vos lieux, en Israël",
-    "description": "HYMEA déploie une expérience premium à la française — lounge, conciergerie, stylisme, fidélité — qui augmente le panier moyen, fidélise et élargit la zone de chalandise des centres commerciaux, entreprises et intérieurs privés en Israël."
+    "description": "HYMEA déploie une expérience premium à la française — lounge, conciergerie, stylisme, fidélité — qui augmente le panier moyen, fidélise et élargit la zone de chalandise des centres commerciaux, entreprises et intérieurs privés en Israël.",
+    "ogTagline": "L'expérience premium pour vos lieux, en Israël"
   },
   "Nav": {
     "primary": "Navigation principale",

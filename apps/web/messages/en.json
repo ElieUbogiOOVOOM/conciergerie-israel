@@ -1,7 +1,8 @@
 {
   "Meta": {
     "title": "HYMEA — The premium experience for your spaces, in Israel",
-    "description": "HYMEA brings a French-style premium experience — lounge, concierge, styling, loyalty — that raises the average basket, builds loyalty and broadens the catchment area of shopping centres, businesses and private homes in Israel."
+    "description": "HYMEA brings a French-style premium experience — lounge, concierge, styling, loyalty — that raises the average basket, builds loyalty and broadens the catchment area of shopping centres, businesses and private homes in Israel.",
+    "ogTagline": "The premium experience for your spaces, in Israel"
   },
   "Nav": {
     "primary": "Main navigation",

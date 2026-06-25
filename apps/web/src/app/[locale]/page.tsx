@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import type { Locale } from "@hymea/shared";
+import { buildPageMetadata } from "@/lib/seo";
 import { LandingHero } from "@/components/landing/LandingHero";
 import { Universes } from "@/components/home/Universes";
 import { GroupHistory } from "@/components/landing/GroupHistory";
@@ -16,8 +18,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Landing.meta" });
-  return { title: t("title"), description: t("description") };
+  return buildPageMetadata({ locale: locale as Locale, namespace: "Landing.meta", path: "" });
 }
 
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {

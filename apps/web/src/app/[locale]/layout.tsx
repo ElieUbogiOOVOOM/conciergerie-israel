@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
-import { dir, isLocale } from "@hymea/shared";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { dir, isLocale, type Locale } from "@hymea/shared";
 import { fontVariables } from "@/fonts";
 import { routing } from "@/i18n/routing";
+import { buildPageMetadata } from "@/lib/seo";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { ContactBlock } from "@/components/layout/ContactBlock";
@@ -15,16 +16,19 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
+// Métadonnées racine (#31) : servent l'accueil et fournissent les valeurs par
+// défaut (metadataBase, OG, hreflang, icône) héritées par les pages enfants.
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Meta" });
+  // L'icône (favicon mandala) est injectée par la convention app/icon.svg.
+  const base = await buildPageMetadata({ locale: locale as Locale, namespace: "Meta", path: "" });
   return {
-    title: t("title"),
-    description: t("description"),
+    ...base,
+    robots: { index: true, follow: true },
   };
 }
 
