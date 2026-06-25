@@ -2,12 +2,12 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Logo } from "@/components/brand/Logo";
 
-// Liens de navigation (ancres accueil) et liens légaux (routes dédiées livrées
-// avec les pages légales #30).
+// Liens de navigation (pages univers dédiées #25-27) et liens légaux (routes
+// dédiées livrées avec les pages légales #30).
 const NAV_ITEMS = [
-  { key: "experience", href: "#experience" },
-  { key: "shoppingCentres", href: "#centres-commerciaux" },
-  { key: "results", href: "#resultats" },
+  { key: "shoppingCentres", href: "/centres-commerciaux" },
+  { key: "businesses", href: "/entreprises" },
+  { key: "individuals", href: "/particuliers" },
 ] as const;
 
 const LEGAL_ITEMS = [
@@ -41,12 +41,12 @@ export function Footer() {
           <ul className="mt-5 space-y-3">
             {NAV_ITEMS.map((item) => (
               <li key={item.key}>
-                <a
+                <Link
                   href={item.href}
                   className="font-label text-sm uppercase tracking-widest text-encre/70 transition-colors hover:text-or-profond"
                 >
                   {tn(item.key)}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
