@@ -10,6 +10,9 @@ import { Spinner } from "@/components/ui/Spinner";
 const NAV = [
   { href: "/planning", label: "Planning" },
   { href: "/rendez-vous", label: "Rendez-vous" },
+  { href: "/prestations", label: "Prestations" },
+  { href: "/intervenants", label: "Intervenants" },
+  { href: "/exports", label: "Exports" },
 ];
 
 /**
