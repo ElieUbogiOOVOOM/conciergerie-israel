@@ -4,9 +4,9 @@ import { UniverseCard } from "./UniverseCard";
 // Les trois cibles de la marque, dans l'ordre de la narration. Les ancres
 // correspondent aux liens de navigation du header.
 const UNIVERSES = [
-  { id: "centres-commerciaux", key: "shoppingCentres", index: "01" },
-  { id: "entreprises", key: "businesses", index: "02" },
-  { id: "particuliers", key: "individuals", index: "03" },
+  { id: "centres-commerciaux", key: "shoppingCentres", index: "01", href: "/centres-commerciaux" },
+  { id: "entreprises", key: "businesses", index: "02", href: "/entreprises" },
+  { id: "particuliers", key: "individuals", index: "03", href: "/particuliers" },
 ] as const;
 
 export function Universes() {
@@ -43,6 +43,8 @@ export function Universes() {
           description={tu(`${u.key}.description`)}
           services={tu.raw(`${u.key}.services`) as string[]}
           ctaLabel={tu(`${u.key}.cta`)}
+          pageHref={u.href}
+          learnMoreLabel={tu(`${u.key}.learnMore`)}
           photoCaption={t("photoCaption")}
           reversed={i % 2 === 1}
         />
