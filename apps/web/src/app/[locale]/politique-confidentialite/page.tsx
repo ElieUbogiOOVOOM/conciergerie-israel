@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import type { Locale } from "@hymea/shared";
+import { buildPageMetadata } from "@/lib/seo";
 import { LegalDoc } from "@/components/pages/LegalDoc";
 
 // Politique de confidentialité (#30) — finalité, conservation 12 mois, droits
@@ -11,8 +13,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "PrivacyPolicy.meta" });
-  return { title: t("title"), description: t("description") };
+  return buildPageMetadata({
+    locale: locale as Locale,
+    namespace: "PrivacyPolicy.meta",
+    path: "/politique-confidentialite",
+  });
 }
 
 export default async function PrivacyPolicyPage({

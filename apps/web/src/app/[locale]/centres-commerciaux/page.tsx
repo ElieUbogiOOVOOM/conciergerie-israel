@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { setRequestLocale } from "next-intl/server";
+import type { Locale } from "@hymea/shared";
+import { buildPageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/pages/PageHero";
 import { FeatureGrid } from "@/components/pages/FeatureGrid";
 import { ProofStats } from "@/components/pages/ProofStats";
@@ -17,8 +19,11 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "MallPage.meta" });
-  return { title: t("title"), description: t("description") };
+  return buildPageMetadata({
+    locale: locale as Locale,
+    namespace: "MallPage.meta",
+    path: "/centres-commerciaux",
+  });
 }
 
 export default async function ShoppingCentresPage({

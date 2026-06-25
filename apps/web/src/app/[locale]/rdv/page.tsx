@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
-import { isTypeClient } from "@hymea/shared";
+import { setRequestLocale } from "next-intl/server";
+import { isTypeClient, type Locale } from "@hymea/shared";
+import { buildPageMetadata } from "@/lib/seo";
 import { RdvFunnel } from "@/components/rdv/RdvFunnel";
 
 // Funnel de prise de rendez-vous (#28). Le type de client peut être
@@ -12,8 +13,7 @@ export async function generateMetadata({
   params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale, namespace: "Rdv.meta" });
-  return { title: t("title"), description: t("description") };
+  return buildPageMetadata({ locale: locale as Locale, namespace: "Rdv.meta", path: "/rdv" });
 }
 
 export default async function RdvPage({
