@@ -1,0 +1,18 @@
+{
+  "Meta": {
+    "title": "HYMEA — Premium concierge & cleaning in Israel",
+    "description": "High-end concierge and cleaning services in Israel for shopping centres, businesses and private homes. A devotion to detail, delivered with discretion."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Premium concierge & cleaning — Israel",
+      "title": "Luxury, in restraint.",
+      "subtitle": "HYMEA cares for exceptional places: shopping centres, offices and private interiors. A confidential, meticulous service, made to last."
+    }
+  },
+  "NotFound": {
+    "title": "This page has slipped away.",
+    "description": "The link you followed no longer exists, or never did. Let's return to what matters.",
+    "cta": "Back to home"
+  }
+}

@@ -1,4 +1,9 @@
+import createNextIntlPlugin from "next-intl/plugin";
 import type { NextConfig } from "next";
+
+// Le plugin next-intl branche la configuration de requête (src/i18n/request.ts)
+// et active le rendu localisé côté serveur.
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   // Sortie auto-contenue pour l'image Docker de production (cf. Dockerfile).
@@ -8,4 +13,4 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

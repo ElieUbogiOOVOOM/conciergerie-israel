@@ -1,0 +1,18 @@
+{
+  "Meta": {
+    "title": "HYMEA — Conciergerie & nettoyage premium en Israël",
+    "description": "Conciergerie et nettoyage haut de gamme en Israël : centres commerciaux, entreprises et particuliers. Une exigence du détail, dans la discrétion."
+  },
+  "Home": {
+    "hero": {
+      "eyebrow": "Conciergerie & nettoyage premium — Israël",
+      "title": "Le luxe, dans la sobriété.",
+      "subtitle": "HYMEA prend soin des lieux d'exception : centres commerciaux, bureaux et intérieurs privés. Un service confidentiel, méticuleux, pensé pour durer."
+    }
+  },
+  "NotFound": {
+    "title": "Cette page s'est éclipsée.",
+    "description": "Le lien que vous avez suivi n'existe plus ou n'a jamais existé. Revenons à l'essentiel.",
+    "cta": "Retour à l'accueil"
+  }
+}
