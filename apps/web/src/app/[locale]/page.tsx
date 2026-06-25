@@ -12,7 +12,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 function HomeContent() {
   const t = useTranslations("Home.hero");
   return (
-    <main className="mx-auto max-w-5xl px-6 py-24">
+    <section className="mx-auto max-w-5xl px-6 py-24">
       <p className="font-label text-sm uppercase tracking-[0.3em] text-or-champagne">
         {t("eyebrow")}
       </p>
@@ -20,6 +20,6 @@ function HomeContent() {
       <p className="mt-8 max-w-[var(--measure)] text-[length:var(--text-lead)] text-creme/80">
         {t("subtitle")}
       </p>
-    </main>
+    </section>
   );
 }

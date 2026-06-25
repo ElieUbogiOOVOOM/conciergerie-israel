@@ -5,6 +5,9 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { dir, isLocale } from "@hymea/shared";
 import { fontVariables } from "@/fonts";
 import { routing } from "@/i18n/routing";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { ContactBlock } from "@/components/layout/ContactBlock";
 import "../globals.css";
 
 // Pré-rend les trois langues à la compilation.
@@ -42,8 +45,15 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} dir={dir(locale)} className={fontVariables}>
-      <body>
-        <NextIntlClientProvider messages={messages}>{children}</NextIntlClientProvider>
+      <body className="flex min-h-screen flex-col">
+        <NextIntlClientProvider messages={messages}>
+          <Header />
+          <main id="contenu" className="flex-1">
+            {children}
+          </main>
+          <ContactBlock />
+          <Footer />
+        </NextIntlClientProvider>
       </body>
     </html>
   );

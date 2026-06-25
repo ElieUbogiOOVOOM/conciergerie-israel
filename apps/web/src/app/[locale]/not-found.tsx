@@ -5,7 +5,7 @@ import { Link } from "@/i18n/navigation";
 export default function NotFound() {
   const t = useTranslations("NotFound");
   return (
-    <main className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
+    <section className="mx-auto flex min-h-[70vh] max-w-3xl flex-col items-center justify-center px-6 text-center">
       <p className="font-label text-sm uppercase tracking-[0.3em] text-or-champagne">404</p>
       <h1 className="mt-6 font-title text-[length:var(--text-h1)] text-creme">{t("title")}</h1>
       <p className="mt-6 max-w-[var(--measure)] text-[length:var(--text-lead)] text-creme/80">
@@ -17,6 +17,6 @@ export default function NotFound() {
       >
         {t("cta")}
       </Link>
-    </main>
+    </section>
   );
 }
