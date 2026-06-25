@@ -12,6 +12,9 @@ import request from "supertest";
 import { AppModule } from "../src/app.module";
 import { KYSELY, type KyselyDB } from "../src/database/database.module";
 import { createMigrator } from "../src/database/migrator";
+import { MailService, type SentEmail } from "../src/mail/mail.service";
+
+type TypeClient = "mall" | "entreprise" | "particulier";
 
 export interface TestContext {
   app: INestApplication;
@@ -81,4 +84,44 @@ export async function login(
 /** Raccourci : en-tête Authorization Bearer. */
 export function bearer(token: string): [string, string] {
   return ["Authorization", `Bearer ${token}`];
+}
+
+/** Insère une prestation directement en base. Retourne son id. */
+export async function seedPrestation(
+  db: KyselyDB,
+  overrides: { cible?: TypeClient; dureeMinutes?: number; actif?: boolean; libelle?: string } = {},
+): Promise<string> {
+  const libelle = overrides.libelle ?? "Nettoyage premium";
+  const row = await db
+    .insertInto("prestations")
+    .values({
+      libelle: JSON.stringify({ fr: libelle, en: libelle, he: libelle }),
+      description: null,
+      cible: overrides.cible ?? "particulier",
+      duree_minutes: overrides.dureeMinutes ?? 60,
+      actif: overrides.actif ?? true,
+    })
+    .returning("id")
+    .executeTakeFirstOrThrow();
+  return row.id;
+}
+
+/** Insère un intervenant. Retourne son id. */
+export async function seedIntervenant(db: KyselyDB, nom = "Levi"): Promise<string> {
+  const row = await db
+    .insertInto("intervenants")
+    .values({ nom })
+    .returning("id")
+    .executeTakeFirstOrThrow();
+  return row.id;
+}
+
+/** Boîte d'envoi du MailService (emails déclenchés mais non envoyés en test). */
+export function outbox(app: INestApplication): SentEmail[] {
+  return app.get(MailService).outbox;
+}
+
+/** Vide la boîte d'envoi entre deux tests. */
+export function clearOutbox(app: INestApplication): void {
+  app.get(MailService).outbox.length = 0;
 }
