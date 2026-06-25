@@ -371,6 +371,189 @@
     "cta": "Prendre rendez-vous",
     "mailSubject": "Demande de contact — HYMEA"
   },
+  "Rdv": {
+    "meta": {
+      "title": "Prendre rendez-vous | HYMEA",
+      "description": "Réservez votre prestation HYMEA en quatre étapes : choix du service, coordonnées, créneau et validation. Une demande, une réponse rapide et sur-mesure."
+    },
+    "eyebrow": "Prise de rendez-vous",
+    "title": "Composons votre rendez-vous.",
+    "subtitle": "Quatre étapes suffisent : choisissez votre service, laissez-nous vos coordonnées, sélectionnez un créneau si vous le souhaitez, puis validez. Nous revenons vers vous rapidement.",
+    "steps": {
+      "service": "Service",
+      "details": "Coordonnées",
+      "slot": "Créneau",
+      "confirm": "Validation"
+    },
+    "type": {
+      "legend": "Vous êtes",
+      "mall": "Centre commercial",
+      "mallHint": "L'expérience premium SEGULA pour votre centre. Nous vous recontactons pour une présentation.",
+      "entreprise": "Entreprise",
+      "entrepriseHint": "HYMEA Lounge et conciergerie de bureaux. Un devis adapté à vos espaces.",
+      "particulier": "Particulier",
+      "particulierHint": "Entretien haut de gamme de votre intérieur. Choisissez votre créneau d'intervention."
+    },
+    "prestation": {
+      "legend": "Votre prestation",
+      "loading": "Chargement des prestations…",
+      "error": "Impossible de charger les prestations pour le moment. Réessayez dans un instant.",
+      "empty": "Aucune prestation disponible pour cette cible pour le moment.",
+      "duration": "{minutes} min"
+    },
+    "fields": {
+      "nom": "Nom",
+      "prenom": "Prénom",
+      "email": "E-mail",
+      "telephone": "Téléphone",
+      "adresse": "Adresse d'intervention",
+      "surface": "Surface (m²)",
+      "pieces": "Nombre de pièces",
+      "message": "Message",
+      "optional": "(optionnel)",
+      "placeholderMessage": "Précisez votre besoin, vos contraintes d'accès ou toute information utile.",
+      "requiredNote": "Tous les champs sont obligatoires, sauf mention contraire."
+    },
+    "slot": {
+      "introRequired": "Choisissez la date puis le créneau d'intervention qui vous conviennent. Les disponibilités sont mises à jour en temps réel.",
+      "introOptional": "Vous pouvez réserver un créneau dès maintenant, ou simplement demander à être recontacté pour convenir d'un moment ensemble.",
+      "contactToggle": "Je préfère être recontacté(e) pour fixer un créneau.",
+      "pickDate": "Sélectionnez une date dans le calendrier pour voir les créneaux disponibles.",
+      "loading": "Recherche des créneaux disponibles…",
+      "error": "Impossible de récupérer les créneaux pour cette date. Réessayez dans un instant.",
+      "empty": "Aucun créneau disponible à cette date. Essayez une autre date.",
+      "timezoneNote": "Horaires affichés à l'heure d'Israël.",
+      "previousMonth": "Mois précédent",
+      "nextMonth": "Mois suivant",
+      "retry": "Réessayer"
+    },
+    "recap": {
+      "type": "Profil",
+      "service": "Prestation",
+      "when": "Créneau",
+      "whenContact": "Sur recontact",
+      "whenUnset": "À convenir ensemble",
+      "where": "Adresse",
+      "who": "Demandeur",
+      "contact": "Contact"
+    },
+    "consent": {
+      "label": "J'accepte que mes données soient traitées pour répondre à ma demande, conformément à la <policy>politique de confidentialité</policy>.",
+      "honeypotLabel": "Ne pas remplir ce champ."
+    },
+    "actions": {
+      "back": "Retour",
+      "next": "Continuer",
+      "submit": "Valider ma demande",
+      "submitting": "Envoi en cours…",
+      "hintService": "Sélectionnez une prestation pour continuer.",
+      "hintSlot": "Choisissez un créneau pour continuer.",
+      "hintConsent": "Cochez le consentement pour valider votre demande."
+    },
+    "confirmation": {
+      "eyebrow": "Demande envoyée",
+      "title": "Votre demande est bien reçue.",
+      "body": "Merci ! Nous avons bien reçu votre demande de rendez-vous et vous avons envoyé un e-mail de confirmation. Notre équipe revient vers vous très rapidement.",
+      "scheduled": "Créneau souhaité : {when}.",
+      "reference": "Référence de votre demande : {reference}",
+      "backHome": "Retour à l'accueil"
+    },
+    "errors": {
+      "required": "Ce champ est obligatoire.",
+      "email": "Saisissez une adresse e-mail valide.",
+      "positiveInt": "Indiquez un nombre entier positif.",
+      "rateLimited": "Trop de demandes envoyées. Patientez un instant avant de réessayer.",
+      "generic": "L'envoi a échoué. Vérifiez vos informations et réessayez."
+    }
+  },
+  "LegalNotice": {
+    "meta": {
+      "title": "Mentions légales | HYMEA",
+      "description": "Mentions légales du site HYMEA : éditeur, hébergement, propriété intellectuelle et protection des données personnelles."
+    },
+    "eyebrow": "Informations",
+    "title": "Mentions légales",
+    "updated": "Dernière mise à jour : juin 2026",
+    "sections": [
+      {
+        "heading": "Éditeur du site",
+        "body": "Le présent site est édité par HYMEA. Raison sociale, forme juridique, capital, numéro d'immatriculation et coordonnées postales : informations communiquées par l'éditeur et complétées avant mise en ligne. Contact : contact@hymea.com."
+      },
+      {
+        "heading": "Directeur de la publication",
+        "body": "Le directeur de la publication est le représentant légal de HYMEA. Toute demande relative au contenu du site peut être adressée à contact@hymea.com."
+      },
+      {
+        "heading": "Hébergement",
+        "body": "Le site est hébergé sur une infrastructure Dockploy reliée au dépôt du projet. Les coordonnées complètes de l'hébergeur sont précisées avant la mise en production."
+      },
+      {
+        "heading": "Propriété intellectuelle",
+        "body": "L'ensemble des contenus du site — textes, logo HYMEA, identité visuelle, photographies et mise en page — est protégé par le droit de la propriété intellectuelle. Toute reproduction ou représentation, totale ou partielle, sans autorisation écrite préalable est interdite."
+      },
+      {
+        "heading": "Données personnelles",
+        "body": "Les données saisies dans le formulaire de prise de rendez-vous sont traitées conformément à notre politique de confidentialité, qui détaille les finalités, la durée de conservation et vos droits d'accès, de rectification et de suppression."
+      },
+      {
+        "heading": "Cookies",
+        "body": "Le site dépose un cookie technique mémorisant votre choix de langue (NEXT_LOCALE). Aucun cookie de mesure d'audience ou de publicité n'est utilisé sans votre consentement."
+      }
+    ]
+  },
+  "PrivacyPolicy": {
+    "meta": {
+      "title": "Politique de confidentialité | HYMEA",
+      "description": "Politique de confidentialité HYMEA : finalité du traitement, durée de conservation de 12 mois et droits d'accès, de rectification et de suppression de vos données."
+    },
+    "eyebrow": "Informations",
+    "title": "Politique de confidentialité",
+    "updated": "Version du consentement : 2026-06-v1 — dernière mise à jour : juin 2026",
+    "sections": [
+      {
+        "heading": "Responsable du traitement",
+        "body": "HYMEA est responsable du traitement des données personnelles collectées via le formulaire de prise de rendez-vous. Pour toute question relative à vos données, écrivez à contact@hymea.com."
+      },
+      {
+        "heading": "Données collectées",
+        "body": "Lors d'une demande de rendez-vous, nous collectons : votre nom et prénom, votre adresse e-mail, votre numéro de téléphone, le type de prestation souhaitée et, pour les particuliers, l'adresse d'intervention ainsi que des informations optionnelles (surface, nombre de pièces, message). Aucune donnée sensible n'est demandée."
+      },
+      {
+        "heading": "Finalité du traitement",
+        "body": "Vos données sont utilisées uniquement pour traiter votre demande de rendez-vous : vous recontacter, organiser la prestation et assurer le suivi de la relation. Elles ne font l'objet d'aucune prospection non sollicitée ni d'aucune cession à des tiers à des fins commerciales."
+      },
+      {
+        "heading": "Base légale",
+        "body": "Le traitement repose sur votre consentement explicite, recueilli au moment de l'envoi du formulaire (case à cocher obligatoire). Ce consentement est horodaté et rattaché à la version du texte en vigueur (2026-06-v1)."
+      },
+      {
+        "heading": "Durée de conservation",
+        "body": "Vos données sont conservées pendant une durée maximale de 12 mois à compter du dernier contact, puis supprimées ou anonymisées, sauf obligation légale contraire."
+      },
+      {
+        "heading": "Destinataires",
+        "body": "Seules les équipes habilitées de HYMEA accèdent à vos données. Nos prestataires techniques (hébergement, envoi d'e-mails transactionnels, protection anti-spam) agissent sur instruction et n'utilisent pas vos données à d'autres fins."
+      },
+      {
+        "heading": "Vos droits",
+        "body": "Conformément à la réglementation applicable, vous disposez des droits suivants sur vos données personnelles :",
+        "items": [
+          "Droit d'accès : obtenir la confirmation que vos données sont traitées et en recevoir une copie.",
+          "Droit de rectification : faire corriger des données inexactes ou incomplètes.",
+          "Droit de suppression : demander l'effacement de vos données.",
+          "Droit d'opposition et de retrait du consentement, à tout moment."
+        ]
+      },
+      {
+        "heading": "Exercer vos droits",
+        "body": "Pour exercer ces droits, adressez votre demande à contact@hymea.com. Nous y répondons dans les meilleurs délais et au plus tard sous un mois."
+      },
+      {
+        "heading": "Protection anti-spam",
+        "body": "Afin de prévenir les soumissions automatisées, le formulaire est protégé par un dispositif anti-robot (Cloudflare Turnstile) et un champ leurre invisible. Ces mécanismes ne traitent pas de données à des fins de profilage."
+      }
+    ]
+  },
   "Footer": {
     "tagline": "L'expérience premium à la française, adaptée à Israël. Le soin du détail, dans la discrétion.",
     "navTitle": "Découvrir",
