@@ -2,12 +2,91 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import type { RendezVousDetail } from "@hymea/shared";
-import { ApiError, getRendezVous } from "@/lib/api";
+import type { Intervenant, RendezVousDetail } from "@hymea/shared";
+import { ApiError, assignIntervenant, getRendezVous, listIntervenants } from "@/lib/api";
 import { formatDateTime, formatTimeRange } from "@/lib/datetime";
 import { typeClientLabel } from "@/lib/status";
 import { StatusBadge } from "@/components/ui/StatusBadge";
 import { Spinner } from "@/components/ui/Spinner";
+import { fieldClass } from "@/components/ui/form";
+
+function intervenantLabel(i: Intervenant): string {
+  return i.prenom ? `${i.nom} ${i.prenom}` : i.nom;
+}
+
+/** Sélecteur d'attribution d'un intervenant à un RDV (#40 ↔ #15). */
+function IntervenantAssign({
+  rdv,
+  onAssigned,
+}: {
+  rdv: RendezVousDetail;
+  onAssigned: (updated: RendezVousDetail) => void;
+}) {
+  const [options, setOptions] = useState<Intervenant[]>([]);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    let active = true;
+    listIntervenants(true)
+      .then((list) => {
+        if (active) setOptions(list);
+      })
+      .catch(() => {
+        if (active) setOptions([]);
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Inclut l'intervenant courant même s'il est désormais inactif (hors liste active).
+  const current = rdv.intervenant;
+  const merged =
+    current && !options.some((o) => o.id === current.id) ? [current, ...options] : options;
+
+  async function onChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    const value = event.target.value;
+    setSaving(true);
+    setError(false);
+    try {
+      const updated = await assignIntervenant(rdv.id, value === "" ? null : value);
+      onAssigned(updated);
+    } catch {
+      setError(true);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <select
+        aria-label="Attribuer un intervenant"
+        value={current?.id ?? ""}
+        onChange={(e) => void onChange(e)}
+        disabled={saving}
+        className={fieldClass}
+      >
+        <option value="">Non attribué</option>
+        {merged.map((i) => (
+          <option key={i.id} value={i.id}>
+            {intervenantLabel(i)}
+            {!i.actif ? " (inactif)" : ""}
+          </option>
+        ))}
+      </select>
+      <span aria-live="polite" className="font-ui text-xs text-encre-doux">
+        {saving ? "Enregistrement…" : ""}
+      </span>
+      {error && (
+        <span role="alert" className="font-ui text-xs text-statut-annule">
+          Échec de l&apos;attribution.
+        </span>
+      )}
+    </div>
+  );
+}
 
 /** Ligne descriptive (libellé / valeur) de la fiche. */
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
@@ -118,11 +197,7 @@ export function RdvDetail({ id }: { id: string }) {
               </Row>
             )}
             <Row label="Intervenant">
-              {rdv.intervenant ? (
-                `${rdv.intervenant.nom}${rdv.intervenant.prenom ? ` ${rdv.intervenant.prenom}` : ""}`
-              ) : (
-                <span className="text-encre-doux">Non attribué</span>
-              )}
+              <IntervenantAssign rdv={rdv} onAssigned={setRdv} />
             </Row>
             {rdv.message && <Row label="Message">{rdv.message}</Row>}
             <Row label="Demande reçue le">{formatDateTime(rdv.createdAt)}</Row>
