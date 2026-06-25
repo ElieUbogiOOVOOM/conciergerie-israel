@@ -108,16 +108,30 @@ test.describe("Back-office — Liste des RDV (#35)", () => {
       const count = p < 3 ? pageSize : 5;
       return { items: rows(count, p * 100), total, page: p, pageSize };
     });
-    await page.goto("/admin/rendez-vous");
 
+    // Clique « Suivant » et confirme qu'une requête de la page cible est partie ;
+    // réessaie le clic tant qu'aucune ne part (hydratation lente de `next dev` en CI).
+    async function next(targetPage: number): Promise<void> {
+      const re = new RegExp(`[?&]page=${targetPage}(?:&|$)`);
+      for (let attempt = 0; attempt < 6; attempt++) {
+        const req = page
+          .waitForRequest((r) => re.test(r.url()), { timeout: 2000 })
+          .catch(() => null);
+        await page.getByRole("button", { name: "Suivant" }).click();
+        if (await req) return;
+      }
+      throw new Error(`Aucune requête page=${targetPage} après plusieurs clics`);
+    }
+
+    await page.goto("/admin/rendez-vous");
     await expect(page.getByTestId("pagination-range")).toHaveText("1–20 sur 45");
     await expect(page.getByRole("button", { name: "Précédent" })).toBeDisabled();
 
-    await page.getByRole("button", { name: "Suivant" }).click();
+    await next(2);
     await expect(page.getByTestId("pagination-range")).toHaveText("21–40 sur 45");
     await expect(page.getByRole("button", { name: "Précédent" })).toBeEnabled();
 
-    await page.getByRole("button", { name: "Suivant" }).click();
+    await next(3);
     await expect(page.getByTestId("pagination-range")).toHaveText("41–45 sur 45");
     await expect(page.getByRole("button", { name: "Suivant" })).toBeDisabled();
   });
