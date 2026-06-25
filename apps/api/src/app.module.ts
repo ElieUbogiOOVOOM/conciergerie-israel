@@ -9,6 +9,7 @@ import { validateEnv } from "./config/env.validation";
 import { DatabaseModule } from "./database/database.module";
 import { DisponibilitesModule } from "./disponibilites/disponibilites.module";
 import { HealthModule } from "./health/health.module";
+import { IntervenantsModule } from "./intervenants/intervenants.module";
 import { MailModule } from "./mail/mail.module";
 import { PrestationsModule } from "./prestations/prestations.module";
 import { RemindersModule } from "./reminders/reminders.module";
@@ -28,6 +29,7 @@ import { SlotsModule } from "./slots/slots.module";
     HealthModule,
     AuthModule,
     PrestationsModule,
+    IntervenantsModule,
     DisponibilitesModule,
     SlotsModule,
     ClientsModule,
