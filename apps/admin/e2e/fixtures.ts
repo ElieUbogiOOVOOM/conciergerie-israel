@@ -1,8 +1,13 @@
 import type { BrowserContext, Page, Route } from "@playwright/test";
 import type {
   Client,
+  ClientAvecHistorique,
+  ExceptionDisponibilite,
+  Intervenant,
   Paginated,
   Prestation,
+  RegleHebdomadaire,
+  RendezVous,
   RendezVousDetail,
   StatutRendezVous,
   TypeClient,
@@ -184,4 +189,224 @@ export async function seedSession(context: BrowserContext): Promise<void> {
   await context.addCookies([
     { name: "hymea_admin_session", value: "1", domain: "localhost", path: "/admin" },
   ]);
+}
+
+// ─────────────────────── Intervenants (#36) ─────────────────────────────────
+
+export function makeIntervenant(over: Partial<Intervenant> = {}): Intervenant {
+  return { id: "int-1", nom: "Levy", prenom: "David", equipeId: null, actif: true, ...over };
+}
+
+/** Mock de la liste des intervenants (sélecteur d'attribution). */
+export async function mockIntervenants(
+  page: Page,
+  list: Intervenant[] = [makeIntervenant()],
+): Promise<void> {
+  await page.route(/\/api\/intervenants(\?|$)/, (route) => fulfillJson(route, list));
+}
+
+/** Capture des mutations d'un RDV (statut, attribution, replanification). */
+export interface RdvActionCapture {
+  statut: string[];
+  intervenant: (string | null)[];
+  reschedule: string[];
+  current(): RendezVousDetail;
+}
+
+/**
+ * Mock des actions sur un RDV : chaque PATCH applique la mutation et renvoie le
+ * RDV à jour ; le GET détail renvoie l'état courant. Capture les charges utiles.
+ */
+export function mockRdvActions(page: Page, base: RendezVousDetail): RdvActionCapture {
+  let current = base;
+  const cap: RdvActionCapture = {
+    statut: [],
+    intervenant: [],
+    reschedule: [],
+    current: () => current,
+  };
+
+  void page.route(/\/api\/rendez-vous\/[^/]+\/statut$/, async (route) => {
+    const body = route.request().postDataJSON() as { statut: StatutRendezVous };
+    cap.statut.push(body.statut);
+    current = { ...current, statut: body.statut };
+    await fulfillJson(route, current);
+  });
+  void page.route(/\/api\/rendez-vous\/[^/]+\/intervenant$/, async (route) => {
+    const body = route.request().postDataJSON() as { intervenantId: string | null };
+    cap.intervenant.push(body.intervenantId);
+    current = { ...current, intervenantId: body.intervenantId };
+    await fulfillJson(route, current);
+  });
+  void page.route(/\/api\/rendez-vous\/[^/]+\/replanification$/, async (route) => {
+    const body = route.request().postDataJSON() as { debut: string };
+    cap.reschedule.push(body.debut);
+    current = { ...current, statut: "REPLANIFIE", debut: body.debut };
+    await fulfillJson(route, current);
+  });
+  // GET détail (enregistré en dernier : tenté en premier, ne matche que l'URL simple).
+  void page.route(/\/api\/rendez-vous\/[^/]+$/, (route) => fulfillJson(route, current));
+
+  return cap;
+}
+
+// ─────────────────────────── Clients (#37) ──────────────────────────────────
+
+export function makeRendezVous(over: Partial<RendezVous> = {}): RendezVous {
+  return {
+    id: "rdv-h1",
+    clientId: "client-1",
+    prestationId: "prest-1",
+    intervenantId: null,
+    typeClient: "particulier",
+    statut: "REALISE",
+    debut: "2026-05-01T08:00:00.000Z",
+    fin: "2026-05-01T09:30:00.000Z",
+    adresse: "12 rue Herzl, Tel Aviv",
+    message: null,
+    surfaceM2: 80,
+    nombrePieces: 3,
+    locale: "fr",
+    consentement: { accepte: true, date: "2026-01-01T00:00:00.000Z", version: "2026-06-v1" },
+    reminderSentAt: null,
+    createdAt: "2026-04-01T00:00:00.000Z",
+    updatedAt: "2026-04-01T00:00:00.000Z",
+    ...over,
+  };
+}
+
+/** Mock de la liste paginée des clients. Capture les URLs interrogées. */
+export function mockClientsList(
+  page: Page,
+  responder: (params: URLSearchParams) => Paginated<Client>,
+): ListCapture {
+  const capture: ListCapture = {
+    urls: [],
+    last() {
+      const url = this.urls[this.urls.length - 1] ?? "";
+      return new URL(url).searchParams;
+    },
+  };
+  void page.route(/\/api\/clients(\?|$)/, async (route) => {
+    const url = route.request().url();
+    capture.urls.push(url);
+    await fulfillJson(route, responder(new URL(url).searchParams));
+  });
+  return capture;
+}
+
+/** Mock de la fiche client + historique (200 si id connu, 404 sinon). */
+export async function mockClientHistorique(
+  page: Page,
+  byId: Record<string, ClientAvecHistorique>,
+): Promise<void> {
+  await page.route(/\/api\/clients\/[^/]+\/rendez-vous$/, async (route) => {
+    const id = route.request().url().split("/").slice(-2)[0] ?? "";
+    const data = byId[id];
+    if (data) await fulfillJson(route, data);
+    else await fulfillJson(route, { message: "not found" }, 404);
+  });
+}
+
+/** Capture des actions RGPD sur un client (anonymisation, suppression). */
+export interface ClientRgpdCapture {
+  anonymized: string[];
+  deleted: string[];
+}
+
+/**
+ * Mock des actions RGPD. `anonymize` renvoie le client anonymisé ; `remove`
+ * renvoie 204. Capture les ids ciblés.
+ */
+export function mockClientRgpd(page: Page, client: Client): ClientRgpdCapture {
+  const cap: ClientRgpdCapture = { anonymized: [], deleted: [] };
+  void page.route(/\/api\/clients\/[^/]+\/anonymisation$/, async (route) => {
+    cap.anonymized.push(route.request().url());
+    await fulfillJson(route, {
+      ...client,
+      nom: "—",
+      prenom: "—",
+      email: "anon@hymea.com",
+      telephone: "—",
+      anonymizedAt: "2026-06-26T00:00:00.000Z",
+    });
+  });
+  void page.route(/\/api\/clients\/[A-Za-z0-9-]+$/, async (route) => {
+    if (route.request().method() === "DELETE") {
+      cap.deleted.push(route.request().url());
+      await route.fulfill({ status: 204, body: "" });
+    } else {
+      await route.fallback();
+    }
+  });
+  return cap;
+}
+
+// ─────────────────────── Disponibilités (#38) ───────────────────────────────
+
+export function makeRegle(over: Partial<RegleHebdomadaire> = {}): RegleHebdomadaire {
+  return { id: "regle-1", jour: 1, debut: "09:00", fin: "18:00", ...over };
+}
+
+export function makeException(over: Partial<ExceptionDisponibilite> = {}): ExceptionDisponibilite {
+  return {
+    id: "exc-1",
+    debut: "2026-07-14T00:00:00.000Z",
+    fin: "2026-07-14T23:59:59.999Z",
+    bloque: true,
+    motif: "Jour férié",
+    ...over,
+  };
+}
+
+/** État mutable d'un mock de disponibilités. */
+export interface DispoState {
+  regles: RegleHebdomadaire[];
+  exceptions: ExceptionDisponibilite[];
+}
+
+/**
+ * Mock CRUD des disponibilités sur un état en mémoire : GET renvoie l'état,
+ * POST ajoute (id incrémental), DELETE retire. Permet de tester l'optimisme UI.
+ */
+export function mockDisponibilites(page: Page, initial: Partial<DispoState> = {}): DispoState {
+  const state: DispoState = {
+    regles: initial.regles ?? [],
+    exceptions: initial.exceptions ?? [],
+  };
+  let seq = 100;
+
+  void page.route(/\/api\/disponibilites\/regles\/[^/]+$/, async (route) => {
+    const id = route.request().url().split("/").pop() ?? "";
+    state.regles = state.regles.filter((r) => r.id !== id);
+    await route.fulfill({ status: 204, body: "" });
+  });
+  void page.route(/\/api\/disponibilites\/regles$/, async (route) => {
+    if (route.request().method() === "POST") {
+      const body = route.request().postDataJSON() as Omit<RegleHebdomadaire, "id">;
+      const created: RegleHebdomadaire = { id: `regle-${seq++}`, ...body };
+      state.regles.push(created);
+      await fulfillJson(route, created);
+    } else {
+      await fulfillJson(route, state.regles);
+    }
+  });
+
+  void page.route(/\/api\/disponibilites\/exceptions\/[^/]+$/, async (route) => {
+    const id = route.request().url().split("/").pop() ?? "";
+    state.exceptions = state.exceptions.filter((x) => x.id !== id);
+    await route.fulfill({ status: 204, body: "" });
+  });
+  void page.route(/\/api\/disponibilites\/exceptions$/, async (route) => {
+    if (route.request().method() === "POST") {
+      const body = route.request().postDataJSON() as Omit<ExceptionDisponibilite, "id">;
+      const created: ExceptionDisponibilite = { id: `exc-${seq++}`, ...body };
+      state.exceptions.push(created);
+      await fulfillJson(route, created);
+    } else {
+      await fulfillJson(route, state.exceptions);
+    }
+  });
+
+  return state;
 }

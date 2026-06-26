@@ -1,4 +1,15 @@
-import type { Paginated, Prestation, RendezVousDetail, StatutRendezVous } from "@hymea/shared";
+import type {
+  Client,
+  ClientAvecHistorique,
+  Equipe,
+  ExceptionDisponibilite,
+  Intervenant,
+  Paginated,
+  Prestation,
+  RegleHebdomadaire,
+  RendezVousDetail,
+  StatutRendezVous,
+} from "@hymea/shared";
 
 /**
  * Client HTTP du back-office. En production, admin et API sont servis sur le même
@@ -136,6 +147,32 @@ async function authedFetch<T>(path: string, init?: RequestInit, retry = true): P
   return (await res.json()) as T;
 }
 
+/** Variante pour les réponses sans corps (DELETE → 204) : même rotation 401. */
+async function authedVoid(path: string, init?: RequestInit, retry = true): Promise<void> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_BASE}${path}`, {
+      ...init,
+      credentials: "include",
+      headers: {
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}),
+        ...init?.headers,
+      },
+    });
+  } catch {
+    throw new ApiError(0, "network");
+  }
+  if (res.status === 401 && retry && (await refresh())) {
+    return authedVoid(path, init, false);
+  }
+  if (!res.ok) {
+    throw new ApiError(res.status, `HTTP ${res.status}`);
+  }
+}
+
+/** En-têtes JSON communs aux mutations PATCH/POST. */
+const JSON_HEADERS = { "Content-Type": "application/json" } as const;
+
 /** Filtres/pagination de la liste RDV (back-office). */
 export interface RendezVousQuery {
   page?: number;
@@ -148,7 +185,7 @@ export interface RendezVousQuery {
   search?: string;
 }
 
-function buildQuery(query: RendezVousQuery): string {
+function buildQuery(query: Record<string, unknown>): string {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(query)) {
     if (value !== undefined && value !== null && value !== "") {
@@ -161,7 +198,9 @@ function buildQuery(query: RendezVousQuery): string {
 
 /** Liste paginée des RDV (filtres + recherche). */
 export function listRendezVous(query: RendezVousQuery): Promise<Paginated<RendezVousDetail>> {
-  return authedFetch<Paginated<RendezVousDetail>>(`/rendez-vous${buildQuery(query)}`);
+  return authedFetch<Paginated<RendezVousDetail>>(
+    `/rendez-vous${buildQuery(query as Record<string, unknown>)}`,
+  );
 }
 
 /** Détail d'un RDV. */
@@ -172,4 +211,130 @@ export function getRendezVous(id: string): Promise<RendezVousDetail> {
 /** Catalogue des prestations (pour le filtre par prestation). */
 export function listPrestations(): Promise<Prestation[]> {
   return authedFetch<Prestation[]>(`/prestations`);
+}
+
+// ─────────────────────── Actions sur un RDV (#36) ───────────────────────────
+
+/** Change le statut d'un RDV (transition contrôlée côté API → email client). */
+export function changeStatut(id: string, statut: StatutRendezVous): Promise<RendezVousDetail> {
+  return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/statut`, {
+    method: "PATCH",
+    headers: JSON_HEADERS,
+    body: JSON.stringify({ statut }),
+  });
+}
+
+/** Attribue (ou retire, via null) un intervenant à un RDV. */
+export function assignIntervenant(
+  id: string,
+  intervenantId: string | null,
+): Promise<RendezVousDetail> {
+  return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/intervenant`, {
+    method: "PATCH",
+    headers: JSON_HEADERS,
+    body: JSON.stringify({ intervenantId }),
+  });
+}
+
+/** Replanifie un RDV sur un nouveau créneau (instant ISO) → statut REPLANIFIE + email. */
+export function rescheduleRendezVous(id: string, debut: string): Promise<RendezVousDetail> {
+  return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/replanification`, {
+    method: "PATCH",
+    headers: JSON_HEADERS,
+    body: JSON.stringify({ debut }),
+  });
+}
+
+/** Intervenants actifs (sélecteur d'attribution). */
+export function listIntervenants(): Promise<Intervenant[]> {
+  return authedFetch<Intervenant[]>(`/intervenants`);
+}
+
+/** Équipes (regroupement des intervenants). */
+export function listEquipes(): Promise<Equipe[]> {
+  return authedFetch<Equipe[]>(`/intervenants/equipes`);
+}
+
+// ─────────────────────────── Clients (#37) ──────────────────────────────────
+
+/** Pagination/recherche de la liste clients. */
+export interface ClientsQuery {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+}
+
+/** Liste paginée des clients (recherche nom/prénom/email). */
+export function listClients(query: ClientsQuery): Promise<Paginated<Client>> {
+  return authedFetch<Paginated<Client>>(`/clients${buildQuery(query as Record<string, unknown>)}`);
+}
+
+/** Fiche client enrichie de l'historique de ses RDV. */
+export function getClientHistorique(id: string): Promise<ClientAvecHistorique> {
+  return authedFetch<ClientAvecHistorique>(`/clients/${id}/rendez-vous`);
+}
+
+/** RGPD : anonymise les PII du client (conserve l'historique). */
+export function anonymizeClient(id: string): Promise<Client> {
+  return authedFetch<Client>(`/clients/${id}/anonymisation`, { method: "POST" });
+}
+
+/** RGPD : suppression définitive du client (cascade sur ses RDV). */
+export function deleteClient(id: string): Promise<void> {
+  return authedVoid(`/clients/${id}`, { method: "DELETE" });
+}
+
+// ─────────────────────── Disponibilités (#38) ───────────────────────────────
+
+/** Charge utile d'une règle hebdomadaire (heures "HH:mm", jour 0=dim…6=sam). */
+export interface RegleInput {
+  jour: number;
+  debut: string;
+  fin: string;
+}
+
+/** Charge utile d'une exception/blocage (plage ISO + motif optionnel). */
+export interface ExceptionInput {
+  debut: string;
+  fin: string;
+  bloque?: boolean;
+  motif?: string;
+}
+
+/** Règles hebdomadaires d'ouverture. */
+export function listRegles(): Promise<RegleHebdomadaire[]> {
+  return authedFetch<RegleHebdomadaire[]>(`/disponibilites/regles`);
+}
+
+/** Crée une règle d'ouverture. */
+export function createRegle(input: RegleInput): Promise<RegleHebdomadaire> {
+  return authedFetch<RegleHebdomadaire>(`/disponibilites/regles`, {
+    method: "POST",
+    headers: JSON_HEADERS,
+    body: JSON.stringify(input),
+  });
+}
+
+/** Supprime une règle d'ouverture. */
+export function deleteRegle(id: string): Promise<void> {
+  return authedVoid(`/disponibilites/regles/${id}`, { method: "DELETE" });
+}
+
+/** Exceptions / blocages de disponibilité. */
+export function listExceptions(): Promise<ExceptionDisponibilite[]> {
+  return authedFetch<ExceptionDisponibilite[]>(`/disponibilites/exceptions`);
+}
+
+/** Crée une exception/blocage. */
+export function createException(input: ExceptionInput): Promise<ExceptionDisponibilite> {
+  return authedFetch<ExceptionDisponibilite>(`/disponibilites/exceptions`, {
+    method: "POST",
+    headers: JSON_HEADERS,
+    body: JSON.stringify(input),
+  });
+}
+
+/** Supprime une exception/blocage. */
+export function deleteException(id: string): Promise<void> {
+  return authedVoid(`/disponibilites/exceptions/${id}`, { method: "DELETE" });
 }
