@@ -172,6 +172,17 @@ export function formatLongDay(iso: string): string {
   return label.charAt(0).toUpperCase() + label.slice(1);
 }
 
+/** Date seule « 03/07/2026 » d'un instant UTC (heure d'Israël). */
+export function formatDate(iso: string | null): string {
+  if (!iso) return "—";
+  return new Intl.DateTimeFormat(INTL_LOCALE, {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    timeZone: BUSINESS_TZ,
+  }).format(new Date(iso));
+}
+
 /** Libellé compact d'une date+heure « 03/07/2026 à 09:00 » (instant UTC). */
 export function formatDateTime(iso: string | null): string {
   if (!iso) return "—";
@@ -189,4 +200,80 @@ export function weekdayInitials(): string[] {
   const fmt = new Intl.DateTimeFormat(INTL_LOCALE, { weekday: "short" });
   // 2024-09-01 (UTC midi) est un dimanche : base stable pour les 7 libellés.
   return Array.from({ length: 7 }, (_, i) => fmt.format(new Date(Date.UTC(2024, 8, 1 + i, 12))));
+}
+
+/** Noms longs capitalisés des 7 jours (dimanche → samedi), index = jour métier. */
+export function weekdayNames(): string[] {
+  const fmt = new Intl.DateTimeFormat(INTL_LOCALE, { weekday: "long" });
+  return Array.from({ length: 7 }, (_, i) => {
+    const label = fmt.format(new Date(Date.UTC(2024, 8, 1 + i, 12)));
+    return label.charAt(0).toUpperCase() + label.slice(1);
+  });
+}
+
+/**
+ * Valeur d'un `<input type="datetime-local">` (YYYY-MM-DDTHH:mm) pour un instant
+ * ISO UTC, exprimée à l'heure d'Israël (le créneau saisi par l'opérateur).
+ */
+export function toDatetimeLocalValue(iso: string | null): string {
+  if (!iso) return "";
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: BUSINESS_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(new Date(iso));
+  const get = (type: string) => parts.find((p) => p.type === type)?.value ?? "";
+  return `${get("year")}-${get("month")}-${get("day")}T${get("hour")}:${get("minute")}`;
+}
+
+/** Décalage (minutes) du fuseau métier vs UTC à un instant donné (gère le DST). */
+function businessOffsetMinutes(at: Date): number {
+  const parts = new Intl.DateTimeFormat("en-US", {
+    timeZone: BUSINESS_TZ,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(at);
+  const get = (type: string) => Number(parts.find((p) => p.type === type)?.value ?? "0");
+  const asUtc = Date.UTC(
+    get("year"),
+    get("month") - 1,
+    get("day"),
+    get("hour"),
+    get("minute"),
+    get("second"),
+  );
+  return Math.round((asUtc - at.getTime()) / 60000);
+}
+
+/**
+ * Convertit une valeur de `<input type="datetime-local">` (interprétée à l'heure
+ * d'Israël) en instant ISO UTC pour l'API. Retourne null si la valeur est vide.
+ */
+export function datetimeLocalToIso(value: string): string | null {
+  if (!value) return null;
+  const [date, time] = value.split("T");
+  if (!date || !time) return null;
+  const [y, mo, d] = date.split("-").map(Number);
+  const [h, mi] = time.split(":").map(Number);
+  if ([y, mo, d, h, mi].some((n) => n === undefined || Number.isNaN(n))) return null;
+  // On suppose d'abord la valeur en UTC, on mesure l'offset métier à cet instant,
+  // puis on corrige (suffisant hors minute exacte de bascule DST).
+  const naiveUtc = Date.UTC(
+    y as number,
+    (mo as number) - 1,
+    d as number,
+    h as number,
+    mi as number,
+  );
+  const offset = businessOffsetMinutes(new Date(naiveUtc));
+  return new Date(naiveUtc - offset * 60000).toISOString();
 }

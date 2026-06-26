@@ -57,3 +57,15 @@ export const typeClientLabel: Record<TypeClient, string> = {
   entreprise: "Entreprise",
   particulier: "Particulier",
 };
+
+/**
+ * Verbe d'action associé à une transition de statut (boutons de la fiche RDV).
+ * REPLANIFIE n'apparaît pas en bouton : la replanification passe par le créneau.
+ */
+export const statutActionLabel: Record<StatutRendezVous, string> = {
+  NOUVEAU: "Repasser en nouveau",
+  CONFIRME: "Confirmer",
+  REPLANIFIE: "Replanifier",
+  REALISE: "Marquer réalisé",
+  ANNULE: "Annuler le RDV",
+};

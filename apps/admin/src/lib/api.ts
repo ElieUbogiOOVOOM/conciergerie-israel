@@ -1,10 +1,14 @@
 import type {
   CalendarFeedToken,
+  Client,
+  ClientAvecHistorique,
   Equipe,
+  ExceptionDisponibilite,
   I18nText,
   Intervenant,
   Paginated,
   Prestation,
+  RegleHebdomadaire,
   RendezVousDetail,
   StatutRendezVous,
   TypeClient,
@@ -385,4 +389,108 @@ export function createCalendarFeed(label: string): Promise<CalendarFeedToken> {
 /** Révoque un token d'abonnement iCal (l'URL associée cesse de fonctionner). */
 export async function revokeCalendarFeed(id: string): Promise<void> {
   await authedFetchRaw(`/calendar-feeds/${id}`, { method: "DELETE" });
+}
+
+// --- Actions sur un RDV : statut & replanification (#36) ---
+
+/** Change le statut d'un RDV (transition contrôlée côté API → email client). */
+export function changeStatut(id: string, statut: StatutRendezVous): Promise<RendezVousDetail> {
+  return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/statut`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ statut }),
+  });
+}
+
+/** Replanifie un RDV sur un nouveau créneau (instant ISO) → statut REPLANIFIE + email. */
+export function rescheduleRendezVous(id: string, debut: string): Promise<RendezVousDetail> {
+  return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/replanification`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ debut }),
+  });
+}
+
+// --- Clients (#37) ---
+
+/** Pagination/recherche de la liste clients. */
+export interface ClientsQuery {
+  page?: number;
+  pageSize?: number;
+  search?: string;
+}
+
+/** Liste paginée des clients (recherche nom/prénom/email). */
+export function listClients(query: ClientsQuery): Promise<Paginated<Client>> {
+  return authedFetch<Paginated<Client>>(`/clients${buildQuery(query)}`);
+}
+
+/** Fiche client enrichie de l'historique de ses RDV. */
+export function getClientHistorique(id: string): Promise<ClientAvecHistorique> {
+  return authedFetch<ClientAvecHistorique>(`/clients/${id}/rendez-vous`);
+}
+
+/** RGPD : anonymise les PII du client (conserve l'historique). */
+export function anonymizeClient(id: string): Promise<Client> {
+  return authedFetch<Client>(`/clients/${id}/anonymisation`, { method: "POST" });
+}
+
+/** RGPD : suppression définitive du client (cascade sur ses RDV). */
+export async function deleteClient(id: string): Promise<void> {
+  await authedFetchRaw(`/clients/${id}`, { method: "DELETE" });
+}
+
+// --- Disponibilités (#38) ---
+
+/** Charge utile d'une règle hebdomadaire (heures "HH:mm", jour 0=dim…6=sam). */
+export interface RegleInput {
+  jour: number;
+  debut: string;
+  fin: string;
+}
+
+/** Charge utile d'une exception/blocage (plage ISO + motif optionnel). */
+export interface ExceptionInput {
+  debut: string;
+  fin: string;
+  bloque?: boolean;
+  motif?: string;
+}
+
+/** Règles hebdomadaires d'ouverture. */
+export function listRegles(): Promise<RegleHebdomadaire[]> {
+  return authedFetch<RegleHebdomadaire[]>(`/disponibilites/regles`);
+}
+
+/** Crée une règle d'ouverture. */
+export function createRegle(input: RegleInput): Promise<RegleHebdomadaire> {
+  return authedFetch<RegleHebdomadaire>(`/disponibilites/regles`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+}
+
+/** Supprime une règle d'ouverture. */
+export async function deleteRegle(id: string): Promise<void> {
+  await authedFetchRaw(`/disponibilites/regles/${id}`, { method: "DELETE" });
+}
+
+/** Exceptions / blocages de disponibilité. */
+export function listExceptions(): Promise<ExceptionDisponibilite[]> {
+  return authedFetch<ExceptionDisponibilite[]>(`/disponibilites/exceptions`);
+}
+
+/** Crée une exception/blocage. */
+export function createException(input: ExceptionInput): Promise<ExceptionDisponibilite> {
+  return authedFetch<ExceptionDisponibilite>(`/disponibilites/exceptions`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(input),
+  });
+}
+
+/** Supprime une exception/blocage. */
+export async function deleteException(id: string): Promise<void> {
+  await authedFetchRaw(`/disponibilites/exceptions/${id}`, { method: "DELETE" });
 }
