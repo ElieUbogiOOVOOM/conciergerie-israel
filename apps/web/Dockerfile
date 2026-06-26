@@ -15,6 +15,12 @@ COPY packages/shared/package.json ./packages/shared/
 COPY apps/web/package.json ./apps/web/
 RUN pnpm install --frozen-lockfile
 
+# Base de l'API gravée dans le bundle : Next inline les NEXT_PUBLIC_* AU BUILD.
+# Fournie par Dokploy en build arg ; défaut = API same-origin en HTTPS (évite le
+# blocage « mixed content » d'une page HTTPS appelant une API en HTTP).
+ARG NEXT_PUBLIC_API_URL=https://hymea.elie-ubogi.fr/api
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+
 # Sources puis build (le package partagé d'abord, puis la vitrine).
 COPY packages/shared ./packages/shared
 COPY apps/web ./apps/web
