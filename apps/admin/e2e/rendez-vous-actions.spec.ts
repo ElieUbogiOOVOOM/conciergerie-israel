@@ -31,7 +31,7 @@ test.describe("Back-office — Fiche RDV actions (#36)", () => {
     await expect(page.getByRole("heading", { name: /Cohen\s+Sarah/ })).toBeVisible();
     await expect(page.getByRole("heading", { name: "Actions" })).toBeVisible();
     await expect(page.getByRole("button", { name: "Confirmer" })).toBeVisible();
-    await expect(page.getByLabel("Intervenant")).toBeVisible();
+    await expect(page.getByLabel("Attribuer un intervenant")).toBeVisible();
     await expect(page.getByLabel("Replanifier le créneau")).toBeVisible();
   });
 
@@ -57,7 +57,7 @@ test.describe("Back-office — Fiche RDV actions (#36)", () => {
     await page.goto("/admin/rendez-vous/rdv-1");
 
     const req = page.waitForRequest((r) => r.url().includes("/rendez-vous/rdv-1/intervenant"));
-    await page.getByLabel("Intervenant").selectOption("int-1");
+    await page.getByLabel("Attribuer un intervenant").selectOption("int-1");
     await req;
 
     await expect(page.getByRole("status")).toContainText("Intervenant attribué");
@@ -72,7 +72,7 @@ test.describe("Back-office — Fiche RDV actions (#36)", () => {
     await page.goto("/admin/rendez-vous/rdv-1");
 
     const req = page.waitForRequest((r) => r.url().includes("/rendez-vous/rdv-1/intervenant"));
-    await page.getByLabel("Intervenant").selectOption("");
+    await page.getByLabel("Attribuer un intervenant").selectOption("");
     await req;
 
     await expect(page.getByRole("status")).toContainText("Attribution retirée");

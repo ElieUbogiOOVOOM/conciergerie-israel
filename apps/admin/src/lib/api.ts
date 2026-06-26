@@ -1,14 +1,17 @@
 import type {
+  CalendarFeedToken,
   Client,
   ClientAvecHistorique,
   Equipe,
   ExceptionDisponibilite,
+  I18nText,
   Intervenant,
   Paginated,
   Prestation,
   RegleHebdomadaire,
   RendezVousDetail,
   StatutRendezVous,
+  TypeClient,
 } from "@hymea/shared";
 
 /**
@@ -147,8 +150,11 @@ async function authedFetch<T>(path: string, init?: RequestInit, retry = true): P
   return (await res.json()) as T;
 }
 
-/** Variante pour les réponses sans corps (DELETE → 204) : même rotation 401. */
-async function authedVoid(path: string, init?: RequestInit, retry = true): Promise<void> {
+/**
+ * Variante de {@link authedFetch} renvoyant la réponse brute (sans parse JSON),
+ * pour les téléchargements de fichiers (CSV). Gère le refresh 401 à l'identique.
+ */
+async function authedFetchRaw(path: string, init?: RequestInit, retry = true): Promise<Response> {
   let res: Response;
   try {
     res = await fetch(`${API_BASE}${path}`, {
@@ -162,16 +168,15 @@ async function authedVoid(path: string, init?: RequestInit, retry = true): Promi
   } catch {
     throw new ApiError(0, "network");
   }
+
   if (res.status === 401 && retry && (await refresh())) {
-    return authedVoid(path, init, false);
+    return authedFetchRaw(path, init, false);
   }
   if (!res.ok) {
     throw new ApiError(res.status, `HTTP ${res.status}`);
   }
+  return res;
 }
-
-/** En-têtes JSON communs aux mutations PATCH/POST. */
-const JSON_HEADERS = { "Content-Type": "application/json" } as const;
 
 /** Filtres/pagination de la liste RDV (back-office). */
 export interface RendezVousQuery {
@@ -185,7 +190,7 @@ export interface RendezVousQuery {
   search?: string;
 }
 
-function buildQuery(query: Record<string, unknown>): string {
+function buildQuery(query: RendezVousQuery): string {
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(query)) {
     if (value !== undefined && value !== null && value !== "") {
@@ -198,9 +203,7 @@ function buildQuery(query: Record<string, unknown>): string {
 
 /** Liste paginée des RDV (filtres + recherche). */
 export function listRendezVous(query: RendezVousQuery): Promise<Paginated<RendezVousDetail>> {
-  return authedFetch<Paginated<RendezVousDetail>>(
-    `/rendez-vous${buildQuery(query as Record<string, unknown>)}`,
-  );
+  return authedFetch<Paginated<RendezVousDetail>>(`/rendez-vous${buildQuery(query)}`);
 }
 
 /** Détail d'un RDV. */
@@ -208,31 +211,194 @@ export function getRendezVous(id: string): Promise<RendezVousDetail> {
   return authedFetch<RendezVousDetail>(`/rendez-vous/${id}`);
 }
 
-/** Catalogue des prestations (pour le filtre par prestation). */
+/** Catalogue des prestations (actives + inactives), pour le filtre et l'admin. */
 export function listPrestations(): Promise<Prestation[]> {
   return authedFetch<Prestation[]>(`/prestations`);
 }
 
-// ─────────────────────── Actions sur un RDV (#36) ───────────────────────────
+// --- Prestations (CRUD admin) ---
+
+/** Charge utile de création/édition d'une prestation. */
+export interface PrestationPayload {
+  libelle: I18nText;
+  description?: I18nText | null;
+  cible: TypeClient;
+  dureeMinutes: number;
+  actif?: boolean;
+}
+
+/** Crée une prestation. */
+export function createPrestation(payload: PrestationPayload): Promise<Prestation> {
+  return authedFetch<Prestation>(`/prestations`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Met à jour une prestation (champs partiels). */
+export function updatePrestation(
+  id: string,
+  payload: Partial<PrestationPayload>,
+): Promise<Prestation> {
+  return authedFetch<Prestation>(`/prestations/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Désactive une prestation (soft-delete). */
+export function disablePrestation(id: string): Promise<Prestation> {
+  return authedFetch<Prestation>(`/prestations/${id}`, { method: "DELETE" });
+}
+
+// --- Intervenants & équipes (CRUD admin) ---
+
+/** Liste des intervenants (option : seulement actifs). */
+export function listIntervenants(actif?: boolean): Promise<Intervenant[]> {
+  const qs = actif === undefined ? "" : `?actif=${actif}`;
+  return authedFetch<Intervenant[]>(`/intervenants${qs}`);
+}
+
+/** Charge utile de création/édition d'un intervenant. */
+export interface IntervenantPayload {
+  nom: string;
+  prenom?: string | null;
+  equipeId?: string | null;
+  actif?: boolean;
+}
+
+/** Crée un intervenant. */
+export function createIntervenant(payload: IntervenantPayload): Promise<Intervenant> {
+  return authedFetch<Intervenant>(`/intervenants`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Met à jour un intervenant (champs partiels). */
+export function updateIntervenant(
+  id: string,
+  payload: Partial<IntervenantPayload>,
+): Promise<Intervenant> {
+  return authedFetch<Intervenant>(`/intervenants/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+}
+
+/** Désactive un intervenant (soft-delete : plus assignable). */
+export function disableIntervenant(id: string): Promise<Intervenant> {
+  return authedFetch<Intervenant>(`/intervenants/${id}`, { method: "DELETE" });
+}
+
+/** Liste des équipes. */
+export function listEquipes(): Promise<Equipe[]> {
+  return authedFetch<Equipe[]>(`/equipes`);
+}
+
+/** Crée une équipe. */
+export function createEquipe(nom: string): Promise<Equipe> {
+  return authedFetch<Equipe>(`/equipes`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nom }),
+  });
+}
+
+/** Renomme une équipe. */
+export function updateEquipe(id: string, nom: string): Promise<Equipe> {
+  return authedFetch<Equipe>(`/equipes/${id}`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ nom }),
+  });
+}
+
+/** Supprime une équipe (les intervenants rattachés sont détachés). */
+export async function deleteEquipe(id: string): Promise<void> {
+  await authedFetchRaw(`/equipes/${id}`, { method: "DELETE" });
+}
+
+/** (Ré)attribue ou détache un intervenant sur un RDV. */
+export function assignIntervenant(
+  rdvId: string,
+  intervenantId: string | null,
+): Promise<RendezVousDetail> {
+  return authedFetch<RendezVousDetail>(`/rendez-vous/${rdvId}/intervenant`, {
+    method: "PATCH",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ intervenantId }),
+  });
+}
+
+// --- Exports (CSV) & abonnements iCal ---
+
+/**
+ * Télécharge l'export CSV des RDV en respectant les filtres courants.
+ * Déclenche le téléchargement navigateur via une URL blob éphémère.
+ */
+export async function downloadRendezVousCsv(query: RendezVousQuery): Promise<void> {
+  const { page: _page, pageSize: _pageSize, ...filters } = query;
+  void _page;
+  void _pageSize;
+  const res = await authedFetchRaw(`/rendez-vous/export.csv${buildQuery(filters)}`);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  try {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "rendez-vous.csv";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+  } finally {
+    URL.revokeObjectURL(url);
+  }
+}
+
+/** Base absolue de l'API, pour composer l'URL publique d'abonnement iCal. */
+export function apiBaseUrl(): string {
+  if (API_BASE.startsWith("http")) return API_BASE;
+  if (typeof window !== "undefined") return `${window.location.origin}${API_BASE}`;
+  return API_BASE;
+}
+
+/** URL publique d'abonnement iCal pour un token donné. */
+export function calendarFeedUrl(token: string): string {
+  return `${apiBaseUrl()}/calendar-feeds/${token}.ics`;
+}
+
+/** Liste des tokens d'abonnement iCal (actifs et révoqués). */
+export function listCalendarFeeds(): Promise<CalendarFeedToken[]> {
+  return authedFetch<CalendarFeedToken[]>(`/calendar-feeds`);
+}
+
+/** Crée un token d'abonnement iCal (le secret n'est renvoyé qu'ici). */
+export function createCalendarFeed(label: string): Promise<CalendarFeedToken> {
+  return authedFetch<CalendarFeedToken>(`/calendar-feeds`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ label }),
+  });
+}
+
+/** Révoque un token d'abonnement iCal (l'URL associée cesse de fonctionner). */
+export async function revokeCalendarFeed(id: string): Promise<void> {
+  await authedFetchRaw(`/calendar-feeds/${id}`, { method: "DELETE" });
+}
+
+// --- Actions sur un RDV : statut & replanification (#36) ---
 
 /** Change le statut d'un RDV (transition contrôlée côté API → email client). */
 export function changeStatut(id: string, statut: StatutRendezVous): Promise<RendezVousDetail> {
   return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/statut`, {
     method: "PATCH",
-    headers: JSON_HEADERS,
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ statut }),
-  });
-}
-
-/** Attribue (ou retire, via null) un intervenant à un RDV. */
-export function assignIntervenant(
-  id: string,
-  intervenantId: string | null,
-): Promise<RendezVousDetail> {
-  return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/intervenant`, {
-    method: "PATCH",
-    headers: JSON_HEADERS,
-    body: JSON.stringify({ intervenantId }),
   });
 }
 
@@ -240,22 +406,12 @@ export function assignIntervenant(
 export function rescheduleRendezVous(id: string, debut: string): Promise<RendezVousDetail> {
   return authedFetch<RendezVousDetail>(`/rendez-vous/${id}/replanification`, {
     method: "PATCH",
-    headers: JSON_HEADERS,
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ debut }),
   });
 }
 
-/** Intervenants actifs (sélecteur d'attribution). */
-export function listIntervenants(): Promise<Intervenant[]> {
-  return authedFetch<Intervenant[]>(`/intervenants`);
-}
-
-/** Équipes (regroupement des intervenants). */
-export function listEquipes(): Promise<Equipe[]> {
-  return authedFetch<Equipe[]>(`/intervenants/equipes`);
-}
-
-// ─────────────────────────── Clients (#37) ──────────────────────────────────
+// --- Clients (#37) ---
 
 /** Pagination/recherche de la liste clients. */
 export interface ClientsQuery {
@@ -266,7 +422,7 @@ export interface ClientsQuery {
 
 /** Liste paginée des clients (recherche nom/prénom/email). */
 export function listClients(query: ClientsQuery): Promise<Paginated<Client>> {
-  return authedFetch<Paginated<Client>>(`/clients${buildQuery(query as Record<string, unknown>)}`);
+  return authedFetch<Paginated<Client>>(`/clients${buildQuery(query)}`);
 }
 
 /** Fiche client enrichie de l'historique de ses RDV. */
@@ -280,11 +436,11 @@ export function anonymizeClient(id: string): Promise<Client> {
 }
 
 /** RGPD : suppression définitive du client (cascade sur ses RDV). */
-export function deleteClient(id: string): Promise<void> {
-  return authedVoid(`/clients/${id}`, { method: "DELETE" });
+export async function deleteClient(id: string): Promise<void> {
+  await authedFetchRaw(`/clients/${id}`, { method: "DELETE" });
 }
 
-// ─────────────────────── Disponibilités (#38) ───────────────────────────────
+// --- Disponibilités (#38) ---
 
 /** Charge utile d'une règle hebdomadaire (heures "HH:mm", jour 0=dim…6=sam). */
 export interface RegleInput {
@@ -310,14 +466,14 @@ export function listRegles(): Promise<RegleHebdomadaire[]> {
 export function createRegle(input: RegleInput): Promise<RegleHebdomadaire> {
   return authedFetch<RegleHebdomadaire>(`/disponibilites/regles`, {
     method: "POST",
-    headers: JSON_HEADERS,
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
 }
 
 /** Supprime une règle d'ouverture. */
-export function deleteRegle(id: string): Promise<void> {
-  return authedVoid(`/disponibilites/regles/${id}`, { method: "DELETE" });
+export async function deleteRegle(id: string): Promise<void> {
+  await authedFetchRaw(`/disponibilites/regles/${id}`, { method: "DELETE" });
 }
 
 /** Exceptions / blocages de disponibilité. */
@@ -329,12 +485,12 @@ export function listExceptions(): Promise<ExceptionDisponibilite[]> {
 export function createException(input: ExceptionInput): Promise<ExceptionDisponibilite> {
   return authedFetch<ExceptionDisponibilite>(`/disponibilites/exceptions`, {
     method: "POST",
-    headers: JSON_HEADERS,
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(input),
   });
 }
 
 /** Supprime une exception/blocage. */
-export function deleteException(id: string): Promise<void> {
-  return authedVoid(`/disponibilites/exceptions/${id}`, { method: "DELETE" });
+export async function deleteException(id: string): Promise<void> {
+  await authedFetchRaw(`/disponibilites/exceptions/${id}`, { method: "DELETE" });
 }

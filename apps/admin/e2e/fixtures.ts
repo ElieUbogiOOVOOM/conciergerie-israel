@@ -1,7 +1,9 @@
 import type { BrowserContext, Page, Route } from "@playwright/test";
 import type {
+  CalendarFeedToken,
   Client,
   ClientAvecHistorique,
+  Equipe,
   ExceptionDisponibilite,
   Intervenant,
   Paginated,
@@ -141,6 +143,53 @@ export async function mockPrestations(page: Page, prestations = [makePrestation(
   await page.route(/\/api\/prestations(\?|$)/, (route) => fulfillJson(route, prestations));
 }
 
+export function makeIntervenant(over: Partial<Intervenant> = {}): Intervenant {
+  return {
+    id: "interv-1",
+    nom: "Levi",
+    prenom: "Dan",
+    equipeId: null,
+    actif: true,
+    ...over,
+  };
+}
+
+export function makeEquipe(over: Partial<Equipe> = {}): Equipe {
+  return { id: "equipe-1", nom: "Équipe Tel-Aviv", ...over };
+}
+
+export function makeFeedToken(over: Partial<CalendarFeedToken> = {}): CalendarFeedToken {
+  return {
+    id: "feed-1",
+    label: "Agenda Google de Sarah",
+    token: "tok-secret-1",
+    revokedAt: null,
+    createdAt: "2026-01-01T00:00:00.000Z",
+    ...over,
+  };
+}
+
+/** Mock de la liste des intervenants (respecte le filtre ?actif=). */
+export async function mockIntervenants(page: Page, intervenants: Intervenant[]): Promise<void> {
+  await page.route(/\/api\/intervenants(\?|$)/, (route) => {
+    const url = new URL(route.request().url());
+    const actif = url.searchParams.get("actif");
+    const filtered =
+      actif === null ? intervenants : intervenants.filter((i) => i.actif === (actif === "true"));
+    return fulfillJson(route, filtered);
+  });
+}
+
+/** Mock de la liste des équipes. */
+export async function mockEquipes(page: Page, equipes: Equipe[]): Promise<void> {
+  await page.route(/\/api\/equipes(\?|$)/, (route) => fulfillJson(route, equipes));
+}
+
+/** Mock de la liste des tokens d'abonnement iCal. */
+export async function mockCalendarFeeds(page: Page, feeds: CalendarFeedToken[]): Promise<void> {
+  await page.route(/\/api\/calendar-feeds(\?|$)/, (route) => fulfillJson(route, feeds));
+}
+
 /** Capture des URLs de liste interrogées (pour vérifier les query params). */
 export interface ListCapture {
   urls: string[];
@@ -191,19 +240,7 @@ export async function seedSession(context: BrowserContext): Promise<void> {
   ]);
 }
 
-// ─────────────────────── Intervenants (#36) ─────────────────────────────────
-
-export function makeIntervenant(over: Partial<Intervenant> = {}): Intervenant {
-  return { id: "int-1", nom: "Levy", prenom: "David", equipeId: null, actif: true, ...over };
-}
-
-/** Mock de la liste des intervenants (sélecteur d'attribution). */
-export async function mockIntervenants(
-  page: Page,
-  list: Intervenant[] = [makeIntervenant()],
-): Promise<void> {
-  await page.route(/\/api\/intervenants(\?|$)/, (route) => fulfillJson(route, list));
-}
+// ─────────────────── Actions sur un RDV (statut/replanif, #36) ───────────────
 
 /** Capture des mutations d'un RDV (statut, attribution, replanification). */
 export interface RdvActionCapture {

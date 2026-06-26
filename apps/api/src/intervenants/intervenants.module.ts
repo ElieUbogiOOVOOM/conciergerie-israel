@@ -1,13 +1,13 @@
 import { Module } from "@nestjs/common";
 
 import { AuthModule } from "../auth/auth.module";
+import { EquipesController } from "./equipes.controller";
 import { IntervenantsController } from "./intervenants.controller";
 import { IntervenantsService } from "./intervenants.service";
 
-/** Lecture seule des intervenants/équipes pour le back-office (issue #36). */
 @Module({
   imports: [AuthModule],
-  controllers: [IntervenantsController],
+  controllers: [IntervenantsController, EquipesController],
   providers: [IntervenantsService],
   exports: [IntervenantsService],
 })

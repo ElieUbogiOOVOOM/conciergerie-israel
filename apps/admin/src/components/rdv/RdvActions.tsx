@@ -63,7 +63,7 @@ export function RdvActions({
 
   // Liste des intervenants pour le sélecteur d'attribution (chargée une fois).
   useEffect(() => {
-    listIntervenants()
+    listIntervenants(true)
       .then(setIntervenants)
       .catch(() => setIntervenants([]));
   }, []);
@@ -173,7 +173,7 @@ export function RdvActions({
           htmlFor="rdv-intervenant"
           className="flex items-center gap-2 font-ui text-xs font-medium uppercase tracking-wider text-encre-doux"
         >
-          Intervenant
+          Attribuer un intervenant
           {busy === "intervenant" && <InlineSpinner />}
         </label>
         <select
