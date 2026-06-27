@@ -3,6 +3,7 @@ import {
   ConflictException,
   Inject,
   Injectable,
+  Logger,
   NotFoundException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
@@ -33,12 +34,23 @@ import {
 } from "./rdv.mapper";
 import { TurnstileService } from "./turnstile.service";
 
-/** Échappe une valeur pour une cellule CSV (RFC 4180) : guillemets doublés, entourage si besoin. */
+/** Plafond de lignes de l'export CSV (anti-DoS mémoire / extraction massive). */
+const CSV_EXPORT_MAX_ROWS = 50000;
+
+/**
+ * Échappe une valeur pour une cellule CSV (RFC 4180) : guillemets doublés, entourage si besoin.
+ * Neutralise aussi l'injection de formule (Excel/Sheets) en préfixant les cellules
+ * commençant par `= + - @` ou une tabulation/CR d'une apostrophe.
+ */
 function toCsvCell(value: string): string {
-  if (/[",\r\n]/.test(value)) {
-    return `"${value.replace(/"/g, '""')}"`;
+  let v = value;
+  if (/^[=+\-@\t\r]/.test(v)) {
+    v = `'${v}`;
   }
-  return value;
+  if (/[",\r\n]/.test(v)) {
+    return `"${v.replace(/"/g, '""')}"`;
+  }
+  return v;
 }
 
 /** Statut → email de cycle de vie déclenché vers le client (null = aucun). */
@@ -50,6 +62,8 @@ const STATUT_EMAIL: Partial<Record<StatutRendezVous, EmailType>> = {
 
 @Injectable()
 export class RendezVousService {
+  private readonly logger = new Logger(RendezVousService.name);
+
   constructor(
     @Inject(KYSELY) private readonly db: KyselyDB,
     private readonly config: ConfigService<Env, true>,
@@ -200,11 +214,20 @@ export class RendezVousService {
    * trié par créneau croissant. Libellé de prestation en français.
    */
   async exportCsv(query: ListRendezVousQuery): Promise<string> {
+    // Borne dure : on charge au plus CSV_EXPORT_MAX_ROWS + 1 pour détecter la troncature.
     const rows = await this.buildFilteredQuery(query)
       .selectAll("rendez_vous")
       .orderBy("rendez_vous.debut", "asc")
       .orderBy("rendez_vous.created_at", "asc")
+      .limit(CSV_EXPORT_MAX_ROWS + 1)
       .execute();
+
+    if (rows.length > CSV_EXPORT_MAX_ROWS) {
+      this.logger.warn(
+        `Export CSV tronqué à ${CSV_EXPORT_MAX_ROWS} lignes (filtres trop larges) — affinez la plage de dates.`,
+      );
+      rows.length = CSV_EXPORT_MAX_ROWS;
+    }
 
     const details = await this.assembleDetails(rows);
 

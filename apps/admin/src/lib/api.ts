@@ -50,9 +50,12 @@ function setAccessToken(token: string | null): void {
 /** Pose/efface le cookie de présence (path /admin) consommé par le middleware. */
 function setSessionCookie(present: boolean): void {
   if (typeof document === "undefined") return;
+  // `Secure` dès que la page est servie en HTTPS (production derrière le reverse-proxy).
+  const secure =
+    typeof location !== "undefined" && location.protocol === "https:" ? "; secure" : "";
   document.cookie = present
-    ? `${SESSION_COOKIE}=1; path=/admin; max-age=2592000; samesite=lax`
-    : `${SESSION_COOKIE}=; path=/admin; max-age=0; samesite=lax`;
+    ? `${SESSION_COOKIE}=1; path=/admin; max-age=2592000; samesite=lax${secure}`
+    : `${SESSION_COOKIE}=; path=/admin; max-age=0; samesite=lax${secure}`;
 }
 
 /** Échéance (ms epoch) encodée dans l'access token JWT, pour le refresh anticipé. */

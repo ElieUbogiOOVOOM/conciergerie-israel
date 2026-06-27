@@ -1,4 +1,4 @@
-import { randomUUID } from "node:crypto";
+import { randomBytes } from "node:crypto";
 
 import { Inject, Injectable, UnauthorizedException } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
@@ -37,6 +37,9 @@ export class AuthService {
     private readonly config: ConfigService<Env, true>,
   ) {}
 
+  /** Hash argon2 factice pour égaliser le temps de réponse quand l'email n'existe pas. */
+  private dummyHash: Promise<string> | null = null;
+
   /** Vérifie les identifiants (argon2) puis émet un couple access + refresh. */
   async login(email: string, password: string): Promise<AuthTokens> {
     const admin = await this.db
@@ -45,7 +48,14 @@ export class AuthService {
       .where("email", "=", email.toLowerCase())
       .executeTakeFirst();
 
-    if (!admin || !(await this.safeVerify(admin.password_hash, password))) {
+    // Anti-énumération par timing : si l'admin n'existe pas, on vérifie tout de même
+    // contre un hash factice pour que le coût argon2 soit identique dans les deux cas.
+    if (!admin) {
+      this.dummyHash ??= argon2.hash(randomBytes(16).toString("hex"));
+      await this.safeVerify(await this.dummyHash, password);
+      throw new UnauthorizedException("Identifiants invalides.");
+    }
+    if (!(await this.safeVerify(admin.password_hash, password))) {
       throw new UnauthorizedException("Identifiants invalides.");
     }
 
@@ -106,45 +116,73 @@ export class AuthService {
     return admin ?? null;
   }
 
-  /** Émet un access JWT + crée et persiste (hashé) un nouveau refresh token. */
+  /**
+   * Émet un access JWT + crée et persiste (hashé) un nouveau refresh token.
+   * Le token brut a la forme `<selector>.<secret>` : `selector` est indexé (lookup O(1)),
+   * seul `secret` est hashé en base (comparaison à temps constant, un seul argon2 par refresh).
+   */
   private async issueTokens(adminId: string, email: string): Promise<AuthTokens> {
     const payload: AccessTokenPayload = { sub: adminId, email };
     const accessToken = await this.jwt.signAsync(payload);
 
-    const rawToken = randomUUID();
-    const tokenHash = await argon2.hash(rawToken);
+    const selector = randomBytes(16).toString("base64url");
+    const secret = randomBytes(32).toString("base64url");
+    const rawToken = `${selector}.${secret}`;
+    const tokenHash = await argon2.hash(secret);
     const ttlDays = this.config.get("JWT_REFRESH_TTL_DAYS", { infer: true });
     const refreshExpiresAt = new Date(Date.now() + ttlDays * 24 * 60 * 60 * 1000);
 
     await this.db
       .insertInto("refresh_tokens")
-      .values({ admin_id: adminId, token_hash: tokenHash, expires_at: refreshExpiresAt })
+      .values({ admin_id: adminId, selector, token_hash: tokenHash, expires_at: refreshExpiresAt })
       .execute();
 
     return { accessToken, refreshToken: rawToken, refreshExpiresAt };
   }
 
   /**
-   * Retrouve l'enregistrement correspondant au refresh token brut.
-   * Le token n'étant pas indexable (hashé), on compare le hash des candidats
-   * actifs (non révoqués, non expirés).
+   * Retrouve l'enregistrement correspondant au refresh token brut via le `selector` indexé.
+   * Détection de réutilisation (RFC 6819) : si un token déjà révoqué mais au secret valide
+   * est présenté (vol probable), toute la famille de l'admin est révoquée.
    */
   private async findValidRefreshToken(
     rawToken: string,
   ): Promise<{ id: string; admin_id: string } | null> {
-    const candidates = await this.db
-      .selectFrom("refresh_tokens")
-      .select(["id", "admin_id", "token_hash"])
-      .where("revoked_at", "is", null)
-      .where("expires_at", ">", new Date())
-      .execute();
-
-    for (const candidate of candidates) {
-      if (await this.safeVerify(candidate.token_hash, rawToken)) {
-        return { id: candidate.id, admin_id: candidate.admin_id };
-      }
+    const dot = rawToken.indexOf(".");
+    if (dot <= 0) {
+      return null;
     }
-    return null;
+    const selector = rawToken.slice(0, dot);
+    const secret = rawToken.slice(dot + 1);
+
+    const row = await this.db
+      .selectFrom("refresh_tokens")
+      .select(["id", "admin_id", "token_hash", "revoked_at", "expires_at"])
+      .where("selector", "=", selector)
+      .executeTakeFirst();
+
+    if (!row || !(await this.safeVerify(row.token_hash, secret))) {
+      return null;
+    }
+    if (row.revoked_at) {
+      // Réutilisation d'un token révoqué : invalider toute la lignée de l'admin.
+      await this.revokeAllForAdmin(row.admin_id);
+      return null;
+    }
+    if (row.expires_at <= new Date()) {
+      return null;
+    }
+    return { id: row.id, admin_id: row.admin_id };
+  }
+
+  /** Révoque tous les refresh tokens actifs d'un admin (détection de réutilisation / logout global). */
+  private async revokeAllForAdmin(adminId: string): Promise<void> {
+    await this.db
+      .updateTable("refresh_tokens")
+      .set({ revoked_at: new Date() })
+      .where("admin_id", "=", adminId)
+      .where("revoked_at", "is", null)
+      .execute();
   }
 
   /** argon2.verify qui renvoie false (au lieu de throw) sur un hash corrompu. */

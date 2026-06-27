@@ -1,6 +1,7 @@
 import { Body, Controller, HttpCode, Post, Req, Res } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { ApiOkResponse, ApiTags } from "@nestjs/swagger";
+import { Throttle } from "@nestjs/throttler";
 import type { CookieOptions, Request, Response } from "express";
 
 import type { Env } from "../config/env.validation";
@@ -11,6 +12,11 @@ import { LoginDto } from "./dto/login.dto";
 export const REFRESH_COOKIE = "hymea_refresh";
 /** Le cookie n'est renvoyé que sur les routes d'auth (login/refresh/logout). */
 const REFRESH_COOKIE_PATH = "/api/auth";
+
+// Anti-brute-force login/refresh (pilotable par env, lu à l'import — comme en test).
+const AUTH_THROTTLE_LIMIT = Number(process.env.AUTH_THROTTLE_LIMIT ?? 10);
+const AUTH_THROTTLE_TTL_MS = Number(process.env.AUTH_THROTTLE_TTL ?? 900) * 1000;
+const AUTH_THROTTLE = { default: { limit: AUTH_THROTTLE_LIMIT, ttl: AUTH_THROTTLE_TTL_MS } };
 
 interface AccessTokenResponse {
   accessToken: string;
@@ -25,6 +31,7 @@ export class AuthController {
   ) {}
 
   @Post("login")
+  @Throttle(AUTH_THROTTLE)
   @HttpCode(200)
   @ApiOkResponse({ description: "Access token + dépose le cookie refresh httpOnly." })
   async login(
@@ -37,6 +44,7 @@ export class AuthController {
   }
 
   @Post("refresh")
+  @Throttle(AUTH_THROTTLE)
   @HttpCode(200)
   @ApiOkResponse({ description: "Rotation : nouvel access token + nouveau cookie refresh." })
   async refresh(
@@ -64,7 +72,8 @@ export class AuthController {
   private setRefreshCookie(res: Response, token: string, expiresAt: Date): void {
     const options: CookieOptions = {
       httpOnly: true,
-      sameSite: "lax",
+      // Strict : le cookie n'est servi qu'aux routes /api/auth, aucune navigation cross-site légitime.
+      sameSite: "strict",
       secure: this.config.get("COOKIE_SECURE", { infer: true }),
       path: REFRESH_COOKIE_PATH,
       expires: expiresAt,

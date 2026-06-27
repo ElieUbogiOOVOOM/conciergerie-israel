@@ -13,7 +13,18 @@ import { JwtAuthGuard } from "./jwt-auth.guard";
       inject: [ConfigService],
       useFactory: (config: ConfigService<Env, true>) => ({
         secret: config.get("JWT_ACCESS_SECRET", { infer: true }),
-        signOptions: { expiresIn: config.get("JWT_ACCESS_TTL", { infer: true }) },
+        // Algorithme verrouillé (anti algorithm-confusion) + claims iss/aud vérifiés au guard.
+        signOptions: {
+          expiresIn: config.get("JWT_ACCESS_TTL", { infer: true }),
+          algorithm: "HS256",
+          issuer: "hymea-api",
+          audience: "hymea-admin",
+        },
+        verifyOptions: {
+          algorithms: ["HS256"],
+          issuer: "hymea-api",
+          audience: "hymea-admin",
+        },
       }),
     }),
   ],

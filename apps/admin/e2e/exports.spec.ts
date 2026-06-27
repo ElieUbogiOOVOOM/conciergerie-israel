@@ -92,7 +92,7 @@ test.describe("Back-office — Exports & agenda (#41)", () => {
     expect(download.suggestedFilename()).toBe("rendez-vous.csv");
   });
 
-  test("crée un lien d'abonnement (POST)", async ({ page }) => {
+  test("crée un lien d'abonnement (POST) et révèle l'URL une seule fois", async ({ page }) => {
     await mockExports(page);
     await page.goto("/admin/exports");
     await page.getByLabel("Libellé du lien").fill("Agenda Dan");
@@ -101,18 +101,23 @@ test.describe("Back-office — Exports & agenda (#41)", () => {
     );
     await page.getByRole("button", { name: "Créer un lien" }).click();
     await req;
-    await expect(page.getByText("Agenda Dan")).toBeVisible();
+    // L'URL complète n'apparaît qu'une fois, dans le bandeau de révélation.
+    const reveal = page.getByRole("status");
+    await expect(reveal).toContainText("ne sera plus affichée");
+    await expect(reveal.getByText("/api/calendar-feeds/tok-new.ics")).toBeVisible();
   });
 
-  test("copie l'URL d'abonnement dans le presse-papier", async ({ page, browserName }) => {
+  test("copie l'URL révélée dans le presse-papier", async ({ page, browserName }) => {
     test.skip(browserName === "webkit", "API presse-papier non disponible sous WebKit en test.");
     await mockExports(page);
     await page.goto("/admin/exports");
-    const item = page.getByRole("listitem").filter({ hasText: "Agenda Sarah" });
-    await item.getByRole("button", { name: "Copier l'URL" }).click();
-    await expect(item.getByRole("button", { name: "Copié" })).toBeVisible();
+    await page.getByLabel("Libellé du lien").fill("Agenda Dan");
+    await page.getByRole("button", { name: "Créer un lien" }).click();
+    const reveal = page.getByRole("status");
+    await reveal.getByRole("button", { name: "Copier l'URL" }).click();
+    await expect(reveal.getByRole("button", { name: "Copié" })).toBeVisible();
     const clip = await page.evaluate(() => navigator.clipboard.readText());
-    expect(clip).toContain("/api/calendar-feeds/tok-1.ics");
+    expect(clip).toContain("/api/calendar-feeds/tok-new.ics");
   });
 
   test("révoque un lien après confirmation (DELETE)", async ({ page }) => {

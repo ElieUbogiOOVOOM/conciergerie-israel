@@ -3,16 +3,18 @@ import {
   Delete,
   Get,
   HttpCode,
+  Logger,
   Param,
   ParseUUIDPipe,
   Post,
   Query,
+  Req,
   UseGuards,
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags } from "@nestjs/swagger";
 import type { Client, ClientAvecHistorique, Paginated } from "@hymea/shared";
 
-import { JwtAuthGuard } from "../auth/jwt-auth.guard";
+import { type AuthenticatedRequest, JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { ClientsService } from "./clients.service";
 import { ListClientsQuery } from "./dto/list-clients.query";
 
@@ -22,6 +24,8 @@ import { ListClientsQuery } from "./dto/list-clients.query";
 @UseGuards(JwtAuthGuard)
 @Controller("clients")
 export class ClientsController {
+  private readonly audit = new Logger("ClientsAudit");
+
   constructor(private readonly clients: ClientsService) {}
 
   @Get()
@@ -46,7 +50,11 @@ export class ClientsController {
   @Post(":id/anonymisation")
   @HttpCode(200)
   @ApiOkResponse({ description: "Client anonymisé (PII effacées)." })
-  anonymize(@Param("id", ParseUUIDPipe) id: string): Promise<Client> {
+  anonymize(
+    @Param("id", ParseUUIDPipe) id: string,
+    @Req() req: AuthenticatedRequest,
+  ): Promise<Client> {
+    this.audit.warn(`anonymisation client=${id} par admin=${req.admin.id} (${req.admin.email})`);
     return this.clients.anonymize(id);
   }
 
@@ -54,7 +62,8 @@ export class ClientsController {
   @Delete(":id")
   @HttpCode(204)
   @ApiOkResponse({ description: "Client supprimé." })
-  remove(@Param("id", ParseUUIDPipe) id: string): Promise<void> {
+  remove(@Param("id", ParseUUIDPipe) id: string, @Req() req: AuthenticatedRequest): Promise<void> {
+    this.audit.warn(`suppression client=${id} par admin=${req.admin.id} (${req.admin.email})`);
     return this.clients.remove(id);
   }
 }

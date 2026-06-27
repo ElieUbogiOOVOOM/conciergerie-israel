@@ -14,8 +14,12 @@ import {
 } from "@nestjs/common";
 import { ApiBearerAuth, ApiOkResponse, ApiTags, ApiTooManyRequestsResponse } from "@nestjs/swagger";
 import type { Response } from "express";
-import { ThrottlerGuard } from "@nestjs/throttler";
+import { Throttle } from "@nestjs/throttler";
 import type { Paginated, RendezVous, RendezVousDetail } from "@hymea/shared";
+
+// Limite IP de la demande publique (pilotable par env, lue à l'import — comme en test).
+const RDV_THROTTLE_LIMIT = Number(process.env.RDV_THROTTLE_LIMIT ?? 5);
+const RDV_THROTTLE_TTL_MS = Number(process.env.RDV_THROTTLE_TTL ?? 60) * 1000;
 
 import { JwtAuthGuard } from "../auth/jwt-auth.guard";
 import { AssignIntervenantDto } from "./dto/assign-intervenant.dto";
@@ -32,7 +36,7 @@ export class RendezVousController {
 
   /** Endpoint public : création d'une demande (rate-limité par IP + Turnstile + honeypot). */
   @Post()
-  @UseGuards(ThrottlerGuard)
+  @Throttle({ default: { limit: RDV_THROTTLE_LIMIT, ttl: RDV_THROTTLE_TTL_MS } })
   @ApiOkResponse({ description: "Demande de RDV créée (statut NOUVEAU)." })
   @ApiTooManyRequestsResponse({ description: "Trop de demandes depuis cette IP." })
   create(@Body() dto: CreateRendezVousDto, @Ip() ip: string): Promise<RendezVous> {

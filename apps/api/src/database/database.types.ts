@@ -24,6 +24,8 @@ export interface AdminsTable {
 export interface RefreshTokensTable {
   id: Generated<string>;
   admin_id: string;
+  /** Identifiant public indexé du token (`<selector>.<secret>`), pour un lookup O(1). */
+  selector: string;
   token_hash: string;
   expires_at: Timestamp;
   revoked_at: Timestamp | null;
@@ -115,7 +117,10 @@ export interface RendezVousTable {
 export interface CalendarFeedTokensTable {
   id: Generated<string>;
   label: string;
-  token: string;
+  /** Hash SHA-256 du jeton porteur (le jeton brut n'est jamais stocké). */
+  token_hash: string;
+  /** Expiration optionnelle (null = sans expiration). */
+  expires_at: Timestamp | null;
   revoked_at: Timestamp | null;
   created_at: Generated<Date>;
 }
