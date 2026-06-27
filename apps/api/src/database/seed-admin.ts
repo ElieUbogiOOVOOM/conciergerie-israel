@@ -29,8 +29,11 @@ async function main(): Promise<void> {
       "Email et mot de passe requis (--email / --password ou SEED_ADMIN_EMAIL / SEED_ADMIN_PASSWORD).",
     );
   }
-  if (password.length < 8) {
-    throw new Error("Le mot de passe doit contenir au moins 8 caractères.");
+  if (password.length < 12) {
+    throw new Error("Le mot de passe admin doit contenir au moins 12 caractères.");
+  }
+  if (/^(change-me|password|admin|hymea)/i.test(password)) {
+    throw new Error("Mot de passe admin trop faible (valeur par défaut/évidente interdite).");
   }
 
   const connectionString = process.env.DATABASE_URL;

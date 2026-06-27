@@ -34,6 +34,12 @@ export interface RdvLifecyclePayload {
   adresse: string | null;
 }
 
+/** Retire les caractères de contrôle (anti-injection d'en-tête email). */
+function stripControlChars(value: string): string {
+  // eslint-disable-next-line no-control-regex
+  return value.replace(/[\u0000-\u001F\u007F]/g, "");
+}
+
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
@@ -150,8 +156,9 @@ export class MailService {
       const from = this.config.get("MAIL_FROM", { infer: true });
       await this.resend.emails.send({
         from,
-        to,
-        subject: content.subject,
+        // Défense en profondeur anti-injection d'en-tête (indépendante du transport).
+        to: stripControlChars(to),
+        subject: stripControlChars(content.subject),
         html: content.html,
         text: content.text,
       });

@@ -163,6 +163,7 @@ export function makeFeedToken(over: Partial<CalendarFeedToken> = {}): CalendarFe
     id: "feed-1",
     label: "Agenda Google de Sarah",
     token: "tok-secret-1",
+    expiresAt: null,
     revokedAt: null,
     createdAt: "2026-01-01T00:00:00.000Z",
     ...over,

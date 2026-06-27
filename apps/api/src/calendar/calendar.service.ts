@@ -1,4 +1,4 @@
-import { randomBytes } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 
 import { ForbiddenException, Inject, Injectable, NotFoundException } from "@nestjs/common";
 import type { CalendarFeedToken } from "@hymea/shared";
@@ -7,6 +7,11 @@ import { KYSELY, type KyselyDB } from "../database/database.module";
 
 /** Statuts inclus dans le flux iCal (RDV fermes). */
 const ICS_STATUTS = ["CONFIRME", "REPLANIFIE"] as const;
+
+/** Hash SHA-256 (hex) d'un jeton porteur à haute entropie (argon2 inutile ici). */
+function hashToken(raw: string): string {
+  return createHash("sha256").update(raw).digest("hex");
+}
 
 /**
  * Flux iCal lecture seule protégé par jeton (issue #20).
@@ -18,25 +23,28 @@ const ICS_STATUTS = ["CONFIRME", "REPLANIFIE"] as const;
 export class CalendarService {
   constructor(@Inject(KYSELY) private readonly db: KyselyDB) {}
 
-  /** Crée un jeton d'abonnement (back-office). */
+  /**
+   * Crée un jeton d'abonnement (back-office). Le jeton brut n'est renvoyé qu'ICI,
+   * une seule fois (seul son hash est persisté) ; il devra être copié immédiatement.
+   */
   async createToken(label: string): Promise<CalendarFeedToken> {
-    const token = randomBytes(32).toString("base64url");
+    const rawToken = randomBytes(32).toString("base64url");
     const row = await this.db
       .insertInto("calendar_feed_tokens")
-      .values({ label, token })
+      .values({ label, token_hash: hashToken(rawToken) })
       .returningAll()
       .executeTakeFirstOrThrow();
-    return toCalendarFeedToken(row);
+    return toCalendarFeedToken(row, rawToken);
   }
 
-  /** Liste les jetons (les plus récents d'abord), jeton complet pour reconstruire l'URL. */
+  /** Liste les jetons (les plus récents d'abord). Le jeton brut n'est jamais renvoyé (hashé). */
   async listTokens(): Promise<CalendarFeedToken[]> {
     const rows = await this.db
       .selectFrom("calendar_feed_tokens")
       .selectAll()
       .orderBy("created_at", "desc")
       .execute();
-    return rows.map(toCalendarFeedToken);
+    return rows.map((row) => toCalendarFeedToken(row, null));
   }
 
   /** Révoque un jeton (404 si absent). */
@@ -61,15 +69,15 @@ export class CalendarService {
     }
   }
 
-  /** Construit le `.ics` pour un jeton (403 si absent/révoqué). */
+  /** Construit le `.ics` pour un jeton (403 si absent/révoqué/expiré). */
   async buildIcs(token: string): Promise<string> {
     const found = await this.db
       .selectFrom("calendar_feed_tokens")
-      .select(["id", "revoked_at"])
-      .where("token", "=", token)
+      .select(["id", "revoked_at", "expires_at"])
+      .where("token_hash", "=", hashToken(token))
       .executeTakeFirst();
-    if (!found || found.revoked_at) {
-      throw new ForbiddenException("Jeton invalide ou révoqué.");
+    if (!found || found.revoked_at || (found.expires_at && found.expires_at <= new Date())) {
+      throw new ForbiddenException("Jeton invalide, révoqué ou expiré.");
     }
 
     const rows = await this.db
@@ -125,17 +133,22 @@ export class CalendarService {
   }
 }
 
-function toCalendarFeedToken(row: {
-  id: string;
-  label: string;
-  token: string;
-  revoked_at: Date | null;
-  created_at: Date;
-}): CalendarFeedToken {
+function toCalendarFeedToken(
+  row: {
+    id: string;
+    label: string;
+    expires_at: Date | null;
+    revoked_at: Date | null;
+    created_at: Date;
+  },
+  /** Jeton brut : présent uniquement au moment de la création, sinon null (hashé en base). */
+  rawToken: string | null,
+): CalendarFeedToken {
   return {
     id: row.id,
     label: row.label,
-    token: row.token,
+    token: rawToken,
+    expiresAt: row.expires_at ? row.expires_at.toISOString() : null,
     revokedAt: row.revoked_at ? row.revoked_at.toISOString() : null,
     createdAt: row.created_at.toISOString(),
   };

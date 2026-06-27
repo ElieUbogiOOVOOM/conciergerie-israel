@@ -110,8 +110,13 @@ export interface CalendarFeedToken {
   id: Id;
   /** Libellé libre pour identifier l'usage du jeton (ex. "Agenda Google de Sarah"). */
   label: string;
-  /** Jeton secret porté par l'URL .ics (montré une seule fois côté admin). */
-  token: string;
+  /**
+   * Jeton secret porté par l'URL .ics. Renvoyé UNE SEULE FOIS à la création
+   * (le serveur n'en stocke que le hash) ; null lors d'une simple liste.
+   */
+  token: string | null;
+  /** Expiration optionnelle (null = sans expiration). */
+  expiresAt: IsoDateTime | null;
   /** Horodatage de révocation (null = actif). */
   revokedAt: IsoDateTime | null;
   createdAt: IsoDateTime;

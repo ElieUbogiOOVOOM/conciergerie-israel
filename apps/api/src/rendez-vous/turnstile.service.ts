@@ -14,10 +14,17 @@ export class TurnstileService {
 
   constructor(private readonly config: ConfigService<Env, true>) {}
 
-  /** true si le challenge est validé (ou si la vérification est désactivée). */
+  /** true si le challenge est validé. Fail-closed en production si non configuré/erreur. */
   async verify(token: string | undefined, ip?: string): Promise<boolean> {
     const secret = this.config.get("TURNSTILE_SECRET", { infer: true });
     if (!secret) {
+      // Hors production : vérification désactivée (dev/staging sans clé).
+      // En production, l'env interdit déjà un secret absent (cf. env.validation) — fail-closed.
+      const isProd = this.config.get("NODE_ENV", { infer: true }) === "production";
+      if (isProd) {
+        this.logger.error("TURNSTILE_SECRET absent en production : requête rejetée (fail-closed).");
+        return false;
+      }
       return true;
     }
     if (!token) {
@@ -31,11 +38,22 @@ export class TurnstileService {
 
     try {
       const url = this.config.get("TURNSTILE_VERIFY_URL", { infer: true });
-      const res = await fetch(url, { method: "POST", body });
-      const data = (await res.json()) as { success?: boolean };
-      return data.success === true;
+      // Timeout pour ne pas bloquer l'endpoint public si Cloudflare est lent (fail-closed).
+      const res = await fetch(url, {
+        method: "POST",
+        body,
+        signal: AbortSignal.timeout(5000),
+      });
+      const data = (await res.json()) as { success?: boolean; "error-codes"?: string[] };
+      if (data.success !== true) {
+        this.logger.warn(
+          `Turnstile rejeté : ${(data["error-codes"] ?? []).join(", ") || "inconnu"}`,
+        );
+        return false;
+      }
+      return true;
     } catch (error) {
-      this.logger.error("Échec de la vérification Turnstile", error as Error);
+      this.logger.error("Échec de la vérification Turnstile (timeout/réseau)", error as Error);
       return false;
     }
   }

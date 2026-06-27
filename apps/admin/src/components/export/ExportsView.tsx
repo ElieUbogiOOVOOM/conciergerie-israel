@@ -14,10 +14,19 @@ import { Button } from "@/components/ui/Button";
 import { Spinner } from "@/components/ui/Spinner";
 import { fieldClass, labelClass } from "@/components/ui/form";
 
+/** URL d'abonnement révélée une seule fois (à la création/régénération du lien). */
+interface RevealedFeed {
+  label: string;
+  url: string;
+}
+
 /**
  * Exports & synchronisation agenda (#41) : export CSV complet des RDV et gestion
- * des abonnements iCal (création, copie d'URL, régénération du token, révocation).
- * L'export CSV filtré reste accessible depuis la liste des rendez-vous.
+ * des abonnements iCal (création, régénération, révocation).
+ *
+ * Sécurité : le serveur ne stocke que le hash du jeton ; l'URL complète n'est donc
+ * affichée qu'UNE seule fois, juste après la création/régénération. Elle doit être
+ * copiée immédiatement et ne peut pas être ré-affichée ensuite.
  */
 export function ExportsView() {
   const [feeds, setFeeds] = useState<CalendarFeedToken[]>([]);
@@ -27,7 +36,8 @@ export function ExportsView() {
   const [busy, setBusy] = useState(false);
   const [csvBusy, setCsvBusy] = useState(false);
   const [csvError, setCsvError] = useState<string | null>(null);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [revealed, setRevealed] = useState<RevealedFeed | null>(null);
+  const [copied, setCopied] = useState(false);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -57,29 +67,38 @@ export function ExportsView() {
     }
   }, []);
 
+  /** Affiche l'URL fraîchement créée (révélation unique). */
+  function reveal(created: CalendarFeedToken) {
+    if (created.token) {
+      setRevealed({ label: created.label, url: calendarFeedUrl(created.token) });
+      setCopied(false);
+    }
+  }
+
+  async function onCopyRevealed() {
+    if (!revealed) return;
+    try {
+      await navigator.clipboard.writeText(revealed.url);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.prompt("Copiez l'URL d'abonnement :", revealed.url);
+    }
+  }
+
   async function onCreate(event: React.FormEvent) {
     event.preventDefault();
     if (label.trim() === "") return;
     setBusy(true);
     try {
-      await createCalendarFeed(label.trim());
+      const created = await createCalendarFeed(label.trim());
+      reveal(created);
       setLabel("");
       await load();
     } catch {
       window.alert("Création du lien impossible.");
     } finally {
       setBusy(false);
-    }
-  }
-
-  async function onCopy(feed: CalendarFeedToken) {
-    const url = calendarFeedUrl(feed.token);
-    try {
-      await navigator.clipboard.writeText(url);
-      setCopiedId(feed.id);
-      window.setTimeout(() => setCopiedId((id) => (id === feed.id ? null : id)), 2000);
-    } catch {
-      window.prompt("Copiez l'URL d'abonnement :", url);
     }
   }
 
@@ -93,8 +112,9 @@ export function ExportsView() {
     }
     setBusy(true);
     try {
-      await createCalendarFeed(feed.label);
+      const created = await createCalendarFeed(feed.label);
       await revokeCalendarFeed(feed.id);
+      reveal(created);
       await load();
     } catch {
       window.alert("Régénération impossible.");
@@ -145,9 +165,41 @@ export function ExportsView() {
           <h2 className="font-title text-h3 text-encre">Abonnements iCal</h2>
           <p className="mt-1 font-ui text-sm text-encre-doux">
             Crée une URL d&apos;abonnement en lecture seule (RDV confirmés et replanifiés) à coller
-            dans Google&nbsp;Agenda, Apple&nbsp;Calendar, etc.
+            dans Google&nbsp;Agenda, Apple&nbsp;Calendar, etc. L&apos;URL n&apos;est affichée
+            qu&apos;une seule fois, à la création&nbsp;: copiez-la immédiatement.
           </p>
         </div>
+
+        {revealed && (
+          <div
+            role="status"
+            className="flex flex-col gap-2 rounded-md border border-or-profond/40 bg-creme/60 px-4 py-3"
+          >
+            <p className="font-ui text-sm font-medium text-encre">
+              URL du lien « {revealed.label} » — copiez-la maintenant, elle ne sera plus affichée.
+            </p>
+            <div className="flex flex-wrap items-center gap-2">
+              <code className="min-w-0 flex-1 truncate rounded-sm bg-ivoire px-2 py-1 font-mono text-xs text-encre">
+                {revealed.url}
+              </code>
+              <button
+                type="button"
+                onClick={() => void onCopyRevealed()}
+                aria-live="polite"
+                className="rounded-sm px-2 py-1 font-ui text-sm text-or-profond hover:underline focus-visible:outline-2 focus-visible:outline-or-profond focus-visible:outline-offset-2"
+              >
+                {copied ? "Copié" : "Copier l'URL"}
+              </button>
+              <button
+                type="button"
+                onClick={() => setRevealed(null)}
+                className="rounded-sm px-2 py-1 font-ui text-sm text-encre-doux hover:underline focus-visible:outline-2 focus-visible:outline-encre focus-visible:outline-offset-2"
+              >
+                Fermer
+              </button>
+            </div>
+          </div>
+        )}
 
         <form onSubmit={onCreate} className="flex items-end gap-2">
           <label className="flex flex-1 flex-col gap-1">
@@ -198,19 +250,11 @@ export function ExportsView() {
                     <p className="truncate font-ui text-xs text-encre-doux">
                       {revoked
                         ? `Révoqué le ${formatDateTime(feed.revokedAt)}`
-                        : calendarFeedUrl(feed.token)}
+                        : `Créé le ${formatDateTime(feed.createdAt)}`}
                     </p>
                   </div>
                   {!revoked && (
                     <div className="flex shrink-0 gap-2">
-                      <button
-                        type="button"
-                        onClick={() => void onCopy(feed)}
-                        aria-live="polite"
-                        className="rounded-sm px-2 py-1 font-ui text-sm text-or-profond hover:underline focus-visible:outline-2 focus-visible:outline-or-profond focus-visible:outline-offset-2"
-                      >
-                        {copiedId === feed.id ? "Copié" : "Copier l'URL"}
-                      </button>
                       <button
                         type="button"
                         onClick={() => void onRegenerate(feed)}
