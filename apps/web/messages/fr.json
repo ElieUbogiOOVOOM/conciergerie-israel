@@ -339,6 +339,8 @@
       "eyebrow": "Nos prestations",
       "title": "Quatre domaines d'entretien, un seul standard d'excellence.",
       "description": "Du salon à l'allée du garage, chaque intervention suit le même standard d'exigence.",
+      "flipHint": "Voir la photo",
+      "flipBackHint": "Revenir au texte",
       "items": {
         "homes": {
           "title": "Habitations",

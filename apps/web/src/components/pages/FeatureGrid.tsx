@@ -1,6 +1,7 @@
 import { useId } from "react";
 import { useTranslations } from "next-intl";
 import { emphasis } from "@/i18n/rich";
+import { FeatureFlipCard } from "@/components/pages/FeatureFlipCard";
 
 type FeatureGridProps = {
   /** Namespace next-intl (clés : eyebrow, title, description, items.{key}.{title,description}). */
@@ -40,7 +41,11 @@ export function FeatureGrid({
   id,
 }: FeatureGridProps) {
   const t = useTranslations(namespace);
+  const photoCaption = useTranslations("Home")("photoCaption");
   const titleId = useId();
+
+  const flipHint = t.has("flipHint") ? t("flipHint") : undefined;
+  const flipBackHint = t.has("flipBackHint") ? t("flipBackHint") : undefined;
 
   return (
     <section
@@ -66,16 +71,14 @@ export function FeatureGrid({
 
         <ul className={`mt-12 grid gap-5 ${COLUMNS[columns]}`}>
           {itemKeys.map((key) => (
-            <li
-              key={key}
-              className="border border-encre/10 bg-ivoire p-6 transition-colors hover:border-or"
-            >
-              <h3 className="font-title text-[length:var(--text-h3)] text-encre">
-                {t(`items.${key}.title`)}
-              </h3>
-              <p className="mt-3 text-base leading-relaxed text-encre/70">
-                {t.rich(`items.${key}.description`, emphasis)}
-              </p>
+            <li key={key}>
+              <FeatureFlipCard
+                title={t(`items.${key}.title`)}
+                description={t.rich(`items.${key}.description`, emphasis)}
+                photoCaption={photoCaption}
+                flipHint={flipHint}
+                flipBackHint={flipBackHint}
+              />
             </li>
           ))}
         </ul>
