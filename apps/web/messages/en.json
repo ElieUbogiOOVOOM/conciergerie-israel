@@ -336,6 +336,8 @@
       "eyebrow": "Our services",
       "title": "Four areas of care, one standard of excellence.",
       "description": "From the living room to the driveway, every intervention follows the same exacting standard.",
+      "flipHint": "View photo",
+      "flipBackHint": "Back to text",
       "items": {
         "homes": {
           "title": "Homes",
