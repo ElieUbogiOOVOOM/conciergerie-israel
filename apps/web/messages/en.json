@@ -205,12 +205,6 @@
     "meta": {
       "title": "Shopping centres — the premium experience | HYMEA",
       "description": "HYMEA brings its premium concept to shopping centres: lounge, valet, personal shopper, styling and a loyalty club that lift the average basket, build loyalty and broaden the catchment area."
-    },
-    "cta": {
-      "eyebrow": "Shopping centres",
-      "title": "Bring the HYMEA experience to your centre.",
-      "description": "Let us walk you through the concept, the services and the projected impact on your average basket and footfall.",
-      "label": "Request a presentation"
     }
   },
   "BusinessPage": {
@@ -324,12 +318,6 @@
         }
       },
       "note": "Sources: Gallup — State of the Global Workplace 2024; International Workplace Group (IWG) 2024; LinkedIn Talent Solutions."
-    },
-    "cta": {
-      "eyebrow": "Businesses",
-      "title": "Bring HYMEA inside your offices.",
-      "description": "A quote or a first visit: we assess your spaces and design the workplace experience that fits your employer strategy.",
-      "label": "Request a quote"
     }
   },
   "IndividualsPage": {
@@ -386,12 +374,6 @@
           "description": "Punctual, consistent and accountable: the same flawless standard at every single visit."
         }
       }
-    },
-    "cta": {
-      "eyebrow": "Individuals",
-      "title": "Book your first intervention.",
-      "description": "Pick a slot that suits you; we get back to you quickly with a tailored proposal — and the welcome offer on your first service.",
-      "label": "Book a slot"
     }
   },
   "Contact": {

@@ -205,12 +205,6 @@
     "meta": {
       "title": "Centres commerciaux — l'expérience premium | HYMEA",
       "description": "HYMEA déploie son concept premium dans les centres commerciaux : lounge, voiturier, personal shopper, stylisme et club de fidélité pour augmenter le panier moyen, fidéliser et élargir la zone de chalandise."
-    },
-    "cta": {
-      "eyebrow": "Centres commerciaux",
-      "title": "Apportez l'expérience HYMEA à votre centre.",
-      "description": "Laissez-nous vous présenter le concept, les services et l'impact projeté sur votre panier moyen et votre fréquentation.",
-      "label": "Demander une présentation"
     }
   },
   "BusinessPage": {
@@ -327,12 +321,6 @@
         }
       },
       "note": "Sources : Gallup — State of the Global Workplace 2024 ; International Workplace Group (IWG) 2024 ; LinkedIn Talent Solutions."
-    },
-    "cta": {
-      "eyebrow": "Entreprises",
-      "title": "Faites entrer HYMEA dans vos bureaux.",
-      "description": "Un devis ou une première visite : nous évaluons vos espaces et concevons l'expérience de travail adaptée à votre stratégie employeur.",
-      "label": "Demander un devis"
     }
   },
   "IndividualsPage": {
@@ -389,12 +377,6 @@
           "description": "Ponctuelle, régulière et responsable : le même standard impeccable à chaque visite."
         }
       }
-    },
-    "cta": {
-      "eyebrow": "Particuliers",
-      "title": "Réservez votre première intervention.",
-      "description": "Choisissez le créneau qui vous convient ; nous revenons vers vous rapidement avec une proposition sur-mesure — et l'offre de bienvenue sur votre première prestation.",
-      "label": "Réserver un créneau"
     }
   },
   "Contact": {
