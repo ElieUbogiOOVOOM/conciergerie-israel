@@ -76,7 +76,7 @@
       "eyebrow": "L'expérience premium — à la française, pensée pour Israël",
       "title": "Transformer un lieu de passage en véritable destination.",
       "subtitle": "HYMEA déploie une expérience premium — lounge, conciergerie, stylisme, fidélité — qui augmente le panier moyen, fidélise les visiteurs et élargit la zone de chalandise. L'excellence de l'hospitalité française, adaptée aux attentes israéliennes.",
-      "ctaPrimary": "Demander une présentation",
+      "ctaPrimary": "Prendre rendez-vous",
       "ctaSecondary": "Découvrir l'expérience"
     },
     "leviers": {
@@ -215,7 +215,8 @@
     "hero": {
       "eyebrow": "Entreprises",
       "title": "HYMEA transforme le confort au travail en une véritable expérience salarié.",
-      "lead": "HYMEA est une conciergerie d'entreprise conçue pour améliorer la qualité de vie des salariés au travail, en proposant une large gamme de services pratiques directement sur le lieu de travail. <b>Gagner du temps. Réduire le stress. Créer de la valeur</b> pour les salariés comme pour les employeurs."
+      "lead": "HYMEA est une conciergerie d'entreprise conçue pour améliorer la qualité de vie des salariés au travail, en proposant une large gamme de services pratiques directement sur le lieu de travail. <b>Gagner du temps. Réduire le stress. Créer de la valeur</b> pour les salariés comme pour les employeurs.",
+      "cta": "Prendre rendez-vous"
     },
     "pillars": {
       "eyebrow": "Pourquoi ça marche",
@@ -331,7 +332,8 @@
     "hero": {
       "eyebrow": "Particuliers",
       "title": "L'art du détail, chez vous.",
-      "lead": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, <b>sans effort et en toute discrétion.</b>"
+      "lead": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, <b>sans effort et en toute discrétion.</b>",
+      "cta": "Prendre rendez-vous"
     },
     "services": {
       "eyebrow": "Nos prestations",

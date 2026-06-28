@@ -35,7 +35,7 @@ export default async function BusinessesPage({ params }: { params: Promise<{ loc
 
   return (
     <>
-      <PageHero namespace="BusinessPage.hero" photoLabel="Entreprises" />
+      <PageHero namespace="BusinessPage.hero" photoLabel="Entreprises" ctaType="entreprise" />
       <Pillars namespace="BusinessPage.pillars" itemKeys={PILLARS} />
       <Packages namespace="BusinessPage.offers" itemKeys={OFFERS} highlightKey="gold" />
       <ProofStats namespace="BusinessPage.proof" statKeys={PROOF_STATS} hasNote />

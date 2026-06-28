@@ -32,7 +32,7 @@ export default async function IndividualsPage({ params }: { params: Promise<{ lo
 
   return (
     <>
-      <PageHero namespace="IndividualsPage.hero" photoLabel="Particuliers" />
+      <PageHero namespace="IndividualsPage.hero" photoLabel="Particuliers" ctaType="particulier" />
       <FeatureGrid namespace="IndividualsPage.services" itemKeys={PRESTATIONS} columns={4} />
       <Pillars namespace="IndividualsPage.commitments" itemKeys={COMMITMENTS} />
     </>

@@ -154,14 +154,24 @@ for (const spec of PAGES) {
       }
     });
 
-    test("un seul lien vers le funnel RDV subsiste, dans #contact", async ({ page }) => {
+    test("le hero propose un CTA de réservation typé en haut de page", async ({ page }) => {
       await gotoPage(page, "fr", spec.slug);
-      // Garde-fou anti-régression : le PageCta typé ayant été retiré, le seul
-      // lien vers le funnel doit être le CTA adaptatif du bloc contact.
-      await expect(page.locator('a[href^="/fr/rdv"]')).toHaveCount(1);
-      await expect(
-        page.locator('#contact a[href="/fr/rdv?type=' + spec.funnelType + '"]'),
-      ).toHaveCount(1);
+      // CTA de réservation dès le haut de page (dans <main>), distinct du CTA
+      // du bloc contact (en pied, hors <main>) — tous deux pré-filtrés.
+      const heroCta = page.getByRole("main").getByRole("link", { name: CONTACT_CTA.fr });
+      await expect(heroCta).toHaveAttribute("href", `/fr/rdv?type=${spec.funnelType}`);
+      await heroCta.click();
+      await expect(page).toHaveURL(new RegExp(`/fr/rdv\\?type=${spec.funnelType}$`));
+      await expect(page.getByRole("heading", { level: HEADING_LEVEL1 })).toBeVisible();
+    });
+
+    test("les deux accès au funnel (hero + contact) sont typés sur l'univers", async ({ page }) => {
+      await gotoPage(page, "fr", spec.slug);
+      // Garde-fou : exactement deux liens vers le funnel (hero + contact), tous
+      // deux pré-filtrés sur le type de l'univers — aucun lien funnel générique
+      // ni résiduel (l'ancien PageCta a été retiré).
+      await expect(page.locator('a[href^="/fr/rdv"]')).toHaveCount(2);
+      await expect(page.locator(`a[href="/fr/rdv?type=${spec.funnelType}"]`)).toHaveCount(2);
     });
 
     test("le bloc contact + offre -20 % du layout est présent", async ({ page }) => {
