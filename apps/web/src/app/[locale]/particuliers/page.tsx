@@ -5,11 +5,11 @@ import { buildPageMetadata } from "@/lib/seo";
 import { PageHero } from "@/components/pages/PageHero";
 import { FeatureGrid } from "@/components/pages/FeatureGrid";
 import { Pillars } from "@/components/pages/Pillars";
-import { PageCta } from "@/components/pages/PageCta";
 
 // Page univers « Particuliers » (#27) — nettoyage haut de gamme : habitations,
-// véhicules, mobilier et textiles. Le bloc contact (+ offre -20 %) et le footer
-// sont fournis par le layout.
+// véhicules, mobilier et textiles. La conversion est portée par le bloc contact
+// commun (offre -20 % + CTA RDV pré-filtré « particulier ») et le footer, fournis
+// par le layout.
 const PRESTATIONS = ["homes", "vehicles", "furniture", "textiles"] as const;
 const COMMITMENTS = ["diagnosis", "care", "discretion", "reliability"] as const;
 
@@ -35,8 +35,6 @@ export default async function IndividualsPage({ params }: { params: Promise<{ lo
       <PageHero namespace="IndividualsPage.hero" photoLabel="Particuliers" />
       <FeatureGrid namespace="IndividualsPage.services" itemKeys={PRESTATIONS} columns={4} />
       <Pillars namespace="IndividualsPage.commitments" itemKeys={COMMITMENTS} />
-      {/* CTA → funnel RDV pré-filtré sur la cible « particuliers » (#28). */}
-      <PageCta namespace="IndividualsPage.cta" href="/rdv?type=particulier" />
     </>
   );
 }

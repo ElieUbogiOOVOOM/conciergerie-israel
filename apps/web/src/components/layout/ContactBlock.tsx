@@ -1,5 +1,5 @@
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/Button";
+import { ContactCta } from "@/components/layout/ContactCta";
 
 // Coordonnées provisoires (placeholders) — remplacées par les coordonnées
 // définitives du client. cf. SPEC § 14 / deck HYMEA (contacts OOVOOM).
@@ -8,9 +8,9 @@ const CONTACT_EMAIL = "contact@hymea.com";
 /**
  * Bloc de contact réutilisable (cible de l'ancre #contact), traité en panneau or
  * — un « moment fort » dans le registre du deck HYMEA. Met en avant l'offre
- * « -20 % sur la première prestation » et l'accès à la prise de contact. Le CTA
- * pointera vers le funnel RDV (#28) une fois livré ; en attendant, prise de
- * contact directe.
+ * « -20 % sur la première prestation ». Le CTA mène au funnel RDV (#28),
+ * pré-filtré selon l'univers de la page courante (cf. ContactCta) ; l'e-mail
+ * reste disponible en secondaire pour une prise de contact directe.
  */
 export function ContactBlock() {
   const t = useTranslations("Contact");
@@ -43,12 +43,13 @@ export function ContactBlock() {
             </p>
             <p className="mt-3 text-[length:var(--text-lead)] text-encre/75">{t("offerDetail")}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row lg:flex-col">
-              <Button href={mailto} variant="primary">
-                {t("cta")}
-              </Button>
+              <ContactCta>{t("cta")}</ContactCta>
+              {/* Lien secondaire : l'adresse reste forcée en LTR (dir="ltr") pour
+                  rester lisible en hébreu, et la cible respecte 44 px de hauteur. */}
               <a
                 href={mailto}
-                className="self-center font-label text-xs uppercase tracking-widest text-encre/60 underline-offset-4 hover:text-encre hover:underline lg:self-start"
+                dir="ltr"
+                className="inline-flex min-h-[44px] items-center self-center font-label text-xs uppercase tracking-widest text-encre/75 underline-offset-4 hover:text-encre hover:underline lg:self-start"
               >
                 {CONTACT_EMAIL}
               </a>
