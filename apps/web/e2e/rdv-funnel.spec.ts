@@ -219,20 +219,35 @@ test.describe("Funnel RDV", () => {
   });
 
   // ---------------------------------------------------------------------------
-  // G. Liens depuis les pages univers
+  // G. CTA adaptatif du bloc contact → funnel RDV
   // ---------------------------------------------------------------------------
-  test.describe("CTA des pages univers", () => {
-    const CASES = [
+  test.describe("CTA adaptatif du bloc contact", () => {
+    const CONTACT_CTA = "Prendre rendez-vous";
+
+    // Sur les pages univers, le CTA du bloc contact est pré-filtré sur le type.
+    const TYPED_CASES = [
       { path: "centres-commerciaux", type: "mall" },
       { path: "entreprises", type: "entreprise" },
       { path: "particuliers", type: "particulier" },
     ] as const;
 
-    for (const { path, type } of CASES) {
-      test(`${path} renvoie vers /rdv?type=${type}`, async ({ page }) => {
+    for (const { path, type } of TYPED_CASES) {
+      test(`${path} : le CTA contact renvoie vers /rdv?type=${type}`, async ({ page }) => {
         await page.goto(`/fr/${path}`);
-        const cta = page.getByRole("link", { name: /Demander|Réserver/i }).last();
+        const cta = page.locator("#contact").getByRole("link", { name: CONTACT_CTA });
         await expect(cta).toHaveAttribute("href", `/fr/rdv?type=${type}`);
+      });
+    }
+
+    // Hors univers (accueil, pages légales), le CTA mène au funnel générique.
+    const GENERIC_PATHS = ["", "mentions-legales"] as const;
+    for (const path of GENERIC_PATHS) {
+      test(`/${path || "(accueil)"} : le CTA contact renvoie vers /rdv générique`, async ({
+        page,
+      }) => {
+        await page.goto(`/fr/${path}`);
+        const cta = page.locator("#contact").getByRole("link", { name: CONTACT_CTA });
+        await expect(cta).toHaveAttribute("href", "/fr/rdv");
       });
     }
   });

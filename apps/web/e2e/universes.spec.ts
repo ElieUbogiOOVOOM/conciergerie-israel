@@ -14,14 +14,21 @@ const LOCALES = ["fr", "en", "he"] as const;
 type Locale = (typeof LOCALES)[number];
 const HEADING_LEVEL1 = 1;
 
+// Libellé du CTA de conversion, désormais porté par le bloc contact commun
+// (CTA adaptatif `ContactCta`), identique sur toutes les pages — le `PageCta`
+// propre à chaque univers a été retiré.
+const CONTACT_CTA: Record<Locale, string> = {
+  fr: "Prendre rendez-vous",
+  en: "Book an appointment",
+  he: "קביעת פגישה",
+};
+
 type PageSpec = {
   slug: string;
   /** Type de client porté vers le funnel RDV (?type=). */
   funnelType: string;
   /** Titre H1 attendu par locale. */
   heroTitle: Record<Locale, RegExp>;
-  /** Libellé du CTA de conversion par locale. */
-  cta: Record<Locale, string>;
   /** Libellé du lien « Découvrir » sur l'accueil (FR). */
   learnMoreFr: string;
   /** Quelques preuves/contenus attendus sur la page. */
@@ -39,11 +46,6 @@ const PAGES: PageSpec[] = [
       en: /Turn a place people pass through/i,
       he: /להפוך מקום מעבר/,
     },
-    cta: {
-      fr: "Demander une présentation",
-      en: "Request a presentation",
-      he: "בקשת הצגה",
-    },
     learnMoreFr: "Découvrir les centres commerciaux",
     expectedContent: [/\+70\s*%/, /\+30\s*%/, /Personal Shopper/i],
     // Hero éditorial (expérience HYMEA déplacée de l'accueil) — sans emplacement photo.
@@ -57,11 +59,6 @@ const PAGES: PageSpec[] = [
       en: /transforms workplace convenience into a powerful employee experience/i,
       he: /הופכת את הנוחות במקום העבודה/,
     },
-    cta: {
-      fr: "Demander un devis",
-      en: "Request a quote",
-      he: "בקשת הצעת מחיר",
-    },
     learnMoreFr: "Découvrir les entreprises",
     expectedContent: [/9\s*%/, /74\s*%/, /HYMEA Lounge/i],
     hasHeroPhoto: true,
@@ -73,11 +70,6 @@ const PAGES: PageSpec[] = [
       fr: /L'art du détail/i,
       en: /The art of detail/i,
       he: /אמנות הפרט/,
-    },
-    cta: {
-      fr: "Réserver un créneau",
-      en: "Book a slot",
-      he: "הזמנת מועד",
     },
     learnMoreFr: "Découvrir les particuliers",
     expectedContent: [/Véhicules|Vehicles|רכבים/, /Textiles|טקסטיל/],
@@ -143,13 +135,33 @@ for (const spec of PAGES) {
       }
     });
 
-    test("le CTA de conversion mène au funnel RDV typé", async ({ page }) => {
+    test("le CTA adaptatif du bloc contact mène au funnel RDV typé", async ({ page }) => {
       await gotoPage(page, "fr", spec.slug);
-      const cta = page.getByRole("main").getByRole("link", { name: spec.cta.fr }).last();
+      // La conversion est portée par le CTA adaptatif du bloc contact (ContactCta),
+      // pré-filtré sur l'univers courant — le PageCta propre à la page a été retiré.
+      const cta = page.locator("#contact").getByRole("link", { name: CONTACT_CTA.fr });
       await expect(cta).toHaveAttribute("href", `/fr/rdv?type=${spec.funnelType}`);
       await cta.click();
       await expect(page).toHaveURL(new RegExp(`/fr/rdv\\?type=${spec.funnelType}$`));
       await expect(page.getByRole("heading", { level: HEADING_LEVEL1 })).toBeVisible();
+    });
+
+    test("le CTA adaptatif reste typé dans les trois langues (RTL inclus)", async ({ page }) => {
+      for (const locale of LOCALES) {
+        await gotoPage(page, locale, spec.slug);
+        const cta = page.locator("#contact").getByRole("link", { name: CONTACT_CTA[locale] });
+        await expect(cta).toHaveAttribute("href", `/${locale}/rdv?type=${spec.funnelType}`);
+      }
+    });
+
+    test("un seul lien vers le funnel RDV subsiste, dans #contact", async ({ page }) => {
+      await gotoPage(page, "fr", spec.slug);
+      // Garde-fou anti-régression : le PageCta typé ayant été retiré, le seul
+      // lien vers le funnel doit être le CTA adaptatif du bloc contact.
+      await expect(page.locator('a[href^="/fr/rdv"]')).toHaveCount(1);
+      await expect(
+        page.locator('#contact a[href="/fr/rdv?type=' + spec.funnelType + '"]'),
+      ).toHaveCount(1);
     });
 
     test("le bloc contact + offre -20 % du layout est présent", async ({ page }) => {
