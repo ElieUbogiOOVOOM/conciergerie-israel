@@ -2,8 +2,9 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 
 /**
- * Bannière d'accueil — positionnement « expérience premium ». Registre éditorial
- * à la française, double CTA (l'action principale mène à la prise de contact).
+ * Bannière de la page « Centres commerciaux » — positionnement « expérience
+ * premium ». Registre éditorial à la française, double CTA : l'action principale
+ * mène directement au funnel RDV typé, la secondaire à la section expérience.
  */
 export function Hero() {
   const t = useTranslations("Home.hero");
@@ -20,7 +21,7 @@ export function Hero() {
           {t("subtitle")}
         </p>
         <div className="mt-12 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <Button href="#contact" variant="primary">
+          <Button href="/rdv?type=mall" variant="primary">
             {t("ctaPrimary")}
           </Button>
           <Button href="#experience" variant="ghost">
