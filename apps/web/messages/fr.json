@@ -181,7 +181,8 @@
         "description": "L'expérience premium clé en main : lounge, voiturier, hands-free, stylisme, personal shopper et club de fidélité — pour augmenter le panier, fidéliser et faire rayonner le centre.",
         "services": ["Lounge", "Voiturier", "Hands-free", "Stylisme", "Club fidélité"],
         "cta": "Demander une présentation",
-        "learnMore": "Découvrir les centres commerciaux"
+        "learnMore": "Découvrir les centres commerciaux",
+        "photoAlt": "Cliente installée dans le lounge d'un centre commercial de luxe, ses sacs de shopping à ses côtés"
       },
       "businesses": {
         "label": "Entreprises",
@@ -189,7 +190,8 @@
         "description": "Des bureaux entretenus au plus haut niveau et un HYMEA Lounge qui soigne votre marque employeur. La propreté devient un argument, discret et constant.",
         "services": ["HYMEA Lounge", "Entretien premium", "Espaces communs"],
         "cta": "Demander un devis",
-        "learnMore": "Découvrir les entreprises"
+        "learnMore": "Découvrir les entreprises",
+        "photoAlt": "Deux collègues jouant aux échecs autour d'un café dans un espace de travail chaleureux"
       },
       "individuals": {
         "label": "Particuliers",
@@ -197,7 +199,8 @@
         "description": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, sans y penser.",
         "services": ["Habitations", "Véhicules", "Mobilier", "Textiles"],
         "cta": "Réserver un créneau",
-        "learnMore": "Découvrir les particuliers"
+        "learnMore": "Découvrir les particuliers",
+        "photoAlt": "Mère tenant son nourrisson dans un salon lumineux baigné de lumière dorée"
       }
     }
   },
@@ -216,7 +219,8 @@
       "eyebrow": "Entreprises",
       "title": "HYMEA transforme le confort au travail en une véritable expérience salarié.",
       "lead": "HYMEA est une conciergerie d'entreprise conçue pour améliorer la qualité de vie des salariés au travail, en proposant une large gamme de services pratiques directement sur le lieu de travail. <b>Gagner du temps. Réduire le stress. Créer de la valeur</b> pour les salariés comme pour les employeurs.",
-      "cta": "Prendre rendez-vous"
+      "cta": "Prendre rendez-vous",
+      "photoAlt": "Espace lounge HYMEA en entreprise : canapé courbe, table de ping-pong et collaborateurs détendus"
     },
     "pillars": {
       "eyebrow": "Pourquoi ça marche",
@@ -333,7 +337,8 @@
       "eyebrow": "Particuliers",
       "title": "L'art du détail, chez vous.",
       "lead": "Habitations, véhicules, mobilier et textiles confiés à une équipe qui traite chaque surface comme une pièce rare. Le confort d'un intérieur impeccable, <b>sans effort et en toute discrétion.</b>",
-      "cta": "Prendre rendez-vous"
+      "cta": "Prendre rendez-vous",
+      "photoAlt": "Main lustrant un plan de travail en pierre, séjour chaleureux en arrière-plan"
     },
     "services": {
       "eyebrow": "Nos prestations",
@@ -344,19 +349,23 @@
       "items": {
         "homes": {
           "title": "Habitations",
-          "description": "Nettoyage en profondeur et entretien régulier des pièces de vie, cuisines et salles de bains — méticuleux, discret, adapté à votre intérieur."
+          "description": "Nettoyage en profondeur et entretien régulier des pièces de vie, cuisines et salles de bains — méticuleux, discret, adapté à votre intérieur.",
+          "photoAlt": "Four encastré en inox ouvert dans une cuisine moderne au soleil couchant"
         },
         "vehicles": {
           "title": "Véhicules",
-          "description": "Detailing intérieur et extérieur qui rend à votre voiture son éclat d'origine, à votre porte."
+          "description": "Detailing intérieur et extérieur qui rend à votre voiture son éclat d'origine, à votre porte.",
+          "photoAlt": "Habitacle de voiture en cuir caramel impeccablement entretenu"
         },
         "furniture": {
           "title": "Mobilier",
-          "description": "Entretien soigné et remise en état du mobilier et des surfaces délicates, traités comme des pièces rares."
+          "description": "Entretien soigné et remise en état du mobilier et des surfaces délicates, traités comme des pièces rares.",
+          "photoAlt": "Artisan lustrant à la main un meuble ancien en bois sculpté"
         },
         "textiles": {
           "title": "Textiles",
-          "description": "Soin spécialisé des rideaux, tapis, tissus d'ameublement et étoffes fines — nettoyés, protégés et ravivés."
+          "description": "Soin spécialisé des rideaux, tapis, tissus d'ameublement et étoffes fines — nettoyés, protégés et ravivés.",
+          "photoAlt": "Rideaux en lin tombant jusqu'au sol, baignés d'une lumière dorée"
         }
       }
     },
