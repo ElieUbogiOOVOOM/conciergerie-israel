@@ -181,7 +181,8 @@
         "description": "A turnkey premium experience: lounge, valet, hands-free, styling, personal shopper and loyalty club — to raise the basket, build loyalty and make the centre shine.",
         "services": ["Lounge", "Valet", "Hands-free", "Styling", "Loyalty club"],
         "cta": "Request a presentation",
-        "learnMore": "Discover shopping centres"
+        "learnMore": "Discover shopping centres",
+        "photoAlt": "Client relaxing in a luxury shopping mall lounge, her shopping bags beside her"
       },
       "businesses": {
         "label": "Businesses",
@@ -189,7 +190,8 @@
         "description": "Offices maintained to the highest standard and a HYMEA Lounge that nurtures your employer brand. Cleanliness becomes an argument — discreet and constant.",
         "services": ["HYMEA Lounge", "Premium upkeep", "Common areas"],
         "cta": "Request a quote",
-        "learnMore": "Discover businesses"
+        "learnMore": "Discover businesses",
+        "photoAlt": "Two colleagues playing chess over coffee in a warm workspace"
       },
       "individuals": {
         "label": "Individuals",
@@ -197,7 +199,8 @@
         "description": "Homes, vehicles, furniture and textiles entrusted to a team that treats every surface as a rare piece. The comfort of a flawless interior, effortlessly.",
         "services": ["Homes", "Vehicles", "Furniture", "Textiles"],
         "cta": "Book a slot",
-        "learnMore": "Discover individuals"
+        "learnMore": "Discover individuals",
+        "photoAlt": "Mother holding her baby in a bright living room bathed in golden light"
       }
     }
   },
@@ -216,7 +219,8 @@
       "eyebrow": "Businesses",
       "title": "HYMEA transforms workplace convenience into a powerful employee experience.",
       "lead": "HYMEA is a corporate concierge service designed to enhance employees’ quality of life at work by providing a wide range of convenient services directly within the workplace. <b>Saving time. Reducing stress. Creating value</b> for employees and employers alike.",
-      "cta": "Book an appointment"
+      "cta": "Book an appointment",
+      "photoAlt": "HYMEA corporate lounge: curved sofa, table-tennis table and relaxed employees"
     },
     "pillars": {
       "eyebrow": "Why it works",
@@ -330,7 +334,8 @@
       "eyebrow": "Individuals",
       "title": "The art of detail, at home.",
       "lead": "Homes, vehicles, furniture and textiles entrusted to a team that treats every surface as a rare piece. The comfort of a flawless interior, <b>effortlessly and with absolute discretion.</b>",
-      "cta": "Book an appointment"
+      "cta": "Book an appointment",
+      "photoAlt": "Hand polishing a stone countertop, with an elegant living room in the background"
     },
     "services": {
       "eyebrow": "Our services",
@@ -341,19 +346,23 @@
       "items": {
         "homes": {
           "title": "Homes",
-          "description": "Deep and routine cleaning of living spaces, kitchens and bathrooms — meticulous, discreet, tailored to your home."
+          "description": "Deep and routine cleaning of living spaces, kitchens and bathrooms — meticulous, discreet, tailored to your home.",
+          "photoAlt": "Open stainless-steel built-in oven in a modern kitchen at sunset"
         },
         "vehicles": {
           "title": "Vehicles",
-          "description": "Interior and exterior detailing that returns your car to showroom condition, at your door."
+          "description": "Interior and exterior detailing that returns your car to showroom condition, at your door.",
+          "photoAlt": "Immaculately maintained caramel leather car interior"
         },
         "furniture": {
           "title": "Furniture",
-          "description": "Careful upkeep and restoration of furniture and delicate surfaces, treated as rare pieces."
+          "description": "Careful upkeep and restoration of furniture and delicate surfaces, treated as rare pieces.",
+          "photoAlt": "Craftsman hand-polishing a carved antique wooden table"
         },
         "textiles": {
           "title": "Textiles",
-          "description": "Specialist care for curtains, rugs, upholstery and fine fabrics — cleaned, protected and revived."
+          "description": "Specialist care for curtains, rugs, upholstery and fine fabrics — cleaned, protected and revived.",
+          "photoAlt": "Floor-length linen curtains bathed in golden light"
         }
       }
     },

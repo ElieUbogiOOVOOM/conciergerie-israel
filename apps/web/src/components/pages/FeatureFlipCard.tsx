@@ -11,6 +11,10 @@ type FeatureFlipCardProps = {
   description: ReactNode;
   /** Texte « photographie à venir » localisé, affiché au dos. */
   photoCaption: string;
+  /** Photographie réelle révélée au dos (sinon placeholder). */
+  photoSrc?: string;
+  /** Texte alternatif localisé de la photographie. */
+  photoAlt?: string;
   /** Invite à retourner la carte (recto), ex. « Voir la photo ». */
   flipHint?: string;
   /** Invite à revenir au texte (dos), ex. « Revenir ». */
@@ -30,6 +34,8 @@ export function FeatureFlipCard({
   title,
   description,
   photoCaption,
+  photoSrc,
+  photoAlt,
   flipHint,
   flipBackHint,
 }: FeatureFlipCardProps) {
@@ -71,12 +77,22 @@ export function FeatureFlipCard({
             caption={photoCaption}
             ratio="auto"
             className="h-full w-full"
+            src={photoSrc}
+            alt={photoAlt}
+            sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
           />
-          {flipBackHint && (
-            <span className="absolute bottom-4 left-0 right-0 text-center font-label text-xs uppercase tracking-[0.25em] text-encre/40">
-              {flipBackHint}
-            </span>
-          )}
+          {flipBackHint &&
+            (photoSrc ? (
+              // Sur photo, un cartouche ivoire garantit la lisibilité du libellé
+              // quel que soit le visuel (le placeholder sable garde son ton discret).
+              <span className="absolute inset-x-0 bottom-4 mx-auto w-fit rounded-full bg-ivoire/90 px-3 py-1 text-center font-label text-xs uppercase tracking-[0.25em] text-encre/70">
+                {flipBackHint}
+              </span>
+            ) : (
+              <span className="absolute bottom-4 left-0 right-0 text-center font-label text-xs uppercase tracking-[0.25em] text-encre/40">
+                {flipBackHint}
+              </span>
+            ))}
         </div>
       </div>
     </button>

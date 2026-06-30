@@ -13,6 +13,14 @@ import { Pillars } from "@/components/pages/Pillars";
 const PRESTATIONS = ["homes", "vehicles", "furniture", "textiles"] as const;
 const COMMITMENTS = ["diagnosis", "care", "discretion", "reliability"] as const;
 
+// Photographies réelles des prestations (#27), indexées par clé.
+const PRESTATION_IMAGES: Record<(typeof PRESTATIONS)[number], string> = {
+  homes: "/photos/particuliers/habitations.webp",
+  vehicles: "/photos/particuliers/vehicules.webp",
+  furniture: "/photos/particuliers/mobilier.webp",
+  textiles: "/photos/particuliers/textiles.webp",
+};
+
 export async function generateMetadata({
   params,
 }: {
@@ -32,8 +40,18 @@ export default async function IndividualsPage({ params }: { params: Promise<{ lo
 
   return (
     <>
-      <PageHero namespace="IndividualsPage.hero" photoLabel="Particuliers" ctaType="particulier" />
-      <FeatureGrid namespace="IndividualsPage.services" itemKeys={PRESTATIONS} columns={4} />
+      <PageHero
+        namespace="IndividualsPage.hero"
+        photoLabel="Particuliers"
+        photoSrc="/photos/particuliers-hero.webp"
+        ctaType="particulier"
+      />
+      <FeatureGrid
+        namespace="IndividualsPage.services"
+        itemKeys={PRESTATIONS}
+        columns={4}
+        images={PRESTATION_IMAGES}
+      />
       <Pillars namespace="IndividualsPage.commitments" itemKeys={COMMITMENTS} />
     </>
   );

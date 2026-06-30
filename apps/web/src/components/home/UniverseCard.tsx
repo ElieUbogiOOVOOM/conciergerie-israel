@@ -18,6 +18,10 @@ type UniverseCardProps = {
   learnMoreLabel: string;
   /** Texte « photographie à venir » localisé. */
   photoCaption: string;
+  /** Photographie réelle de l'univers (sinon placeholder). */
+  photoSrc?: string;
+  /** Texte alternatif localisé de la photographie. */
+  photoAlt?: string;
   /** Inverse l'ordre photo/texte (alternance visuelle). */
   reversed?: boolean;
 };
@@ -39,6 +43,8 @@ export function UniverseCard({
   pageHref,
   learnMoreLabel,
   photoCaption,
+  photoSrc,
+  photoAlt,
   reversed = false,
 }: UniverseCardProps) {
   return (
@@ -49,7 +55,7 @@ export function UniverseCard({
     >
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-6 lg:grid-cols-2 lg:gap-16">
         <div className={reversed ? "lg:order-2" : undefined}>
-          <PhotoPlaceholder label={label} caption={photoCaption} />
+          <PhotoPlaceholder label={label} caption={photoCaption} src={photoSrc} alt={photoAlt} />
         </div>
 
         <div className={reversed ? "lg:order-1" : undefined}>

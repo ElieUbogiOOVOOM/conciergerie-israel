@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Logo } from "@/components/brand/Logo";
 
 type PhotoPlaceholderProps = {
@@ -8,19 +9,58 @@ type PhotoPlaceholderProps = {
   /** Rapport d'aspect CSS (défaut 4/5, format éditorial portrait). */
   ratio?: string;
   className?: string;
+  /**
+   * Chemin de la photographie réelle (cf. SPEC § 14). Si fourni, l'image
+   * remplace le placeholder ; sinon on garde le monogramme + légende.
+   */
+  src?: string;
+  /** Texte alternatif localisé, requis dès qu'une `src` est fournie. */
+  alt?: string;
+  /**
+   * Charge l'image en priorité (LCP des héros) plutôt qu'en lazy. Sans effet
+   * sur le placeholder.
+   */
+  priority?: boolean;
+  /** Indice de tailles pour le srcset responsive de next/image. */
+  sizes?: string;
 };
 
 /**
- * Emplacement réservé pour une photographie réelle (fournie par le client,
- * cf. SPEC § 14). Reste sobre et charté : surface charbon clair, monogramme
- * discret, légende. À remplacer par <Image> une fois les visuels livrés.
+ * Emplacement d'une photographie réelle (fournie par le client, cf. SPEC § 14).
+ * Avec `src`, affiche un `next/image` recadré (object-cover) dans la boîte au
+ * bon ratio ; sans `src`, conserve le placeholder charté (monogramme + légende)
+ * comme fallback tant que le visuel n'est pas livré.
  */
 export function PhotoPlaceholder({
   label,
   caption,
   ratio = "4 / 5",
   className,
+  src,
+  alt,
+  priority = false,
+  sizes = "(min-width: 1024px) 50vw, 100vw",
 }: PhotoPlaceholderProps) {
+  if (src) {
+    return (
+      <div
+        style={{ aspectRatio: ratio }}
+        className={["relative overflow-hidden border border-encre/10 bg-sable", className]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <Image
+          src={src}
+          alt={alt ?? label}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       role="img"
