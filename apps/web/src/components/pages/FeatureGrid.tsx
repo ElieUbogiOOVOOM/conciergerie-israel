@@ -8,6 +8,11 @@ type FeatureGridProps = {
   namespace: string;
   /** Clés des prestations à afficher, dans l'ordre. */
   itemKeys: readonly string[];
+  /**
+   * Photographies réelles par clé, révélées au dos de la carte (#27). Sans
+   * entrée, la carte garde son placeholder. L'alt est lu via `items.{key}.photoAlt`.
+   */
+  images?: Partial<Record<string, string>>;
   /** Surface de fond de section. */
   surface?: "creme" | "sable" | "ivoire";
   /** Nombre de colonnes au plus large breakpoint. */
@@ -36,6 +41,7 @@ const COLUMNS: Record<NonNullable<FeatureGridProps["columns"]>, string> = {
 export function FeatureGrid({
   namespace,
   itemKeys,
+  images,
   surface = "creme",
   columns = 4,
   id,
@@ -76,6 +82,8 @@ export function FeatureGrid({
                 title={t(`items.${key}.title`)}
                 description={t.rich(`items.${key}.description`, emphasis)}
                 photoCaption={photoCaption}
+                photoSrc={images?.[key]}
+                photoAlt={t.has(`items.${key}.photoAlt`) ? t(`items.${key}.photoAlt`) : undefined}
                 flipHint={flipHint}
                 flipBackHint={flipBackHint}
               />

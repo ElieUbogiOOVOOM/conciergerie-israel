@@ -10,6 +10,8 @@ type PageHeroProps = {
   namespace: string;
   /** Libellé de l'emplacement photo réelle (à fournir par le client). */
   photoLabel: string;
+  /** Photographie réelle du héros (sinon placeholder). Alt lu via `photoAlt`. */
+  photoSrc?: string;
   /**
    * Type de client à pré-sélectionner dans le funnel RDV. Si fourni, le hero
    * affiche un CTA « Prendre rendez-vous » (clé `cta`) menant directement à
@@ -23,7 +25,7 @@ type PageHeroProps = {
  * (le chapô supporte l'emphase `<b>` via t.rich), avec emplacement photo réelle.
  * Un CTA de réservation optionnel (`ctaType`) mène au funnel RDV typé.
  */
-export function PageHero({ namespace, photoLabel, ctaType }: PageHeroProps) {
+export function PageHero({ namespace, photoLabel, photoSrc, ctaType }: PageHeroProps) {
   const t = useTranslations(namespace);
   const photoCaption = useTranslations("Home")("photoCaption");
   const titleId = useId();
@@ -53,7 +55,14 @@ export function PageHero({ namespace, photoLabel, ctaType }: PageHeroProps) {
           )}
         </div>
         <div className="lg:order-last">
-          <PhotoPlaceholder label={photoLabel} caption={photoCaption} ratio="4 / 3" />
+          <PhotoPlaceholder
+            label={photoLabel}
+            caption={photoCaption}
+            ratio="4 / 3"
+            src={photoSrc}
+            alt={t.has("photoAlt") ? t("photoAlt") : undefined}
+            priority
+          />
         </div>
       </div>
     </section>
